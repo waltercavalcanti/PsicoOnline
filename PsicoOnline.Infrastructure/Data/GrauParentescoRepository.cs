@@ -9,7 +9,7 @@ namespace PsicoOnline.Infrastructure.Data
     {
         public GrauParentescoRepository(EFContext db) : base(db) { }
 
-        public GrauParentesco AddGrauParentesco(GrauParentescoDTO grauParentescoDTO)
+        public async Task<GrauParentesco> AddGrauParentesco(GrauParentescoDTO grauParentescoDTO)
         {
             if (grauParentescoDTO == null)
             {
@@ -18,44 +18,43 @@ namespace PsicoOnline.Infrastructure.Data
 
             var grauParentesco = GrauParentescoMapper.Convert(grauParentescoDTO);
 
-            Add(grauParentesco);
+            await Add(grauParentesco);
 
             return grauParentesco;
         }
 
-        public void DeleteAllGrausParentesco()
+        public async Task DeleteAllGrausParentesco()
         {
-            DeleteAll((List<GrauParentesco>)GetAll());
+            var grausParentesco = await GetAll();
+
+            await DeleteAll((List<GrauParentesco>)grausParentesco);
         }
 
-        public void DeleteGrauParentesco(int id)
+        public async Task DeleteGrauParentesco(int id)
         {
             if (!GrauParentescoExists(id))
             {
                 throw new Exception($"Grau de parentesco Id {id} não encontrado.");
             }
 
-            var grauParentesco = GetById(id);
+            var grauParentesco = await GetById(id);
 
-            Delete(grauParentesco);
+            await Delete(grauParentesco);
         }
 
-        public IReadOnlyList<GrauParentesco> GetAllGrausParentesco()
+        public async Task<IReadOnlyList<GrauParentesco>> GetAllGrausParentesco()
         {
-            return GetAll();
+            return await GetAll();
         }
 
-        public GrauParentesco GetGrauParentescoById(int id)
+        public async Task<GrauParentesco> GetGrauParentescoById(int id)
         {
-            return GetById(id);
+            return await GetById(id);
         }
 
-        public bool GrauParentescoExists(int id)
-        {
-            return db.GrauParentesco.Any(grauParentesco => grauParentesco.Id == id);
-        }
+        public bool GrauParentescoExists(int id) => _db.GrauParentesco.Any(gp => gp.Id == id);
 
-        public void UpdateGrauParentesco(GrauParentescoDTO grauParentescoDTO)
+        public async Task UpdateGrauParentesco(GrauParentescoDTO grauParentescoDTO)
         {
             if (grauParentescoDTO == null)
             {
@@ -69,7 +68,7 @@ namespace PsicoOnline.Infrastructure.Data
 
             var grauParentesco = GrauParentescoMapper.Convert(grauParentescoDTO);
 
-            Update(grauParentesco);
+            await Update(grauParentesco);
         }
     }
 }

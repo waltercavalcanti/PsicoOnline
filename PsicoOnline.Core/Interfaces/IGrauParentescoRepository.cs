@@ -5,17 +5,17 @@ namespace PsicoOnline.Core.Interfaces
 {
     public interface IGrauParentescoRepository
     {
-        GrauParentesco GetGrauParentescoById(int id);
+        Task<GrauParentesco> GetGrauParentescoById(int id);
 
-        IReadOnlyList<GrauParentesco> GetAllGrausParentesco();
+        Task<IReadOnlyList<GrauParentesco>> GetAllGrausParentesco();
 
-        GrauParentesco AddGrauParentesco(GrauParentescoDTO grauParentescoDTO);
+        Task<GrauParentesco> AddGrauParentesco(GrauParentescoDTO grauParentescoDTO);
 
-        void UpdateGrauParentesco(GrauParentescoDTO grauParentescoDTO);
+        Task UpdateGrauParentesco(GrauParentescoDTO grauParentescoDTO);
 
-        void DeleteGrauParentesco(int id);
+        Task DeleteGrauParentesco(int id);
 
-        void DeleteAllGrausParentesco();
+        Task DeleteAllGrausParentesco();
 
         bool GrauParentescoExists(int id);
     }

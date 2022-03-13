@@ -9,74 +9,39 @@ namespace PsicoOnline.Infrastructure.Data
     {
         public ResponsavelRepository(EFContext db) : base(db) { }
 
-        public Responsavel AddResponsavel(ResponsavelDTO responsavelDTO)
+        public async Task<Responsavel> AddResponsavel(ResponsavelDTO responsavelDTO)
         {
-            if (responsavelDTO == null)
-            {
-                throw new ArgumentNullException(nameof(responsavelDTO));
-            }
-
-            var responsavel = ResponsavelMapper.Convert(responsavelDTO);
-
-            Add(responsavel);
-
-            return responsavel;
+            throw new NotImplementedException();
         }
 
-        public void DeleteAllResponsaveis(List<ResponsavelDTO> responsaveisDTO)
+        public async Task DeleteAllResponsaveis()
         {
-            if (responsaveisDTO == null)
-            {
-                throw new ArgumentNullException(nameof(responsaveisDTO));
-            }
-
-            var reponsaveis = new List<Responsavel>();
-
-            responsaveisDTO.ForEach(responsavelDTO => reponsaveis.Add(ResponsavelMapper.Convert(responsavelDTO)));
-
-            DeleteAll(reponsaveis);
+            throw new NotImplementedException();
         }
 
-        public void DeleteResponsavel(ResponsavelDTO responsavelDTO)
+        public async Task DeleteResponsavel(int id)
         {
-            if (responsavelDTO == null)
-            {
-                throw new ArgumentNullException(nameof(responsavelDTO));
-            }
-
-            var responsavel = ResponsavelMapper.Convert(responsavelDTO);
-
-            Delete(responsavel);
+            throw new NotImplementedException();
         }
 
-        public IReadOnlyList<Responsavel> GetAllResponsaveis()
+        public async Task<IReadOnlyList<Responsavel>> GetAllResponsaveis()
         {
-            return GetAll();
+            throw new NotImplementedException();
         }
 
-        public Responsavel GetResponsavelById(int id)
+        public async Task<Responsavel> GetResponsavelById(int id)
         {
-            return GetById(id);
+            throw new NotImplementedException();
         }
 
         public bool ResponsavelExists(int id)
         {
-            return db.Responsavel.Any(responsavel => responsavel.Id == id);
+            throw new NotImplementedException();
         }
 
-        public void UpdateResponsavel(ResponsavelDTO responsavelDTO)
+        public async Task UpdateResponsavel(ResponsavelDTO responsavelDTO)
         {
-            if (responsavelDTO == null)
-            {
-                throw new ArgumentNullException(nameof(responsavelDTO));
-            }
-
-            if (ResponsavelExists(responsavelDTO.Id))
-            {
-                var responsavel = ResponsavelMapper.Convert(responsavelDTO);
-
-                Update(responsavel);
-            }
+            throw new NotImplementedException();
         }
     }
 }

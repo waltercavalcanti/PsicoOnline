@@ -9,5 +9,7 @@
         public string Telefone { get; set; }
 
         public char Genero { get; set; }
+
+        public Responsavel? Responsavel { get; set; }
     }
 }

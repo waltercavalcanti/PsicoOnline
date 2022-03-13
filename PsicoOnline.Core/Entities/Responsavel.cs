@@ -10,7 +10,11 @@
 
         public char Genero { get; set; }
 
+        public int PacienteId { get; set; }
+
         public Paciente Paciente { get; set; }
+
+        public int GrauParentescoId { get; set; }
 
         public GrauParentesco GrauParentesco { get; set; }
     }

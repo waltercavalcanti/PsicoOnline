@@ -6,48 +6,51 @@ namespace PsicoOnline.Infrastructure.Data
 {
     public class EFRepository<T, K> : IDisposable, IRepository<T, K> where T : BaseEntity<K>
     {
-        protected EFContext db { get; private set; }
+        protected EFContext _db { get; private set; }
 
         public EFRepository(EFContext db)
         {
-            this.db = db;
+            _db = db;
         }
 
-        public T GetById(K id)
+        public async Task<T> GetById(K id)
         {
-            return db.Set<T>().Find(id);
+            return await _db.Set<T>().FindAsync(id);
         }
 
-        public IReadOnlyList<T> GetAll()
+        public async Task<IReadOnlyList<T>> GetAll()
         {
-            return db.Set<T>().ToList();
+            return await _db.Set<T>().ToListAsync();
         }
 
-        public T Add(T entity)
+        public async Task<T> Add(T entity)
         {
-            db.Set<T>().Add(entity);
-            db.SaveChanges();
+            _db.Set<T>().Add(entity);
+            await _db.SaveChangesAsync();
 
             return entity;
         }
 
-        public void Update(T entity)
+        public async Task Update(T entity)
         {
-            db.Entry(entity).State = EntityState.Modified;
-            db.SaveChanges();
+            _db.Entry(entity).State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
 
-        public void Delete(T entity)
+        public async Task Delete(T entity)
         {
-            db.Set<T>().Remove(entity);
-            db.SaveChanges();
+            _db.Set<T>().Remove(entity);
+            await _db.SaveChangesAsync();
         }
 
-        public void DeleteAll(List<T> entities)
+        public async Task DeleteAll(List<T> entities)
         {
             if (entities != null)
             {
-                entities.ForEach(entity => this.Delete(entity));
+                foreach (var entity in entities)
+                {
+                    await Delete(entity);
+                }
             }
         }
 
@@ -60,7 +63,7 @@ namespace PsicoOnline.Infrastructure.Data
             {
                 if (disposing)
                 {
-                    ((IDisposable)this.db).Dispose();
+                    ((IDisposable)this._db).Dispose();
                 }
 
                 _disposed = true;

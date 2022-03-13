@@ -22,7 +22,7 @@ namespace PsicoOnline.WebApi.Controllers
         [Route("GetAll")]
         public async Task<ActionResult> GetAllPacientes()
         {
-            var pacientes = _pacienteRepository.GetAllPacientes();
+            var pacientes = await _pacienteRepository.GetAllPacientes();
 
             return Ok(pacientes);
         }
@@ -31,7 +31,7 @@ namespace PsicoOnline.WebApi.Controllers
         [Route("GetById")]
         public async Task<ActionResult> GetPacienteById(int id)
         {
-            var paciente = _pacienteRepository.GetPacienteById(id);
+            var paciente = await _pacienteRepository.GetPacienteById(id);
 
             return Ok(paciente);
         }
@@ -40,7 +40,7 @@ namespace PsicoOnline.WebApi.Controllers
         [Route("Add")]
         public async Task<ActionResult> AddPaciente(PacienteDTO pacienteDTO)
         {
-            var paciente = _pacienteRepository.AddPaciente(pacienteDTO);
+            var paciente = await _pacienteRepository.AddPaciente(pacienteDTO);
 
             return Ok(paciente);
         }
@@ -49,7 +49,7 @@ namespace PsicoOnline.WebApi.Controllers
         [Route("DeleteAll")]
         public async Task<ActionResult> DeleteAllPacientes()
         {
-            _pacienteRepository.DeleteAllPacientes();
+            await _pacienteRepository.DeleteAllPacientes();
 
             return Ok("Todos os pacientes foram deletados com sucesso.");
         }
@@ -60,7 +60,7 @@ namespace PsicoOnline.WebApi.Controllers
         {
             try
             {
-                _pacienteRepository.DeletePaciente(id);
+                await _pacienteRepository.DeletePaciente(id);
 
                 return Ok("Paciente deletado com sucesso.");
             }
@@ -76,7 +76,7 @@ namespace PsicoOnline.WebApi.Controllers
         {
             try
             {
-                _pacienteRepository.UpdatePaciente(pacienteDTO);
+                await _pacienteRepository.UpdatePaciente(pacienteDTO);
 
                 return Ok("Paciente atualizado com sucesso.");
             }

@@ -18,7 +18,8 @@ namespace PsicoOnline.Infrastructure.Mapper
                 Nome = paciente.Nome,
                 DataNascimento = paciente.DataNascimento,
                 Telefone = paciente.Telefone,
-                Genero = paciente.Genero
+                Genero = paciente.Genero,
+                Responsavel = null
             };
         }
     }

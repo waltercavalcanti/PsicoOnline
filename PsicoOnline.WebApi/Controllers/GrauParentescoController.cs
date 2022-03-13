@@ -22,7 +22,7 @@ namespace PsicoOnline.WebApi.Controllers
         [Route("GetAll")]
         public async Task<ActionResult> GetAllGrausParentesco()
         {
-            var grausParentesco = _grauParentescoRepository.GetAllGrausParentesco();
+            var grausParentesco = await _grauParentescoRepository.GetAllGrausParentesco();
 
             return Ok(grausParentesco);
         }
@@ -31,7 +31,7 @@ namespace PsicoOnline.WebApi.Controllers
         [Route("GetById")]
         public async Task<ActionResult> GetGrauParentescoById(int id)
         {
-            var grauParentesco = _grauParentescoRepository.GetGrauParentescoById(id);
+            var grauParentesco = await _grauParentescoRepository.GetGrauParentescoById(id);
 
             return Ok(grauParentesco);
         }
@@ -40,7 +40,7 @@ namespace PsicoOnline.WebApi.Controllers
         [Route("Add")]
         public async Task<ActionResult> AddGrauParentesco(GrauParentescoDTO grauParentescoDTO)
         {
-            var grauParentesco = _grauParentescoRepository.AddGrauParentesco(grauParentescoDTO);
+            var grauParentesco = await _grauParentescoRepository.AddGrauParentesco(grauParentescoDTO);
 
             return Ok(grauParentesco);
         }
@@ -49,7 +49,7 @@ namespace PsicoOnline.WebApi.Controllers
         [Route("DeleteAll")]
         public async Task<ActionResult> DeleteAllGrausParentesco()
         {
-            _grauParentescoRepository.DeleteAllGrausParentesco();
+            await _grauParentescoRepository.DeleteAllGrausParentesco();
 
             return Ok("Todos os graus de parentesco foram deletados com sucesso.");
         }
@@ -60,7 +60,7 @@ namespace PsicoOnline.WebApi.Controllers
         {
             try
             {
-                _grauParentescoRepository.DeleteGrauParentesco(id);
+                await _grauParentescoRepository.DeleteGrauParentesco(id);
 
                 return Ok("Grau de parentesco deletado com sucesso.");
             }
@@ -76,7 +76,7 @@ namespace PsicoOnline.WebApi.Controllers
         {
             try
             {
-                _grauParentescoRepository.UpdateGrauParentesco(grauParentescoDTO);
+                await _grauParentescoRepository.UpdateGrauParentesco(grauParentescoDTO);
 
                 return Ok("Grau de parentesco atualizado com sucesso.");
             }

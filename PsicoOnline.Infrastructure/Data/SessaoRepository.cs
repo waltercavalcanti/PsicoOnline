@@ -9,74 +9,39 @@ namespace PsicoOnline.Infrastructure.Data
     {
         public SessaoRepository(EFContext db) : base(db) { }
 
-        public Sessao AddSessao(SessaoDTO sessaoDTO)
+        public async Task<Sessao> AddSessao(SessaoDTO sessaoDTO)
         {
-            if (sessaoDTO == null)
-            {
-                throw new ArgumentNullException(nameof(sessaoDTO));
-            }
-
-            var sessao = SessaoMapper.Convert(sessaoDTO);
-
-            Add(sessao);
-
-            return sessao;
+            throw new NotImplementedException();
         }
 
-        public void DeleteAllSessoes(List<SessaoDTO> sessoesDTO)
+        public async Task DeleteAllSessoes()
         {
-            if (sessoesDTO == null)
-            {
-                throw new ArgumentNullException(nameof(sessoesDTO));
-            }
-
-            var sessoes = new List<Sessao>();
-
-            sessoesDTO.ForEach(sessaoDTO => sessoes.Add(SessaoMapper.Convert(sessaoDTO)));
-
-            DeleteAll(sessoes);
+            throw new NotImplementedException();
         }
 
-        public void DeleteSessao(SessaoDTO sessaoDTO)
+        public async Task DeleteSessao(int id)
         {
-            if (sessaoDTO == null)
-            {
-                throw new ArgumentNullException(nameof(sessaoDTO));
-            }
-
-            var sessao = SessaoMapper.Convert(sessaoDTO);
-
-            Delete(sessao);
+            throw new NotImplementedException();
         }
 
-        public IReadOnlyList<Sessao> GetAllSessoes()
+        public async Task<IReadOnlyList<Sessao>> GetAllSessoes()
         {
-            return GetAll();
+            throw new NotImplementedException();
         }
 
-        public Sessao GetSessaoById(int id)
+        public async Task<Sessao> GetSessaoById(int id)
         {
-            return GetById(id);
+            throw new NotImplementedException();
         }
 
         public bool SessaoExists(int id)
         {
-            return db.Sessao.Any(sessao => sessao.Id == id);
+            throw new NotImplementedException();
         }
 
-        public void UpdateSessao(SessaoDTO sessaoDTO)
+        public async Task UpdateSessao(SessaoDTO sessaoDTO)
         {
-            if (sessaoDTO == null)
-            {
-                throw new ArgumentNullException(nameof(sessaoDTO));
-            }
-
-            if (SessaoExists(sessaoDTO.Id))
-            {
-                var sessao = SessaoMapper.Convert(sessaoDTO);
-
-                Update(sessao);
-            }
+            throw new NotImplementedException();
         }
     }
 }
