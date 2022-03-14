@@ -1,5 +1,6 @@
 ﻿using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
+using PsicoOnline.Core.Exceptions;
 using PsicoOnline.Core.Interfaces;
 using PsicoOnline.Infrastructure.Mapper;
 
@@ -34,7 +35,7 @@ namespace PsicoOnline.Infrastructure.Data
         {
             if (!GrauParentescoExists(id))
             {
-                throw new Exception($"Grau de parentesco Id {id} não encontrado.");
+                throw new GrauParentescoNaoExisteException(id);
             }
 
             var grauParentesco = await GetById(id);
@@ -63,7 +64,7 @@ namespace PsicoOnline.Infrastructure.Data
 
             if (!GrauParentescoExists(grauParentescoDTO.Id))
             {
-                throw new Exception($"Grau de parentesco Id {grauParentescoDTO.Id} não encontrado.");
+                throw new GrauParentescoNaoExisteException(grauParentescoDTO.Id);
             }
 
             var grauParentesco = GrauParentescoMapper.Convert(grauParentescoDTO);

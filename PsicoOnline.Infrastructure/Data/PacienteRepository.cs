@@ -1,5 +1,6 @@
 ﻿using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
+using PsicoOnline.Core.Exceptions;
 using PsicoOnline.Core.Interfaces;
 using PsicoOnline.Infrastructure.Mapper;
 
@@ -34,7 +35,7 @@ namespace PsicoOnline.Infrastructure.Data
         {
             if (!PacienteExists(id))
             {
-                throw new Exception($"Paciente Id {id} não encontrado.");
+                throw new PacienteNaoExisteException(id);
             }
 
             var paciente = await GetById(id);
@@ -74,7 +75,7 @@ namespace PsicoOnline.Infrastructure.Data
 
             if (!PacienteExists(pacienteDTO.Id))
             {
-                throw new Exception($"Paciente Id {pacienteDTO.Id} não encontrado.");
+                throw new PacienteNaoExisteException(pacienteDTO.Id);
             }
 
             var paciente = PacienteMapper.Convert(pacienteDTO);
