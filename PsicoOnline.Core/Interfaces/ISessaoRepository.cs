@@ -5,17 +5,17 @@ namespace PsicoOnline.Core.Interfaces
 {
     public interface ISessaoRepository
     {
-        Task<Sessao> GetSessaoById(int id);
+        Task<Sessao> GetSessaoByIdAsync(int id);
 
-        Task<IReadOnlyList<Sessao>> GetAllSessoes();
+        Task<IReadOnlyList<Sessao>> GetAllSessoesAsync();
 
-        Task<Sessao> AddSessao(SessaoDTO sessaoDTO);
+        Task<Sessao> AddSessaoAsync(SessaoDTO sessaoDTO);
 
-        Task UpdateSessao(SessaoDTO sessaoDTO);
+        Task UpdateSessaoAsync(SessaoDTO sessaoDTO);
 
-        Task DeleteSessao(int id);
+        Task DeleteSessaoAsync(int id);
 
-        Task DeleteAllSessoes();
+        Task DeleteAllSessoesAsync();
 
         bool SessaoExists(int id);
     }

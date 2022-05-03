@@ -9,27 +9,27 @@ namespace PsicoOnline.Infrastructure.Data
     {
         public SessaoRepository(EFContext db) : base(db) { }
 
-        public async Task<Sessao> AddSessao(SessaoDTO sessaoDTO)
+        public async Task<Sessao> AddSessaoAsync(SessaoDTO sessaoDTO)
         {
             throw new NotImplementedException();
         }
 
-        public async Task DeleteAllSessoes()
+        public async Task DeleteAllSessoesAsync()
         {
             throw new NotImplementedException();
         }
 
-        public async Task DeleteSessao(int id)
+        public async Task DeleteSessaoAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IReadOnlyList<Sessao>> GetAllSessoes()
+        public async Task<IReadOnlyList<Sessao>> GetAllSessoesAsync()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Sessao> GetSessaoById(int id)
+        public async Task<Sessao> GetSessaoByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -39,7 +39,7 @@ namespace PsicoOnline.Infrastructure.Data
             throw new NotImplementedException();
         }
 
-        public async Task UpdateSessao(SessaoDTO sessaoDTO)
+        public async Task UpdateSessaoAsync(SessaoDTO sessaoDTO)
         {
             throw new NotImplementedException();
         }

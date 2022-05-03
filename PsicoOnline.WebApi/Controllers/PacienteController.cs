@@ -20,47 +20,47 @@ namespace PsicoOnline.WebApi.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        public async Task<ActionResult> GetAllPacientes()
+        public async Task<ActionResult> GetAllPacientesAsync()
         {
-            var pacientes = await _pacienteRepository.GetAllPacientes();
+            var pacientes = await _pacienteRepository.GetAllPacientesAsync();
 
             return Ok(pacientes);
         }
 
         [HttpGet]
         [Route("GetById")]
-        public async Task<ActionResult> GetPacienteById(int id)
+        public async Task<ActionResult> GetPacienteByIdAsync(int id)
         {
-            var paciente = await _pacienteRepository.GetPacienteById(id);
+            var paciente = await _pacienteRepository.GetPacienteByIdAsync(id);
 
             return Ok(paciente);
         }
 
         [HttpPost]
         [Route("Add")]
-        public async Task<ActionResult> AddPaciente(PacienteDTO pacienteDTO)
+        public async Task<ActionResult> AddPacienteAsync(PacienteDTO pacienteDTO)
         {
-            var paciente = await _pacienteRepository.AddPaciente(pacienteDTO);
+            var paciente = await _pacienteRepository.AddPacienteAsync(pacienteDTO);
 
             return Ok(paciente);
         }
 
         [HttpDelete]
         [Route("DeleteAll")]
-        public async Task<ActionResult> DeleteAllPacientes()
+        public async Task<ActionResult> DeleteAllPacientesAsync()
         {
-            await _pacienteRepository.DeleteAllPacientes();
+            await _pacienteRepository.DeleteAllPacientesAsync();
 
             return Ok("Todos os pacientes foram deletados com sucesso.");
         }
 
         [HttpDelete]
         [Route("Delete")]
-        public async Task<ActionResult> DeletePaciente(int id)
+        public async Task<ActionResult> DeletePacienteAsync(int id)
         {
             try
             {
-                await _pacienteRepository.DeletePaciente(id);
+                await _pacienteRepository.DeletePacienteAsync(id);
 
                 return Ok("Paciente deletado com sucesso.");
             }
@@ -72,11 +72,11 @@ namespace PsicoOnline.WebApi.Controllers
 
         [HttpPut]
         [Route("Update")]
-        public async Task<ActionResult> UpdatePaciente(PacienteDTO pacienteDTO)
+        public async Task<ActionResult> UpdatePacienteAsync(PacienteDTO pacienteDTO)
         {
             try
             {
-                await _pacienteRepository.UpdatePaciente(pacienteDTO);
+                await _pacienteRepository.UpdatePacienteAsync(pacienteDTO);
 
                 return Ok("Paciente atualizado com sucesso.");
             }

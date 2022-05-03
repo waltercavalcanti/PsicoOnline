@@ -5,17 +5,17 @@ namespace PsicoOnline.Core.Interfaces
 {
     public interface IResponsavelRepository
     {
-        Task<Responsavel> GetResponsavelById(int id);
+        Task<Responsavel> GetResponsavelByIdAsync(int id);
 
-        Task<IReadOnlyList<Responsavel>> GetAllResponsaveis();
+        Task<IReadOnlyList<Responsavel>> GetAllResponsaveisAsync();
 
-        Task<Responsavel> AddResponsavel(ResponsavelDTO responsavelDTO);
+        Task<Responsavel> AddResponsavelAsync(ResponsavelDTO responsavelDTO);
 
-        Task UpdateResponsavel(ResponsavelDTO responsavelDTO);
+        Task UpdateResponsavelAsync(ResponsavelDTO responsavelDTO);
 
-        Task DeleteResponsavel(int id);
+        Task DeleteResponsavelAsync(int id);
 
-        Task DeleteAllResponsaveis();
+        Task DeleteAllResponsaveisAsync();
 
         bool ResponsavelExists(int id);
     }

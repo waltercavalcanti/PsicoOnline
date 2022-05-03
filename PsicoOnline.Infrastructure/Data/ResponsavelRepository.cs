@@ -9,27 +9,27 @@ namespace PsicoOnline.Infrastructure.Data
     {
         public ResponsavelRepository(EFContext db) : base(db) { }
 
-        public async Task<Responsavel> AddResponsavel(ResponsavelDTO responsavelDTO)
+        public async Task<Responsavel> AddResponsavelAsync(ResponsavelDTO responsavelDTO)
         {
             throw new NotImplementedException();
         }
 
-        public async Task DeleteAllResponsaveis()
+        public async Task DeleteAllResponsaveisAsync()
         {
             throw new NotImplementedException();
         }
 
-        public async Task DeleteResponsavel(int id)
+        public async Task DeleteResponsavelAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IReadOnlyList<Responsavel>> GetAllResponsaveis()
+        public async Task<IReadOnlyList<Responsavel>> GetAllResponsaveisAsync()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Responsavel> GetResponsavelById(int id)
+        public async Task<Responsavel> GetResponsavelByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -39,7 +39,7 @@ namespace PsicoOnline.Infrastructure.Data
             throw new NotImplementedException();
         }
 
-        public async Task UpdateResponsavel(ResponsavelDTO responsavelDTO)
+        public async Task UpdateResponsavelAsync(ResponsavelDTO responsavelDTO)
         {
             throw new NotImplementedException();
         }

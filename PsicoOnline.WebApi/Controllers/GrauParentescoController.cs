@@ -20,47 +20,47 @@ namespace PsicoOnline.WebApi.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        public async Task<ActionResult> GetAllGrausParentesco()
+        public async Task<ActionResult> GetAllGrausParentescoAsync()
         {
-            var grausParentesco = await _grauParentescoRepository.GetAllGrausParentesco();
+            var grausParentesco = await _grauParentescoRepository.GetAllGrausParentescoAsync();
 
             return Ok(grausParentesco);
         }
 
         [HttpGet]
         [Route("GetById")]
-        public async Task<ActionResult> GetGrauParentescoById(int id)
+        public async Task<ActionResult> GetGrauParentescoByIdAsync(int id)
         {
-            var grauParentesco = await _grauParentescoRepository.GetGrauParentescoById(id);
+            var grauParentesco = await _grauParentescoRepository.GetGrauParentescoByIdAsync(id);
 
             return Ok(grauParentesco);
         }
 
         [HttpPost]
         [Route("Add")]
-        public async Task<ActionResult> AddGrauParentesco(GrauParentescoDTO grauParentescoDTO)
+        public async Task<ActionResult> AddGrauParentescoAsync(GrauParentescoDTO grauParentescoDTO)
         {
-            var grauParentesco = await _grauParentescoRepository.AddGrauParentesco(grauParentescoDTO);
+            var grauParentesco = await _grauParentescoRepository.AddGrauParentescoAsync(grauParentescoDTO);
 
             return Ok(grauParentesco);
         }
 
         [HttpDelete]
         [Route("DeleteAll")]
-        public async Task<ActionResult> DeleteAllGrausParentesco()
+        public async Task<ActionResult> DeleteAllGrausParentescoAsync()
         {
-            await _grauParentescoRepository.DeleteAllGrausParentesco();
+            await _grauParentescoRepository.DeleteAllGrausParentescoAsync();
 
             return Ok("Todos os graus de parentesco foram deletados com sucesso.");
         }
 
         [HttpDelete]
         [Route("Delete")]
-        public async Task<ActionResult> DeleteGrauParentesco(int id)
+        public async Task<ActionResult> DeleteGrauParentescoAsync(int id)
         {
             try
             {
-                await _grauParentescoRepository.DeleteGrauParentesco(id);
+                await _grauParentescoRepository.DeleteGrauParentescoAsync(id);
 
                 return Ok("Grau de parentesco deletado com sucesso.");
             }
@@ -72,11 +72,11 @@ namespace PsicoOnline.WebApi.Controllers
 
         [HttpPut]
         [Route("Update")]
-        public async Task<ActionResult> UpdateGrauParentesco(GrauParentescoDTO grauParentescoDTO)
+        public async Task<ActionResult> UpdateGrauParentescoAsync(GrauParentescoDTO grauParentescoDTO)
         {
             try
             {
-                await _grauParentescoRepository.UpdateGrauParentesco(grauParentescoDTO);
+                await _grauParentescoRepository.UpdateGrauParentescoAsync(grauParentescoDTO);
 
                 return Ok("Grau de parentesco atualizado com sucesso.");
             }

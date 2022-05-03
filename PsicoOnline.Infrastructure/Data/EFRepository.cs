@@ -13,17 +13,17 @@ namespace PsicoOnline.Infrastructure.Data
             _db = db;
         }
 
-        public async Task<T> GetById(K id)
+        public async Task<T> GetByIdAsync(K id)
         {
             return await _db.Set<T>().FindAsync(id);
         }
 
-        public async Task<IReadOnlyList<T>> GetAll()
+        public async Task<IReadOnlyList<T>> GetAllAsync()
         {
             return await _db.Set<T>().ToListAsync();
         }
 
-        public async Task<T> Add(T entity)
+        public async Task<T> AddAsync(T entity)
         {
             _db.Set<T>().Add(entity);
             await _db.SaveChangesAsync();
@@ -31,25 +31,25 @@ namespace PsicoOnline.Infrastructure.Data
             return entity;
         }
 
-        public async Task Update(T entity)
+        public async Task UpdateAsync(T entity)
         {
             _db.Entry(entity).State = EntityState.Modified;
             await _db.SaveChangesAsync();
         }
 
-        public async Task Delete(T entity)
+        public async Task DeleteAsync(T entity)
         {
             _db.Set<T>().Remove(entity);
             await _db.SaveChangesAsync();
         }
 
-        public async Task DeleteAll(List<T> entities)
+        public async Task DeleteAllAsync(List<T> entities)
         {
             if (entities != null)
             {
                 foreach (var entity in entities)
                 {
-                    await Delete(entity);
+                    await DeleteAsync(entity);
                 }
             }
         }

@@ -5,17 +5,17 @@ namespace PsicoOnline.Core.Interfaces
 {
     public interface IPacienteRepository
     {
-        Task<Paciente> GetPacienteById(int id);
+        Task<Paciente> GetPacienteByIdAsync(int id);
 
-        Task<IReadOnlyList<Paciente>> GetAllPacientes();
+        Task<IReadOnlyList<Paciente>> GetAllPacientesAsync();
 
-        Task<Paciente> AddPaciente(PacienteDTO pacienteDTO);
+        Task<Paciente> AddPacienteAsync(PacienteDTO pacienteDTO);
 
-        Task UpdatePaciente(PacienteDTO pacienteDTO);
+        Task UpdatePacienteAsync(PacienteDTO pacienteDTO);
 
-        Task DeletePaciente(int id);
+        Task DeletePacienteAsync(int id);
 
-        Task DeleteAllPacientes();
+        Task DeleteAllPacientesAsync();
 
         bool PacienteExists(int id);
     }

@@ -4,16 +4,16 @@ namespace PsicoOnline.Core.Interfaces
 {
     public interface IRepository<T, K> where T : BaseEntity<K>
     {
-        Task<T> GetById(K id);
+        Task<T> GetByIdAsync(K id);
 
-        Task<IReadOnlyList<T>> GetAll();
+        Task<IReadOnlyList<T>> GetAllAsync();
 
-        Task<T> Add(T entity);
+        Task<T> AddAsync(T entity);
 
-        Task Update(T entity);
+        Task UpdateAsync(T entity);
 
-        Task Delete(T entity);
+        Task DeleteAsync(T entity);
 
-        Task DeleteAll(List<T> entities);
+        Task DeleteAllAsync(List<T> entities);
     }
 }

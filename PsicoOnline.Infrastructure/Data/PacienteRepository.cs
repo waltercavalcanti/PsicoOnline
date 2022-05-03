@@ -10,7 +10,7 @@ namespace PsicoOnline.Infrastructure.Data
     {
         public PacienteRepository(EFContext db) : base(db) { }
 
-        public async Task<Paciente> AddPaciente(PacienteDTO pacienteDTO)
+        public async Task<Paciente> AddPacienteAsync(PacienteDTO pacienteDTO)
         {
             if (pacienteDTO == null)
             {
@@ -19,33 +19,33 @@ namespace PsicoOnline.Infrastructure.Data
 
             var paciente = PacienteMapper.Convert(pacienteDTO);
 
-            await Add(paciente);
+            await AddAsync(paciente);
 
             return paciente;
         }
 
-        public async Task DeleteAllPacientes()
+        public async Task DeleteAllPacientesAsync()
         {
-            var pacientes = await GetAll();
+            var pacientes = await GetAllAsync();
 
-            await DeleteAll((List<Paciente>)pacientes);
+            await DeleteAllAsync((List<Paciente>)pacientes);
         }
 
-        public async Task DeletePaciente(int id)
+        public async Task DeletePacienteAsync(int id)
         {
             if (!PacienteExists(id))
             {
                 throw new PacienteNaoExisteException(id);
             }
 
-            var paciente = await GetById(id);
+            var paciente = await GetByIdAsync(id);
 
-            await Delete(paciente);
+            await DeleteAsync(paciente);
         }
 
-        public async Task<IReadOnlyList<Paciente>> GetAllPacientes()
+        public async Task<IReadOnlyList<Paciente>> GetAllPacientesAsync()
         {
-            var pacientes = await GetAll();
+            var pacientes = await GetAllAsync();
 
             foreach (var p in pacientes)
             {
@@ -55,9 +55,9 @@ namespace PsicoOnline.Infrastructure.Data
             return pacientes;
         }
 
-        public async Task<Paciente> GetPacienteById(int id)
+        public async Task<Paciente> GetPacienteByIdAsync(int id)
         {
-            var paciente = await GetById(id);
+            var paciente = await GetByIdAsync(id);
 
             paciente.Responsavel = _db.Responsavel.FirstOrDefault(r => r.PacienteId == id);
 
@@ -66,7 +66,7 @@ namespace PsicoOnline.Infrastructure.Data
 
         public bool PacienteExists(int id) => _db.Paciente.Any(p => p.Id == id);
 
-        public async Task UpdatePaciente(PacienteDTO pacienteDTO)
+        public async Task UpdatePacienteAsync(PacienteDTO pacienteDTO)
         {
             if (pacienteDTO == null)
             {
@@ -80,7 +80,7 @@ namespace PsicoOnline.Infrastructure.Data
 
             var paciente = PacienteMapper.Convert(pacienteDTO);
 
-            await Update(paciente);
+            await UpdateAsync(paciente);
         }
     }
 }
