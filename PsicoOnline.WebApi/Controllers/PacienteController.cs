@@ -28,7 +28,7 @@ namespace PsicoOnline.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetById")]
+        [Route("GetById/{id}")]
         public async Task<ActionResult> GetPacienteByIdAsync(int id)
         {
             var paciente = await _pacienteRepository.GetPacienteByIdAsync(id);
@@ -55,7 +55,7 @@ namespace PsicoOnline.WebApi.Controllers
         }
 
         [HttpDelete]
-        [Route("Delete")]
+        [Route("Delete/{id}")]
         public async Task<ActionResult> DeletePacienteAsync(int id)
         {
             try
