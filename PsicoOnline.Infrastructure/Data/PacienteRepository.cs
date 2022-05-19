@@ -73,9 +73,11 @@ namespace PsicoOnline.Infrastructure.Data
                 throw new ArgumentNullException(nameof(pacienteDTO));
             }
 
-            if (!PacienteExists(pacienteDTO.Id))
+            var pacienteId = ((PacienteUpdateDTO)pacienteDTO).Id;
+
+            if (!PacienteExists(pacienteId))
             {
-                throw new PacienteNaoExisteException(pacienteDTO.Id);
+                throw new PacienteNaoExisteException(pacienteId);
             }
 
             var paciente = PacienteMapper.Convert(pacienteDTO);

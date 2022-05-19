@@ -62,9 +62,11 @@ namespace PsicoOnline.Infrastructure.Data
                 throw new ArgumentNullException(nameof(grauParentescoDTO));
             }
 
-            if (!GrauParentescoExists(grauParentescoDTO.Id))
+            var grauParentescoId = ((GrauParentescoUpdateDTO)grauParentescoDTO).Id;
+
+            if (!GrauParentescoExists(grauParentescoId))
             {
-                throw new GrauParentescoNaoExisteException(grauParentescoDTO.Id);
+                throw new GrauParentescoNaoExisteException(grauParentescoId);
             }
 
             var grauParentesco = GrauParentescoMapper.Convert(grauParentescoDTO);

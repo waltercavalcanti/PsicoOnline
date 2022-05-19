@@ -48,7 +48,7 @@ namespace PsicoOnline.WebApi.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public async Task<ActionResult> AddPacienteAsync(PacienteDTO pacienteDTO)
+        public async Task<ActionResult> AddPacienteAsync(PacienteAddDTO pacienteDTO)
         {
             var paciente = await _pacienteRepository.AddPacienteAsync(pacienteDTO);
 
@@ -82,7 +82,7 @@ namespace PsicoOnline.WebApi.Controllers
 
         [HttpPut]
         [Route("Update")]
-        public async Task<ActionResult> UpdatePacienteAsync(PacienteDTO pacienteDTO)
+        public async Task<ActionResult> UpdatePacienteAsync(PacienteUpdateDTO pacienteDTO)
         {
             try
             {

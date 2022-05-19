@@ -5,18 +5,26 @@ namespace PsicoOnline.Infrastructure.Mapper
 {
     public static class GrauParentescoMapper
     {
-        public static GrauParentesco Convert(GrauParentescoDTO grauParentesco)
+        public static GrauParentesco Convert(GrauParentescoDTO grauParentescoDTO)
         {
-            if (grauParentesco == null)
+            if (grauParentescoDTO == null)
             {
                 return null;
             }
 
-            return new GrauParentesco
+            var grauParentesco = new GrauParentesco();
+
+            if (grauParentescoDTO is GrauParentescoAddDTO grauParentescoAddDTO)
             {
-                Id = grauParentesco.Id,
-                Descricao = grauParentesco.Descricao
-            };
+                grauParentesco.Descricao = grauParentescoAddDTO.Descricao;
+            }
+            else if (grauParentescoDTO is GrauParentescoUpdateDTO grauParentescoUpdateDTO)
+            {
+                grauParentesco.Id = grauParentescoUpdateDTO.Id;
+                grauParentesco.Descricao = grauParentescoUpdateDTO.Descricao;
+            }
+
+            return grauParentesco;
         }
     }
 }

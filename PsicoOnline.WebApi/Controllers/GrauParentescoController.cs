@@ -48,7 +48,7 @@ namespace PsicoOnline.WebApi.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public async Task<ActionResult> AddGrauParentescoAsync(GrauParentescoDTO grauParentescoDTO)
+        public async Task<ActionResult> AddGrauParentescoAsync(GrauParentescoAddDTO grauParentescoDTO)
         {
             var grauParentesco = await _grauParentescoRepository.AddGrauParentescoAsync(grauParentescoDTO);
 
@@ -82,7 +82,7 @@ namespace PsicoOnline.WebApi.Controllers
 
         [HttpPut]
         [Route("Update")]
-        public async Task<ActionResult> UpdateGrauParentescoAsync(GrauParentescoDTO grauParentescoDTO)
+        public async Task<ActionResult> UpdateGrauParentescoAsync(GrauParentescoUpdateDTO grauParentescoDTO)
         {
             try
             {
