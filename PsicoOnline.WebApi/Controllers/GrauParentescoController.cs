@@ -24,6 +24,11 @@ namespace PsicoOnline.WebApi.Controllers
         {
             var grausParentesco = await _grauParentescoRepository.GetAllGrausParentescoAsync();
 
+            if (grausParentesco == null)
+            {
+                return NotFound("Não há graus de parentesco cadastrados.");
+            }
+
             return Ok(grausParentesco);
         }
 
@@ -32,6 +37,11 @@ namespace PsicoOnline.WebApi.Controllers
         public async Task<ActionResult> GetGrauParentescoByIdAsync(int id)
         {
             var grauParentesco = await _grauParentescoRepository.GetGrauParentescoByIdAsync(id);
+
+            if (grauParentesco == null)
+            {
+                return NotFound($"Não há grau de parentesco cadastrado com o id {id}.");
+            }
 
             return Ok(grauParentesco);
         }
@@ -51,7 +61,7 @@ namespace PsicoOnline.WebApi.Controllers
         {
             await _grauParentescoRepository.DeleteAllGrausParentescoAsync();
 
-            return Ok("Todos os graus de parentesco foram deletados com sucesso.");
+            return Ok("Todos os graus de parentesco foram excluídos com sucesso.");
         }
 
         [HttpDelete]
@@ -62,7 +72,7 @@ namespace PsicoOnline.WebApi.Controllers
             {
                 await _grauParentescoRepository.DeleteGrauParentescoAsync(id);
 
-                return Ok("Grau de parentesco deletado com sucesso.");
+                return Ok("Grau de parentesco excluído com sucesso.");
             }
             catch (Exception ex)
             {

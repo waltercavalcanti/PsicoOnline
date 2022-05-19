@@ -24,6 +24,11 @@ namespace PsicoOnline.WebApi.Controllers
         {
             var pacientes = await _pacienteRepository.GetAllPacientesAsync();
 
+            if (pacientes == null)
+            {
+                return NotFound("Não há pacientes cadastrados.");
+            }
+
             return Ok(pacientes);
         }
 
@@ -32,6 +37,11 @@ namespace PsicoOnline.WebApi.Controllers
         public async Task<ActionResult> GetPacienteByIdAsync(int id)
         {
             var paciente = await _pacienteRepository.GetPacienteByIdAsync(id);
+
+            if (paciente == null)
+            {
+                return NotFound($"Não há paciente cadastrado com o id {id}.");
+            }
 
             return Ok(paciente);
         }
@@ -51,7 +61,7 @@ namespace PsicoOnline.WebApi.Controllers
         {
             await _pacienteRepository.DeleteAllPacientesAsync();
 
-            return Ok("Todos os pacientes foram deletados com sucesso.");
+            return Ok("Todos os pacientes foram excluídos com sucesso.");
         }
 
         [HttpDelete]
@@ -62,7 +72,7 @@ namespace PsicoOnline.WebApi.Controllers
             {
                 await _pacienteRepository.DeletePacienteAsync(id);
 
-                return Ok("Paciente deletado com sucesso.");
+                return Ok("Paciente excluído com sucesso.");
             }
             catch (Exception ex)
             {
