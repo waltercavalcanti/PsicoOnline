@@ -5,20 +5,33 @@ namespace PsicoOnline.Infrastructure.Mapper
 {
     public static class SessaoMapper
     {
-        public static Sessao Convert(SessaoDTO sessao)
+        public static Sessao Convert(SessaoDTO sessaoDTO)
         {
-            if (sessao == null)
+            if (sessaoDTO == null)
             {
                 return null;
             }
 
-            return new Sessao
+            var sessao = new Sessao
             {
-                Id = sessao.Id,
-                Paciente = PacienteMapper.Convert(sessao.Paciente),
-                DataSessao = sessao.DataSessao,
-                Anotacao = sessao.Anotacao,
+                Paciente = null
             };
+
+            if (sessaoDTO is SessaoAddDTO sessaoAddDTO)
+            {
+                sessao.PacienteId = sessaoAddDTO.PacienteId;
+                sessao.DataSessao = sessaoAddDTO.DataSessao;
+                sessao.Anotacao = sessaoAddDTO.Anotacao;
+            }
+            else if (sessaoDTO is SessaoUpdateDTO sessaoUpdateDTO)
+            {
+                sessao.Id = sessaoUpdateDTO.Id;
+                sessao.PacienteId = sessaoUpdateDTO.PacienteId;
+                sessao.DataSessao = sessaoUpdateDTO.DataSessao;
+                sessao.Anotacao = sessaoUpdateDTO.Anotacao;
+            }
+
+            return sessao;
         }
     }
 }
