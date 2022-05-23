@@ -1,5 +1,6 @@
 ﻿using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
+using PsicoOnline.Core.Exceptions;
 using PsicoOnline.Core.Interfaces;
 using PsicoOnline.Infrastructure.Mapper;
 
@@ -11,37 +12,77 @@ namespace PsicoOnline.Infrastructure.Data
 
         public async Task<Sessao> AddSessaoAsync(SessaoDTO sessaoDTO)
         {
-            throw new NotImplementedException();
+            if (sessaoDTO == null)
+            {
+                throw new ArgumentNullException(nameof(sessaoDTO));
+            }
+
+            var sessao = SessaoMapper.Convert(sessaoDTO);
+
+            await AddAsync(sessao);
+
+            return sessao;
         }
 
         public async Task DeleteAllSessoesAsync()
         {
-            throw new NotImplementedException();
+            var sessoes = await GetAllAsync();
+
+            await DeleteAllAsync((List<Sessao>)sessoes);
         }
 
         public async Task DeleteSessaoAsync(int id)
         {
-            throw new NotImplementedException();
+            if (!SessaoExists(id))
+            {
+                throw new SessaoNaoExisteException(id);
+            }
+
+            var sessao = await GetByIdAsync(id);
+
+            await DeleteAsync(sessao);
         }
 
         public async Task<IReadOnlyList<Sessao>> GetAllSessoesAsync()
         {
-            throw new NotImplementedException();
+            var sessoes = await GetAllAsync();
+
+            foreach (var s in sessoes)
+            {
+                s.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == s.PacienteId);
+            }
+
+            return sessoes;
         }
 
         public async Task<Sessao> GetSessaoByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var sessao = await GetByIdAsync(id);
+
+            sessao.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == id);
+
+            return sessao;
         }
 
-        public bool SessaoExists(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public bool SessaoExists(int id) => _db.Sessao.Any(s => s.Id == id);
 
         public async Task UpdateSessaoAsync(SessaoDTO sessaoDTO)
         {
-            throw new NotImplementedException();
+            if (sessaoDTO == null)
+            {
+                throw new ArgumentNullException(nameof(sessaoDTO));
+            }
+
+            var sessaoId = ((SessaoUpdateDTO)sessaoDTO).Id;
+
+            if (!SessaoExists(sessaoId))
+            {
+                throw new SessaoNaoExisteException(sessaoId);
+            }
+
+            var sessao = SessaoMapper.Convert(sessaoDTO);
+
+            await UpdateAsync(sessao);
         }
     }
 }

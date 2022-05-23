@@ -1,5 +1,6 @@
 ﻿using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
+using PsicoOnline.Core.Exceptions;
 using PsicoOnline.Core.Interfaces;
 using PsicoOnline.Infrastructure.Mapper;
 
@@ -11,37 +12,79 @@ namespace PsicoOnline.Infrastructure.Data
 
         public async Task<Responsavel> AddResponsavelAsync(ResponsavelDTO responsavelDTO)
         {
-            throw new NotImplementedException();
+            if (responsavelDTO == null)
+            {
+                throw new ArgumentNullException(nameof(responsavelDTO));
+            }
+
+            var reponsavel = ResponsavelMapper.Convert(responsavelDTO);
+
+            await AddAsync(reponsavel);
+
+            return reponsavel;
         }
 
         public async Task DeleteAllResponsaveisAsync()
         {
-            throw new NotImplementedException();
+            var responsaveis = await GetAllAsync();
+
+            await DeleteAllAsync((List<Responsavel>)responsaveis);
         }
 
         public async Task DeleteResponsavelAsync(int id)
         {
-            throw new NotImplementedException();
+            if (!ResponsavelExists(id))
+            {
+                throw new ResponsavelNaoExisteException(id);
+            }
+
+            var responsavel = await GetByIdAsync(id);
+
+            await DeleteAsync(responsavel);
         }
 
         public async Task<IReadOnlyList<Responsavel>> GetAllResponsaveisAsync()
         {
-            throw new NotImplementedException();
+            var responsaveis = await GetAllAsync();
+
+            foreach (var r in responsaveis)
+            {
+                r.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == r.PacienteId);
+                r.GrauParentesco = _db.GrauParentesco.FirstOrDefault(gp => gp.Id == r.GrauParentescoId);
+            }
+
+            return responsaveis;
         }
 
         public async Task<Responsavel> GetResponsavelByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var responsavel = await GetByIdAsync(id);
+
+            responsavel.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == id);
+            responsavel.GrauParentesco = _db.GrauParentesco.FirstOrDefault(gp => gp.Id == id);
+
+            return responsavel;
         }
 
-        public bool ResponsavelExists(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public bool ResponsavelExists(int id) => _db.Responsavel.Any(r => r.Id == id);
 
         public async Task UpdateResponsavelAsync(ResponsavelDTO responsavelDTO)
         {
-            throw new NotImplementedException();
+            if (responsavelDTO == null)
+            {
+                throw new ArgumentNullException(nameof(responsavelDTO));
+            }
+
+            var responsavelId = ((ResponsavelUpdateDTO)responsavelDTO).Id;
+
+            if (!ResponsavelExists(responsavelId))
+            {
+                throw new ResponsavelNaoExisteException(responsavelId);
+            }
+
+            var responsavel = ResponsavelMapper.Convert(responsavelDTO);
+
+            await UpdateAsync(responsavel);
         }
     }
 }
