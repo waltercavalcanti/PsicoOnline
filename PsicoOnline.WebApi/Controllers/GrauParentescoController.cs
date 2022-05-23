@@ -24,7 +24,7 @@ namespace PsicoOnline.WebApi.Controllers
         {
             var grausParentesco = await _grauParentescoRepository.GetAllGrausParentescoAsync();
 
-            if (grausParentesco == null)
+            if (grausParentesco == null || grausParentesco.Count == 0)
             {
                 return NotFound("Não há graus de parentesco cadastrados.");
             }

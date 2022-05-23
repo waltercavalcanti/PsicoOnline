@@ -3,7 +3,6 @@ using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Interfaces;
 using PsicoOnline.Infrastructure.Logging;
 
-
 namespace PsicoOnline.WebApi.Controllers
 {
     [Route("api/[controller]")]
@@ -25,7 +24,7 @@ namespace PsicoOnline.WebApi.Controllers
         {
             var sessoes = await _sessaoRepository.GetAllSessoesAsync();
 
-            if (sessoes == null)
+            if (sessoes == null || sessoes.Count == 0)
             {
                 return NotFound("Não há sessões cadastradas.");
             }

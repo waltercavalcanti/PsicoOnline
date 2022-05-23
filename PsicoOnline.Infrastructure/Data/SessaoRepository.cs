@@ -59,7 +59,10 @@ namespace PsicoOnline.Infrastructure.Data
         {
             var sessao = await GetByIdAsync(id);
 
-            sessao.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == id);
+            if (sessao != null)
+            {
+                sessao.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == id);
+            }
 
             return sessao;
         }

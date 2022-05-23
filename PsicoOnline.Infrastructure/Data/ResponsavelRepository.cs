@@ -60,8 +60,11 @@ namespace PsicoOnline.Infrastructure.Data
         {
             var responsavel = await GetByIdAsync(id);
 
-            responsavel.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == id);
-            responsavel.GrauParentesco = _db.GrauParentesco.FirstOrDefault(gp => gp.Id == id);
+            if (responsavel != null)
+            {
+                responsavel.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == id);
+                responsavel.GrauParentesco = _db.GrauParentesco.FirstOrDefault(gp => gp.Id == id);
+            }
 
             return responsavel;
         }

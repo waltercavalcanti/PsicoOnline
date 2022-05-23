@@ -24,7 +24,7 @@ namespace PsicoOnline.WebApi.Controllers
         {
             var pacientes = await _pacienteRepository.GetAllPacientesAsync();
 
-            if (pacientes == null)
+            if (pacientes == null || pacientes.Count == 0)
             {
                 return NotFound("Não há pacientes cadastrados.");
             }

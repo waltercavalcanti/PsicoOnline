@@ -24,7 +24,7 @@ namespace PsicoOnline.WebApi.Controllers
         {
             var responsaveis = await _responsavelRepository.GetAllResponsaveisAsync();
 
-            if (responsaveis == null)
+            if (responsaveis == null || responsaveis.Count == 0)
             {
                 return NotFound("Não há responsáveis cadastrados.");
             }
