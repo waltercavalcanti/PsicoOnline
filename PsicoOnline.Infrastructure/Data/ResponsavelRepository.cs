@@ -17,11 +17,13 @@ namespace PsicoOnline.Infrastructure.Data
                 throw new ArgumentNullException(nameof(responsavelDTO));
             }
 
-            var reponsavel = ResponsavelMapper.Convert(responsavelDTO);
+            var responsavel = new Responsavel();
 
-            await AddAsync(reponsavel);
+            ResponsavelMapper.Convert(responsavelDTO, ref responsavel);
 
-            return reponsavel;
+            await AddAsync(responsavel);
+
+            return responsavel;
         }
 
         public async Task DeleteAllResponsaveisAsync()
@@ -62,8 +64,8 @@ namespace PsicoOnline.Infrastructure.Data
 
             if (responsavel != null)
             {
-                responsavel.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == id);
-                responsavel.GrauParentesco = _db.GrauParentesco.FirstOrDefault(gp => gp.Id == id);
+                responsavel.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == responsavel.PacienteId);
+                responsavel.GrauParentesco = _db.GrauParentesco.FirstOrDefault(gp => gp.Id == responsavel.GrauParentescoId);
             }
 
             return responsavel;
@@ -85,7 +87,9 @@ namespace PsicoOnline.Infrastructure.Data
                 throw new ResponsavelNaoExisteException(responsavelId);
             }
 
-            var responsavel = ResponsavelMapper.Convert(responsavelDTO);
+            var responsavel = new Responsavel();
+
+            ResponsavelMapper.Convert(responsavelDTO, ref responsavel);
 
             await UpdateAsync(responsavel);
         }

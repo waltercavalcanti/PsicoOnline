@@ -17,7 +17,9 @@ namespace PsicoOnline.Infrastructure.Data
                 throw new ArgumentNullException(nameof(grauParentescoDTO));
             }
 
-            var grauParentesco = GrauParentescoMapper.Convert(grauParentescoDTO);
+            var grauParentesco = new GrauParentesco();
+
+            GrauParentescoMapper.Convert(grauParentescoDTO, ref grauParentesco);
 
             await AddAsync(grauParentesco);
 
@@ -69,7 +71,9 @@ namespace PsicoOnline.Infrastructure.Data
                 throw new GrauParentescoNaoExisteException(grauParentescoId);
             }
 
-            var grauParentesco = GrauParentescoMapper.Convert(grauParentescoDTO);
+            var grauParentesco = new GrauParentesco();
+
+            GrauParentescoMapper.Convert(grauParentescoDTO, ref grauParentesco);
 
             await UpdateAsync(grauParentesco);
         }

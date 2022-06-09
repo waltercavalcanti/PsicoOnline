@@ -1,4 +1,6 @@
-﻿namespace PsicoOnline.Core.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace PsicoOnline.Core.Entities
 {
     public class Paciente : BaseEntity<int>
     {
@@ -10,6 +12,7 @@
 
         public char Genero { get; set; }
 
+        [JsonIgnore]
         public Responsavel? Responsavel { get; set; }
     }
 }

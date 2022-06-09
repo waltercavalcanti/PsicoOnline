@@ -17,7 +17,9 @@ namespace PsicoOnline.Infrastructure.Data
                 throw new ArgumentNullException(nameof(pacienteDTO));
             }
 
-            var paciente = PacienteMapper.Convert(pacienteDTO);
+            var paciente = new Paciente();
+
+            PacienteMapper.Convert(pacienteDTO, ref paciente);
 
             await AddAsync(paciente);
 
@@ -61,7 +63,7 @@ namespace PsicoOnline.Infrastructure.Data
 
             if (paciente != null)
             {
-                paciente.Responsavel = _db.Responsavel.FirstOrDefault(r => r.PacienteId == id); 
+                paciente.Responsavel = _db.Responsavel.FirstOrDefault(r => r.PacienteId == id);
             }
 
             return paciente;
@@ -83,7 +85,9 @@ namespace PsicoOnline.Infrastructure.Data
                 throw new PacienteNaoExisteException(pacienteId);
             }
 
-            var paciente = PacienteMapper.Convert(pacienteDTO);
+            var paciente = new Paciente();
+
+            PacienteMapper.Convert(pacienteDTO, ref paciente);
 
             await UpdateAsync(paciente);
         }

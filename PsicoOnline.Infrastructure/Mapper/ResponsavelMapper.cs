@@ -5,19 +5,8 @@ namespace PsicoOnline.Infrastructure.Mapper
 {
     public static class ResponsavelMapper
     {
-        public static Responsavel Convert(ResponsavelDTO responsavelDTO)
+        public static void Convert(ResponsavelDTO responsavelDTO, ref Responsavel responsavel)
         {
-            if (responsavelDTO == null)
-            {
-                return null;
-            }
-
-            var responsavel = new Responsavel
-            {
-                Paciente = null,
-                GrauParentesco = null
-            };
-
             if (responsavelDTO is ResponsavelAddDTO responsavelAddDTO)
             {
                 responsavel.Nome = responsavelAddDTO.Nome;
@@ -37,8 +26,6 @@ namespace PsicoOnline.Infrastructure.Mapper
                 responsavel.PacienteId = responsavelUpdateDTO.PacienteId;
                 responsavel.GrauParentescoId = responsavelUpdateDTO.GrauParentescoId;
             }
-
-            return responsavel;
         }
     }
 }

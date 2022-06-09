@@ -17,7 +17,9 @@ namespace PsicoOnline.Infrastructure.Data
                 throw new ArgumentNullException(nameof(sessaoDTO));
             }
 
-            var sessao = SessaoMapper.Convert(sessaoDTO);
+            var sessao = new Sessao();
+
+            SessaoMapper.Convert(sessaoDTO, ref sessao);
 
             await AddAsync(sessao);
 
@@ -61,7 +63,7 @@ namespace PsicoOnline.Infrastructure.Data
 
             if (sessao != null)
             {
-                sessao.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == id);
+                sessao.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == sessao.PacienteId);
             }
 
             return sessao;
@@ -83,7 +85,9 @@ namespace PsicoOnline.Infrastructure.Data
                 throw new SessaoNaoExisteException(sessaoId);
             }
 
-            var sessao = SessaoMapper.Convert(sessaoDTO);
+            var sessao = await GetSessaoByIdAsync(sessaoId);
+
+            SessaoMapper.Convert(sessaoDTO, ref sessao);
 
             await UpdateAsync(sessao);
         }

@@ -5,15 +5,8 @@ namespace PsicoOnline.Infrastructure.Mapper
 {
     public static class GrauParentescoMapper
     {
-        public static GrauParentesco Convert(GrauParentescoDTO grauParentescoDTO)
+        public static void Convert(GrauParentescoDTO grauParentescoDTO, ref GrauParentesco grauParentesco)
         {
-            if (grauParentescoDTO == null)
-            {
-                return null;
-            }
-
-            var grauParentesco = new GrauParentesco();
-
             if (grauParentescoDTO is GrauParentescoAddDTO grauParentescoAddDTO)
             {
                 grauParentesco.Descricao = grauParentescoAddDTO.Descricao;
@@ -23,8 +16,6 @@ namespace PsicoOnline.Infrastructure.Mapper
                 grauParentesco.Id = grauParentescoUpdateDTO.Id;
                 grauParentesco.Descricao = grauParentescoUpdateDTO.Descricao;
             }
-
-            return grauParentesco;
         }
     }
 }

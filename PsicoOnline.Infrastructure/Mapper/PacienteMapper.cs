@@ -5,18 +5,8 @@ namespace PsicoOnline.Infrastructure.Mapper
 {
     public static class PacienteMapper
     {
-        public static Paciente Convert(PacienteDTO pacienteDTO)
+        public static void Convert(PacienteDTO pacienteDTO, ref Paciente paciente)
         {
-            if (pacienteDTO == null)
-            {
-                return null;
-            }
-
-            var paciente = new Paciente
-            {
-                Responsavel = null
-            };
-
             if (pacienteDTO is PacienteAddDTO pacienteAddDTO)
             {
                 paciente.Nome = pacienteAddDTO.Nome;
@@ -32,8 +22,6 @@ namespace PsicoOnline.Infrastructure.Mapper
                 paciente.Telefone = pacienteUpdateDTO.Telefone;
                 paciente.Genero = pacienteUpdateDTO.Genero;
             }
-
-            return paciente;
         }
     }
 }
