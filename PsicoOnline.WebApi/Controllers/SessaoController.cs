@@ -46,6 +46,20 @@ namespace PsicoOnline.WebApi.Controllers
             return Ok(sessao);
         }
 
+        [HttpGet]
+        [Route("GetByPacienteIdData")]
+        public async Task<ActionResult> GetSessoesByPacienteIdDataAsync(SessaoFilterDTO sessaoDTO)
+        {
+            var sessoes = await _sessaoRepository.GetSessoesByPacienteIdDataAsync(sessaoDTO);
+
+            if (sessoes == null || sessoes.Count == 0)
+            {
+                return NotFound("Não há sessões cadastradas para os parâmetros informados.");
+            }
+
+            return Ok(sessoes);
+        }
+
         [HttpPost]
         [Route("Add")]
         public async Task<ActionResult> AddSessaoAsync(SessaoAddDTO sessaoDTO)

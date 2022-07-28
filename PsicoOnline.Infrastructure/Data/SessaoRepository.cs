@@ -69,6 +69,33 @@ namespace PsicoOnline.Infrastructure.Data
             return sessao;
         }
 
+        public async Task<IReadOnlyList<Sessao>> GetSessoesByPacienteIdDataAsync(SessaoDTO sessaoDTO)
+        {
+            var sessoes = await GetAllAsync();
+
+            if (sessoes != null && sessoes.Count > 0)
+            {
+                var sessaoFilterDTO = (SessaoFilterDTO)sessaoDTO;
+
+                if (sessaoFilterDTO.PacienteId != null)
+                {
+                    sessoes = (IReadOnlyList<Sessao>)sessoes.Where(s => s.PacienteId == sessaoFilterDTO.PacienteId);
+                }
+
+                if (sessaoFilterDTO.DataSessao != null)
+                {
+                    sessoes = (IReadOnlyList<Sessao>)sessoes.Where(s => s.DataSessao == sessaoFilterDTO.DataSessao);
+                }
+
+                foreach (var s in sessoes)
+                {
+                    s.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == s.PacienteId);
+                }
+            }
+
+            return sessoes;
+        }
+
         public bool SessaoExists(int id) => _db.Sessao.Any(s => s.Id == id);
 
         public async Task UpdateSessaoAsync(SessaoDTO sessaoDTO)

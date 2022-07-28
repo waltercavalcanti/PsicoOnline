@@ -9,6 +9,8 @@ namespace PsicoOnline.Core.Interfaces
 
         Task<IReadOnlyList<Sessao>> GetAllSessoesAsync();
 
+        Task<IReadOnlyList<Sessao>> GetSessoesByPacienteIdDataAsync(SessaoDTO sessaoDTO);
+
         Task<Sessao> AddSessaoAsync(SessaoDTO sessaoDTO);
 
         Task UpdateSessaoAsync(SessaoDTO sessaoDTO);
