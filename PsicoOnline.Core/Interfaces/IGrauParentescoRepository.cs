@@ -9,9 +9,9 @@ namespace PsicoOnline.Core.Interfaces
 
         Task<IReadOnlyList<GrauParentesco>> GetAllGrausParentescoAsync();
 
-        Task<GrauParentesco> AddGrauParentescoAsync(GrauParentescoDTO grauParentescoDTO);
+        Task<GrauParentesco> AddGrauParentescoAsync(GrauParentescoAddDTO grauParentescoDTO);
 
-        Task UpdateGrauParentescoAsync(GrauParentescoDTO grauParentescoDTO);
+        Task UpdateGrauParentescoAsync(GrauParentescoUpdateDTO grauParentescoDTO);
 
         Task DeleteGrauParentescoAsync(int id);
 

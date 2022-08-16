@@ -1,25 +1,28 @@
-﻿using PsicoOnline.Core.DTO;
+﻿using AutoMapper;
+using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
 using PsicoOnline.Core.Exceptions;
 using PsicoOnline.Core.Interfaces;
-using PsicoOnline.Infrastructure.Mapper;
 
 namespace PsicoOnline.Infrastructure.Data
 {
     public class PacienteRepository : EFRepository<Paciente, int>, IPacienteRepository
     {
-        public PacienteRepository(EFContext db) : base(db) { }
+        private readonly IMapper _mapper;
 
-        public async Task<Paciente> AddPacienteAsync(PacienteDTO pacienteDTO)
+        public PacienteRepository(EFContext db, IMapper mapper) : base(db)
+        {
+            _mapper = mapper;
+        }
+
+        public async Task<Paciente> AddPacienteAsync(PacienteAddDTO pacienteDTO)
         {
             if (pacienteDTO == null)
             {
                 throw new ArgumentNullException(nameof(pacienteDTO));
             }
 
-            var paciente = new Paciente();
-
-            PacienteMapper.Convert(pacienteDTO, ref paciente);
+            var paciente = _mapper.Map<Paciente>(pacienteDTO);
 
             await AddAsync(paciente);
 
@@ -71,23 +74,21 @@ namespace PsicoOnline.Infrastructure.Data
 
         public bool PacienteExists(int id) => _db.Paciente.Any(p => p.Id == id);
 
-        public async Task UpdatePacienteAsync(PacienteDTO pacienteDTO)
+        public async Task UpdatePacienteAsync(PacienteUpdateDTO pacienteDTO)
         {
             if (pacienteDTO == null)
             {
                 throw new ArgumentNullException(nameof(pacienteDTO));
             }
 
-            var pacienteId = ((PacienteUpdateDTO)pacienteDTO).Id;
+            var pacienteId = pacienteDTO.Id;
 
             if (!PacienteExists(pacienteId))
             {
                 throw new PacienteNaoExisteException(pacienteId);
             }
 
-            var paciente = new Paciente();
-
-            PacienteMapper.Convert(pacienteDTO, ref paciente);
+            var paciente = _mapper.Map<Paciente>(pacienteDTO);
 
             await UpdateAsync(paciente);
         }

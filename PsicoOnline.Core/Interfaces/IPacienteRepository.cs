@@ -9,9 +9,9 @@ namespace PsicoOnline.Core.Interfaces
 
         Task<IReadOnlyList<Paciente>> GetAllPacientesAsync();
 
-        Task<Paciente> AddPacienteAsync(PacienteDTO pacienteDTO);
+        Task<Paciente> AddPacienteAsync(PacienteAddDTO pacienteDTO);
 
-        Task UpdatePacienteAsync(PacienteDTO pacienteDTO);
+        Task UpdatePacienteAsync(PacienteUpdateDTO pacienteDTO);
 
         Task DeletePacienteAsync(int id);
 

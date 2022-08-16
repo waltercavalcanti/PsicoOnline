@@ -9,9 +9,9 @@ namespace PsicoOnline.Core.Interfaces
 
         Task<IReadOnlyList<Responsavel>> GetAllResponsaveisAsync();
 
-        Task<Responsavel> AddResponsavelAsync(ResponsavelDTO responsavelDTO);
+        Task<Responsavel> AddResponsavelAsync(ResponsavelAddDTO responsavelDTO);
 
-        Task UpdateResponsavelAsync(ResponsavelDTO responsavelDTO);
+        Task UpdateResponsavelAsync(ResponsavelUpdateDTO responsavelDTO);
 
         Task DeleteResponsavelAsync(int id);
 

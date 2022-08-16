@@ -1,25 +1,28 @@
-﻿using PsicoOnline.Core.DTO;
+﻿using AutoMapper;
+using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
 using PsicoOnline.Core.Exceptions;
 using PsicoOnline.Core.Interfaces;
-using PsicoOnline.Infrastructure.Mapper;
 
 namespace PsicoOnline.Infrastructure.Data
 {
     public class GrauParentescoRepository : EFRepository<GrauParentesco, int>, IGrauParentescoRepository
     {
-        public GrauParentescoRepository(EFContext db) : base(db) { }
+        private readonly IMapper _mapper;
 
-        public async Task<GrauParentesco> AddGrauParentescoAsync(GrauParentescoDTO grauParentescoDTO)
+        public GrauParentescoRepository(EFContext db, IMapper mapper) : base(db)
+        {
+            _mapper = mapper;
+        }
+
+        public async Task<GrauParentesco> AddGrauParentescoAsync(GrauParentescoAddDTO grauParentescoDTO)
         {
             if (grauParentescoDTO == null)
             {
                 throw new ArgumentNullException(nameof(grauParentescoDTO));
             }
 
-            var grauParentesco = new GrauParentesco();
-
-            GrauParentescoMapper.Convert(grauParentescoDTO, ref grauParentesco);
+            var grauParentesco = _mapper.Map<GrauParentesco>(grauParentescoDTO);
 
             await AddAsync(grauParentesco);
 
@@ -57,23 +60,21 @@ namespace PsicoOnline.Infrastructure.Data
 
         public bool GrauParentescoExists(int id) => _db.GrauParentesco.Any(gp => gp.Id == id);
 
-        public async Task UpdateGrauParentescoAsync(GrauParentescoDTO grauParentescoDTO)
+        public async Task UpdateGrauParentescoAsync(GrauParentescoUpdateDTO grauParentescoDTO)
         {
             if (grauParentescoDTO == null)
             {
                 throw new ArgumentNullException(nameof(grauParentescoDTO));
             }
 
-            var grauParentescoId = ((GrauParentescoUpdateDTO)grauParentescoDTO).Id;
+            var grauParentescoId = grauParentescoDTO.Id;
 
             if (!GrauParentescoExists(grauParentescoId))
             {
                 throw new GrauParentescoNaoExisteException(grauParentescoId);
             }
 
-            var grauParentesco = new GrauParentesco();
-
-            GrauParentescoMapper.Convert(grauParentescoDTO, ref grauParentesco);
+            var grauParentesco = _mapper.Map<GrauParentesco>(grauParentescoDTO);
 
             await UpdateAsync(grauParentesco);
         }

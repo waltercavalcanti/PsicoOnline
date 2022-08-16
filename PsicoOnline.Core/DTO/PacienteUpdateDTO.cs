@@ -1,6 +1,6 @@
 ﻿namespace PsicoOnline.Core.DTO
 {
-    public class PacienteUpdateDTO : PacienteDTO
+    public class PacienteUpdateDTO
     {
         public int Id { get; set; }
 

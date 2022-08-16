@@ -1,25 +1,28 @@
-﻿using PsicoOnline.Core.DTO;
+﻿using AutoMapper;
+using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
 using PsicoOnline.Core.Exceptions;
 using PsicoOnline.Core.Interfaces;
-using PsicoOnline.Infrastructure.Mapper;
 
 namespace PsicoOnline.Infrastructure.Data
 {
     public class SessaoRepository : EFRepository<Sessao, int>, ISessaoRepository
     {
-        public SessaoRepository(EFContext db) : base(db) { }
+        private readonly IMapper _mapper;
 
-        public async Task<Sessao> AddSessaoAsync(SessaoDTO sessaoDTO)
+        public SessaoRepository(EFContext db, IMapper mapper) : base(db)
+        {
+            _mapper = mapper;
+        }
+
+        public async Task<Sessao> AddSessaoAsync(SessaoAddDTO sessaoDTO)
         {
             if (sessaoDTO == null)
             {
                 throw new ArgumentNullException(nameof(sessaoDTO));
             }
 
-            var sessao = new Sessao();
-
-            SessaoMapper.Convert(sessaoDTO, ref sessao);
+            var sessao = _mapper.Map<Sessao>(sessaoDTO);
 
             await AddAsync(sessao);
 
@@ -69,22 +72,20 @@ namespace PsicoOnline.Infrastructure.Data
             return sessao;
         }
 
-        public async Task<IReadOnlyList<Sessao>> GetSessoesByPacienteIdDataAsync(SessaoDTO sessaoDTO)
+        public async Task<IReadOnlyList<Sessao>> GetSessoesByPacienteIdDataAsync(SessaoFilterDTO sessaoDTO)
         {
             var sessoes = await GetAllAsync();
 
             if (sessoes != null && sessoes.Count > 0)
             {
-                var sessaoFilterDTO = (SessaoFilterDTO)sessaoDTO;
-
-                if (sessaoFilterDTO.PacienteId != null)
+                if (sessaoDTO.PacienteId != null)
                 {
-                    sessoes = (IReadOnlyList<Sessao>)sessoes.Where(s => s.PacienteId == sessaoFilterDTO.PacienteId);
+                    sessoes = (IReadOnlyList<Sessao>)sessoes.Where(s => s.PacienteId == sessaoDTO.PacienteId);
                 }
 
-                if (sessaoFilterDTO.DataSessao != null)
+                if (sessaoDTO.DataSessao != null)
                 {
-                    sessoes = (IReadOnlyList<Sessao>)sessoes.Where(s => s.DataSessao == sessaoFilterDTO.DataSessao);
+                    sessoes = (IReadOnlyList<Sessao>)sessoes.Where(s => s.DataSessao == sessaoDTO.DataSessao);
                 }
 
                 foreach (var s in sessoes)
@@ -98,23 +99,21 @@ namespace PsicoOnline.Infrastructure.Data
 
         public bool SessaoExists(int id) => _db.Sessao.Any(s => s.Id == id);
 
-        public async Task UpdateSessaoAsync(SessaoDTO sessaoDTO)
+        public async Task UpdateSessaoAsync(SessaoUpdateDTO sessaoDTO)
         {
             if (sessaoDTO == null)
             {
                 throw new ArgumentNullException(nameof(sessaoDTO));
             }
 
-            var sessaoId = ((SessaoUpdateDTO)sessaoDTO).Id;
+            var sessaoId = sessaoDTO.Id;
 
             if (!SessaoExists(sessaoId))
             {
                 throw new SessaoNaoExisteException(sessaoId);
             }
 
-            var sessao = await GetSessaoByIdAsync(sessaoId);
-
-            SessaoMapper.Convert(sessaoDTO, ref sessao);
+            var sessao = _mapper.Map<Sessao>(sessaoDTO);
 
             await UpdateAsync(sessao);
         }

@@ -1,25 +1,28 @@
-﻿using PsicoOnline.Core.DTO;
+﻿using AutoMapper;
+using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
 using PsicoOnline.Core.Exceptions;
 using PsicoOnline.Core.Interfaces;
-using PsicoOnline.Infrastructure.Mapper;
 
 namespace PsicoOnline.Infrastructure.Data
 {
     public class ResponsavelRepository : EFRepository<Responsavel, int>, IResponsavelRepository
     {
-        public ResponsavelRepository(EFContext db) : base(db) { }
+        private readonly IMapper _mapper;
 
-        public async Task<Responsavel> AddResponsavelAsync(ResponsavelDTO responsavelDTO)
+        public ResponsavelRepository(EFContext db, IMapper mapper) : base(db)
+        {
+            _mapper = mapper;
+        }
+
+        public async Task<Responsavel> AddResponsavelAsync(ResponsavelAddDTO responsavelDTO)
         {
             if (responsavelDTO == null)
             {
                 throw new ArgumentNullException(nameof(responsavelDTO));
             }
 
-            var responsavel = new Responsavel();
-
-            ResponsavelMapper.Convert(responsavelDTO, ref responsavel);
+            var responsavel = _mapper.Map<Responsavel>(responsavelDTO);
 
             await AddAsync(responsavel);
 
@@ -73,23 +76,21 @@ namespace PsicoOnline.Infrastructure.Data
 
         public bool ResponsavelExists(int id) => _db.Responsavel.Any(r => r.Id == id);
 
-        public async Task UpdateResponsavelAsync(ResponsavelDTO responsavelDTO)
+        public async Task UpdateResponsavelAsync(ResponsavelUpdateDTO responsavelDTO)
         {
             if (responsavelDTO == null)
             {
                 throw new ArgumentNullException(nameof(responsavelDTO));
             }
 
-            var responsavelId = ((ResponsavelUpdateDTO)responsavelDTO).Id;
+            var responsavelId = responsavelDTO.Id;
 
             if (!ResponsavelExists(responsavelId))
             {
                 throw new ResponsavelNaoExisteException(responsavelId);
             }
 
-            var responsavel = new Responsavel();
-
-            ResponsavelMapper.Convert(responsavelDTO, ref responsavel);
+            var responsavel = _mapper.Map<Responsavel>(responsavelDTO);
 
             await UpdateAsync(responsavel);
         }

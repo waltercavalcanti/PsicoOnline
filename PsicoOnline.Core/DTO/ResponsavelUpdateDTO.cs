@@ -1,6 +1,6 @@
 ﻿namespace PsicoOnline.Core.DTO
 {
-    public class ResponsavelUpdateDTO : ResponsavelDTO
+    public class ResponsavelUpdateDTO
     {
         public int Id { get; set; }
 

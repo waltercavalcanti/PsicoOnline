@@ -9,11 +9,11 @@ namespace PsicoOnline.Core.Interfaces
 
         Task<IReadOnlyList<Sessao>> GetAllSessoesAsync();
 
-        Task<IReadOnlyList<Sessao>> GetSessoesByPacienteIdDataAsync(SessaoDTO sessaoDTO);
+        Task<IReadOnlyList<Sessao>> GetSessoesByPacienteIdDataAsync(SessaoFilterDTO sessaoDTO);
 
-        Task<Sessao> AddSessaoAsync(SessaoDTO sessaoDTO);
+        Task<Sessao> AddSessaoAsync(SessaoAddDTO sessaoDTO);
 
-        Task UpdateSessaoAsync(SessaoDTO sessaoDTO);
+        Task UpdateSessaoAsync(SessaoUpdateDTO sessaoDTO);
 
         Task DeleteSessaoAsync(int id);
 
