@@ -1,7 +1,6 @@
-﻿namespace PsicoOnline.Core.Exceptions
+﻿namespace PsicoOnline.Core.Exceptions;
+
+public class ResponsavelNaoExisteException : BaseException
 {
-    public class ResponsavelNaoExisteException : BaseException
-    {
-        public ResponsavelNaoExisteException(int id) : base($"Responsável Id {id} não existe.") { }
-    }
+    public ResponsavelNaoExisteException(int id) : base($"Responsável Id {id} não existe.") { }
 }

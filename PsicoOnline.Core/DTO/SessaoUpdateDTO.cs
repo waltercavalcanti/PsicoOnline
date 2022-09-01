@@ -1,9 +1,8 @@
-﻿namespace PsicoOnline.Core.DTO
-{
-    public class SessaoUpdateDTO
-    {
-        public int Id { get; set; }
+﻿namespace PsicoOnline.Core.DTO;
 
-        public string Anotacao { get; set; }
-    }
+public class SessaoUpdateDTO
+{
+    public int Id { get; set; }
+
+    public string Anotacao { get; set; }
 }

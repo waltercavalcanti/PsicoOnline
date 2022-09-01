@@ -4,93 +4,92 @@ using PsicoOnline.Core.Entities;
 using PsicoOnline.Core.Exceptions;
 using PsicoOnline.Core.Interfaces;
 
-namespace PsicoOnline.Infrastructure.Data
+namespace PsicoOnline.Infrastructure.Data;
+
+public class PacienteRepository : EFRepository<Paciente, int>, IPacienteRepository
 {
-    public class PacienteRepository : EFRepository<Paciente, int>, IPacienteRepository
+    private readonly IMapper _mapper;
+
+    public PacienteRepository(EFContext db, IMapper mapper) : base(db)
     {
-        private readonly IMapper _mapper;
+        _mapper = mapper;
+    }
 
-        public PacienteRepository(EFContext db, IMapper mapper) : base(db)
+    public async Task<Paciente> AddPacienteAsync(PacienteAddDTO pacienteDTO)
+    {
+        if (pacienteDTO == null)
         {
-            _mapper = mapper;
+            throw new ArgumentNullException(nameof(pacienteDTO));
         }
 
-        public async Task<Paciente> AddPacienteAsync(PacienteAddDTO pacienteDTO)
+        var paciente = _mapper.Map<Paciente>(pacienteDTO);
+
+        await AddAsync(paciente);
+
+        return paciente;
+    }
+
+    public async Task DeleteAllPacientesAsync()
+    {
+        var pacientes = await GetAllAsync();
+
+        await DeleteAllAsync((List<Paciente>)pacientes);
+    }
+
+    public async Task DeletePacienteAsync(int id)
+    {
+        if (!PacienteExists(id))
         {
-            if (pacienteDTO == null)
-            {
-                throw new ArgumentNullException(nameof(pacienteDTO));
-            }
-
-            var paciente = _mapper.Map<Paciente>(pacienteDTO);
-
-            await AddAsync(paciente);
-
-            return paciente;
+            throw new PacienteNaoExisteException(id);
         }
 
-        public async Task DeleteAllPacientesAsync()
-        {
-            var pacientes = await GetAllAsync();
+        var paciente = await GetByIdAsync(id);
 
-            await DeleteAllAsync((List<Paciente>)pacientes);
+        await DeleteAsync(paciente);
+    }
+
+    public async Task<IReadOnlyList<Paciente>> GetAllPacientesAsync()
+    {
+        var pacientes = await GetAllAsync();
+
+        foreach (var p in pacientes)
+        {
+            p.Responsavel = _db.Responsavel.FirstOrDefault(r => r.PacienteId == p.Id);
         }
 
-        public async Task DeletePacienteAsync(int id)
+        return pacientes;
+    }
+
+    public async Task<Paciente> GetPacienteByIdAsync(int id)
+    {
+        var paciente = await GetByIdAsync(id);
+
+        if (paciente != null)
         {
-            if (!PacienteExists(id))
-            {
-                throw new PacienteNaoExisteException(id);
-            }
-
-            var paciente = await GetByIdAsync(id);
-
-            await DeleteAsync(paciente);
+            paciente.Responsavel = _db.Responsavel.FirstOrDefault(r => r.PacienteId == id);
         }
 
-        public async Task<IReadOnlyList<Paciente>> GetAllPacientesAsync()
+        return paciente;
+    }
+
+    public bool PacienteExists(int id) => _db.Paciente.Any(p => p.Id == id);
+
+    public async Task UpdatePacienteAsync(PacienteUpdateDTO pacienteDTO)
+    {
+        if (pacienteDTO == null)
         {
-            var pacientes = await GetAllAsync();
-
-            foreach (var p in pacientes)
-            {
-                p.Responsavel = _db.Responsavel.FirstOrDefault(r => r.PacienteId == p.Id);
-            }
-
-            return pacientes;
+            throw new ArgumentNullException(nameof(pacienteDTO));
         }
 
-        public async Task<Paciente> GetPacienteByIdAsync(int id)
+        var pacienteId = pacienteDTO.Id;
+
+        if (!PacienteExists(pacienteId))
         {
-            var paciente = await GetByIdAsync(id);
-
-            if (paciente != null)
-            {
-                paciente.Responsavel = _db.Responsavel.FirstOrDefault(r => r.PacienteId == id);
-            }
-
-            return paciente;
+            throw new PacienteNaoExisteException(pacienteId);
         }
 
-        public bool PacienteExists(int id) => _db.Paciente.Any(p => p.Id == id);
+        var paciente = _mapper.Map<Paciente>(pacienteDTO);
 
-        public async Task UpdatePacienteAsync(PacienteUpdateDTO pacienteDTO)
-        {
-            if (pacienteDTO == null)
-            {
-                throw new ArgumentNullException(nameof(pacienteDTO));
-            }
-
-            var pacienteId = pacienteDTO.Id;
-
-            if (!PacienteExists(pacienteId))
-            {
-                throw new PacienteNaoExisteException(pacienteId);
-            }
-
-            var paciente = _mapper.Map<Paciente>(pacienteDTO);
-
-            await UpdateAsync(paciente);
-        }
+        await UpdateAsync(paciente);
     }
 }

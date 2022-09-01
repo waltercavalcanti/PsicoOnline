@@ -2,16 +2,15 @@
 using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
 
-namespace PsicoOnline.Infrastructure.Mapper
+namespace PsicoOnline.Infrastructure.Mapper;
+
+public class SessaoProfile : Profile
 {
-    public class SessaoProfile : Profile
+    public SessaoProfile()
     {
-        public SessaoProfile()
-        {
-            CreateMap<SessaoAddDTO, Sessao>();
-            CreateMap<Sessao, SessaoAddDTO>();
-            CreateMap<SessaoUpdateDTO, Sessao>();
-            CreateMap<Sessao, SessaoUpdateDTO>();
-        }
+        CreateMap<SessaoAddDTO, Sessao>();
+        CreateMap<Sessao, SessaoAddDTO>();
+        CreateMap<SessaoUpdateDTO, Sessao>();
+        CreateMap<Sessao, SessaoUpdateDTO>();
     }
 }

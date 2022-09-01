@@ -1,11 +1,10 @@
-﻿namespace PsicoOnline.Core.Interfaces
+﻿namespace PsicoOnline.Core.Interfaces;
+
+public interface IAppLogger<T>
 {
-    public interface IAppLogger<T>
-    {
-        void LogInformation(string message, params object[] args);
+    void LogInformation(string message, params object[] args);
 
-        void LogWarning(string message, params object[] args);
+    void LogWarning(string message, params object[] args);
 
-        void LogError(string message, Exception ex);
-    }
+    void LogError(string message, Exception ex);
 }

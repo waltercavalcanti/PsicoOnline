@@ -2,16 +2,15 @@
 using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
 
-namespace PsicoOnline.Infrastructure.Mapper
+namespace PsicoOnline.Infrastructure.Mapper;
+
+public class ResponsavelProfile : Profile
 {
-    public class ResponsavelProfile : Profile
+    public ResponsavelProfile()
     {
-        public ResponsavelProfile()
-        {
-            CreateMap<ResponsavelAddDTO, Responsavel>();
-            CreateMap<Responsavel, ResponsavelAddDTO>();
-            CreateMap<ResponsavelUpdateDTO, Responsavel>();
-            CreateMap<Responsavel, ResponsavelUpdateDTO>();
-        }
+        CreateMap<ResponsavelAddDTO, Responsavel>();
+        CreateMap<Responsavel, ResponsavelAddDTO>();
+        CreateMap<ResponsavelUpdateDTO, Responsavel>();
+        CreateMap<Responsavel, ResponsavelUpdateDTO>();
     }
 }

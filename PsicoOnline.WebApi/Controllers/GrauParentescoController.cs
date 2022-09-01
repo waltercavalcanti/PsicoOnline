@@ -3,97 +3,96 @@ using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Interfaces;
 using PsicoOnline.Infrastructure.Logging;
 
-namespace PsicoOnline.WebApi.Controllers
+namespace PsicoOnline.WebApi.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class GrauParentescoController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class GrauParentescoController : ControllerBase
+    private readonly IGrauParentescoRepository _grauParentescoRepository;
+    private readonly IAppLogger<GrauParentescoController> _appLogger;
+
+    public GrauParentescoController(IGrauParentescoRepository grauParentescoRepository)
     {
-        private readonly IGrauParentescoRepository _grauParentescoRepository;
-        private readonly IAppLogger<GrauParentescoController> _appLogger;
+        _grauParentescoRepository = grauParentescoRepository;
+        _appLogger = new AppLogger<GrauParentescoController>();
+    }
 
-        public GrauParentescoController(IGrauParentescoRepository grauParentescoRepository)
+    [HttpGet]
+    [Route("GetAll")]
+    public async Task<ActionResult> GetAllGrausParentescoAsync()
+    {
+        var grausParentesco = await _grauParentescoRepository.GetAllGrausParentescoAsync();
+
+        if (grausParentesco == null || grausParentesco.Count == 0)
         {
-            _grauParentescoRepository = grauParentescoRepository;
-            _appLogger = new AppLogger<GrauParentescoController>();
+            return NotFound("Não há graus de parentesco cadastrados.");
         }
 
-        [HttpGet]
-        [Route("GetAll")]
-        public async Task<ActionResult> GetAllGrausParentescoAsync()
+        return Ok(grausParentesco);
+    }
+
+    [HttpGet]
+    [Route("GetById/{id}")]
+    public async Task<ActionResult> GetGrauParentescoByIdAsync(int id)
+    {
+        var grauParentesco = await _grauParentescoRepository.GetGrauParentescoByIdAsync(id);
+
+        if (grauParentesco == null)
         {
-            var grausParentesco = await _grauParentescoRepository.GetAllGrausParentescoAsync();
-
-            if (grausParentesco == null || grausParentesco.Count == 0)
-            {
-                return NotFound("Não há graus de parentesco cadastrados.");
-            }
-
-            return Ok(grausParentesco);
+            return NotFound($"Não há grau de parentesco cadastrado com o id {id}.");
         }
 
-        [HttpGet]
-        [Route("GetById/{id}")]
-        public async Task<ActionResult> GetGrauParentescoByIdAsync(int id)
+        return Ok(grauParentesco);
+    }
+
+    [HttpPost]
+    [Route("Add")]
+    public async Task<ActionResult> AddGrauParentescoAsync(GrauParentescoAddDTO grauParentescoDTO)
+    {
+        var grauParentesco = await _grauParentescoRepository.AddGrauParentescoAsync(grauParentescoDTO);
+
+        return Ok(grauParentesco);
+    }
+
+    [HttpDelete]
+    [Route("DeleteAll")]
+    public async Task<ActionResult> DeleteAllGrausParentescoAsync()
+    {
+        await _grauParentescoRepository.DeleteAllGrausParentescoAsync();
+
+        return Ok("Todos os graus de parentesco foram excluídos com sucesso.");
+    }
+
+    [HttpDelete]
+    [Route("Delete/{id}")]
+    public async Task<ActionResult> DeleteGrauParentescoAsync(int id)
+    {
+        try
         {
-            var grauParentesco = await _grauParentescoRepository.GetGrauParentescoByIdAsync(id);
+            await _grauParentescoRepository.DeleteGrauParentescoAsync(id);
 
-            if (grauParentesco == null)
-            {
-                return NotFound($"Não há grau de parentesco cadastrado com o id {id}.");
-            }
-
-            return Ok(grauParentesco);
+            return Ok("Grau de parentesco excluído com sucesso.");
         }
-
-        [HttpPost]
-        [Route("Add")]
-        public async Task<ActionResult> AddGrauParentescoAsync(GrauParentescoAddDTO grauParentescoDTO)
+        catch (Exception ex)
         {
-            var grauParentesco = await _grauParentescoRepository.AddGrauParentescoAsync(grauParentescoDTO);
-
-            return Ok(grauParentesco);
+            return BadRequest(ex.Message);
         }
+    }
 
-        [HttpDelete]
-        [Route("DeleteAll")]
-        public async Task<ActionResult> DeleteAllGrausParentescoAsync()
+    [HttpPut]
+    [Route("Update")]
+    public async Task<ActionResult> UpdateGrauParentescoAsync(GrauParentescoUpdateDTO grauParentescoDTO)
+    {
+        try
         {
-            await _grauParentescoRepository.DeleteAllGrausParentescoAsync();
+            await _grauParentescoRepository.UpdateGrauParentescoAsync(grauParentescoDTO);
 
-            return Ok("Todos os graus de parentesco foram excluídos com sucesso.");
+            return Ok("Grau de parentesco atualizado com sucesso.");
         }
-
-        [HttpDelete]
-        [Route("Delete/{id}")]
-        public async Task<ActionResult> DeleteGrauParentescoAsync(int id)
+        catch (Exception ex)
         {
-            try
-            {
-                await _grauParentescoRepository.DeleteGrauParentescoAsync(id);
-
-                return Ok("Grau de parentesco excluído com sucesso.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPut]
-        [Route("Update")]
-        public async Task<ActionResult> UpdateGrauParentescoAsync(GrauParentescoUpdateDTO grauParentescoDTO)
-        {
-            try
-            {
-                await _grauParentescoRepository.UpdateGrauParentescoAsync(grauParentescoDTO);
-
-                return Ok("Grau de parentesco atualizado com sucesso.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return BadRequest(ex.Message);
         }
     }
 }

@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PsicoOnline.Core", "PsicoOn
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PsicoOnline.Infrastructure", "PsicoOnline.Infrastructure\PsicoOnline.Infrastructure.csproj", "{6E1FDD8E-E441-4532-ACC6-50A35C96EB44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsicoOnline.WebApi", "PsicoOnline.WebApi\PsicoOnline.WebApi.csproj", "{44103013-E4F6-4010-AFAA-C393375D32EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PsicoOnline.WebApi", "PsicoOnline.WebApi\PsicoOnline.WebApi.csproj", "{44103013-E4F6-4010-AFAA-C393375D32EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4725C386-DE55-4858-B1B9-10C6932D4C96}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

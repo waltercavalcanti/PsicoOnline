@@ -1,7 +1,6 @@
-﻿namespace PsicoOnline.Core.Entities
+﻿namespace PsicoOnline.Core.Entities;
+
+public class GrauParentesco : BaseEntity<int>
 {
-    public class GrauParentesco : BaseEntity<int>
-    {
-        public string Descricao { get; set; }
-    }
+    public string Descricao { get; set; }
 }

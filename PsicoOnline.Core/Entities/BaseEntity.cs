@@ -1,7 +1,6 @@
-﻿namespace PsicoOnline.Core.Entities
+﻿namespace PsicoOnline.Core.Entities;
+
+public class BaseEntity<T>
 {
-    public class BaseEntity<T>
-    {
-        public T Id { get; set; }
-    }
+    public T Id { get; set; }
 }

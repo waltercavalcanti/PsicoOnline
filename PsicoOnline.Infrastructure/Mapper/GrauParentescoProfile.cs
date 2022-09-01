@@ -2,16 +2,15 @@
 using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
 
-namespace PsicoOnline.Infrastructure.Mapper
+namespace PsicoOnline.Infrastructure.Mapper;
+
+public class GrauParentescoProfile : Profile
 {
-    public class GrauParentescoProfile : Profile
+    public GrauParentescoProfile()
     {
-        public GrauParentescoProfile()
-        {
-            CreateMap<GrauParentescoAddDTO, GrauParentesco>();
-            CreateMap<GrauParentesco, GrauParentescoAddDTO>();
-            CreateMap<GrauParentescoUpdateDTO, GrauParentesco>();
-            CreateMap<GrauParentesco, GrauParentescoUpdateDTO>();
-        }
+        CreateMap<GrauParentescoAddDTO, GrauParentesco>();
+        CreateMap<GrauParentesco, GrauParentescoAddDTO>();
+        CreateMap<GrauParentescoUpdateDTO, GrauParentesco>();
+        CreateMap<GrauParentesco, GrauParentescoUpdateDTO>();
     }
 }
