@@ -1,31 +1,16 @@
 using Microsoft.EntityFrameworkCore;
-using PsicoOnline.Core.Interfaces;
-using PsicoOnline.Infrastructure.Data;
+using PsicoOnline.WebApi.Startup;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllers();
-builder.Services.AddScoped<IGrauParentescoRepository, GrauParentescoRepository>();
-builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
-builder.Services.AddScoped<IResponsavelRepository, ResponsavelRepository>();
-builder.Services.AddScoped<ISessaoRepository, SessaoRepository>();
-builder.Services.AddDbContext<EFContext>(options => { options.UseSqlServer(builder.Configuration.GetConnectionString("PsicoOnlineDBConnStr")); });
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.RegistrarServicos(builder.Configuration.GetConnectionString("PsicoOnlineDBConnStr"));
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.ConfigurarSwagger();
 
 app.UseHttpsRedirection();
 
