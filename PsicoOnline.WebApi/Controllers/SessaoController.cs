@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Interfaces;
 using PsicoOnline.Infrastructure.Logging;
@@ -20,6 +21,7 @@ public class SessaoController : ControllerBase
 
     [HttpGet]
     [Route("GetAll")]
+    [EnableQuery]
     public async Task<ActionResult> GetAllSessoesAsync()
     {
         var sessoes = await _sessaoRepository.GetAllSessoesAsync();

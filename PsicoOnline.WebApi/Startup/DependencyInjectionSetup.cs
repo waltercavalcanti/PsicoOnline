@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.OData;
+using Microsoft.EntityFrameworkCore;
 using PsicoOnline.Core.Interfaces;
 using PsicoOnline.Infrastructure.Data;
 
@@ -8,7 +9,7 @@ public static class DependencyInjectionSetup
 {
     public static IServiceCollection RegistrarServicos(this IServiceCollection services, string connectionString)
     {
-        services.AddControllers();
+        services.AddControllers().AddOData(options => options.Select().Count().Filter().OrderBy().SetMaxTop(50).SkipToken().Expand());
         services.AddScoped<IGrauParentescoRepository, GrauParentescoRepository>();
         services.AddScoped<IPacienteRepository, PacienteRepository>();
         services.AddScoped<IResponsavelRepository, ResponsavelRepository>();
