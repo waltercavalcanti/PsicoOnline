@@ -6,6 +6,27 @@ namespace PsicoOnline.Core.Util;
 
 public static class JsonExtensions
 {
+    private static readonly JsonSerializerSettings _settings;
+
+    static JsonExtensions()
+    {
+        _settings = new JsonSerializerSettings()
+        {
+            NullValueHandling = NullValueHandling.Ignore,
+            Formatting = Formatting.None
+        };
+    }
+
+    public static object Deserialize<T>(string json)
+    {
+        return JsonConvert.DeserializeObject<T>(json);
+    }
+
+    public static string Serialize(object obj)
+    {
+        return JsonConvert.SerializeObject(obj, _settings);
+    }
+
     public static StringContent ToJson<T>(this T obj)
     {
         var settings = new JsonSerializerSettings
