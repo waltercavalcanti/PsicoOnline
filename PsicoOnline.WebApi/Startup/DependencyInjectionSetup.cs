@@ -9,6 +9,16 @@ public static class DependencyInjectionSetup
 {
     public static IServiceCollection RegistrarServicos(this IServiceCollection services, string connectionString)
     {
+        services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.WithOrigins("https://localhost:7121")
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
+            });
+        });
+
         services.AddControllers().AddOData(options => options.Select().Count().Filter().OrderBy().SetMaxTop(50).SkipToken().Expand());
         services.AddScoped<IGrauParentescoRepository, GrauParentescoRepository>();
         services.AddScoped<IPacienteRepository, PacienteRepository>();
