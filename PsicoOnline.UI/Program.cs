@@ -1,4 +1,5 @@
 global using PsicoOnline.UI.Models;
+global using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using PsicoOnline.UI;

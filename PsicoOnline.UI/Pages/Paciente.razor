@@ -15,18 +15,22 @@ else
 	<h3>Editar @paciente.Nome</h3>
 }
 
-<EditForm Model="paciente" OnSubmit="SubmeterAsync">
+<EditForm Model="paciente" OnValidSubmit="SubmeterAsync">
+	<DataAnnotationsValidator />
 	<div>
 		<label for="nome">Nome</label>
 		<InputText id="nome" class="form-control" @bind-Value="paciente.Nome"></InputText>
+		<ValidationMessage For="() => paciente.Nome" />
 	</div>
 	<div>
 		<label for="datanascimento">Data de Nascimento</label>
 		<InputDate id="datanascimento" class="form-control" @bind-Value="paciente.DataNascimento"></InputDate>
+		<ValidationMessage For="() => paciente.DataNascimento" />
 	</div>
 	<div>
 		<label for="telefone">Telefone</label>
 		<InputText id="telefone" class="form-control" @bind-Value="paciente.Telefone"></InputText>
+		<ValidationMessage For="() => paciente.Telefone" />
 	</div>
 	<div>
 		<label for="genero">Gênero</label><br />
@@ -50,7 +54,7 @@ else
 
 	string btnText = string.Empty;
 
-	PacienteModel paciente = new PacienteModel();
+	PacienteModel paciente = new PacienteModel { Genero = 'M' };
 
 	static List<GeneroModel> generos = new List<GeneroModel>
 	{

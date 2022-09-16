@@ -15,10 +15,12 @@ else
 	<h3>Editar @grauParentesco.Descricao</h3>
 }
 
-<EditForm Model="grauParentesco" OnSubmit="SubmeterAsync">
+<EditForm Model="grauParentesco" OnValidSubmit="SubmeterAsync">
+	<DataAnnotationsValidator />
 	<div>
 		<label for="descricao">Descrição</label>
 		<InputText id="descricao" class="form-control" @bind-Value="grauParentesco.Descricao"></InputText>
+		<ValidationMessage For="() => grauParentesco.Descricao" />
 	</div>
 	<br />
 	<button type="submit" class="btn btn-primary">@btnText</button>
