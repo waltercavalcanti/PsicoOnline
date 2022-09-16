@@ -1,0 +1,90 @@
+﻿@page "/paciente"
+@page "/paciente/{id:int}"
+@inject IPacienteService PacienteService
+
+<h1>Paciente</h1>
+
+@if (Id == null)
+{
+	<PageTitle>Criar Paciente</PageTitle>
+	<h3>Criar Paciente</h3>
+}
+else
+{
+	<PageTitle>Editar @paciente.Nome</PageTitle>
+	<h3>Editar @paciente.Nome</h3>
+}
+
+<EditForm Model="paciente" OnSubmit="SubmeterAsync">
+	<div>
+		<label for="nome">Nome</label>
+		<InputText id="nome" class="form-control" @bind-Value="paciente.Nome"></InputText>
+	</div>
+	<div>
+		<label for="datanascimento">Data de Nascimento</label>
+		<InputDate id="datanascimento" class="form-control" @bind-Value="paciente.DataNascimento"></InputDate>
+	</div>
+	<div>
+		<label for="telefone">Telefone</label>
+		<InputText id="telefone" class="form-control" @bind-Value="paciente.Telefone"></InputText>
+	</div>
+	<div>
+		<label for="genero">Gênero</label><br />
+		<InputRadioGroup id="genero" class="form-control" @bind-Value="paciente.Genero">
+			@foreach (var genero in generos)
+			{
+				<InputRadio Value="genero.Id" />
+				<span style="padding-left: 5px;">@genero.Descricao</span>
+				<br />
+			}
+		</InputRadioGroup>
+	</div>
+	<br />
+	<button type="submit" class="btn btn-primary">@btnText</button>
+	<button type="button" class="btn btn-danger" @onclick="DeletePacienteAsync">Excluir</button>
+</EditForm>
+
+@code {
+	[Parameter]
+	public int? Id { get; set; }
+
+	string btnText = string.Empty;
+
+	PacienteModel paciente = new PacienteModel();
+
+	static List<GeneroModel> generos = new List<GeneroModel>
+	{
+		new GeneroModel { Id = 'M', Descricao = "Masculino" },
+		new GeneroModel { Id = 'F', Descricao = "Feminino" }
+	};
+
+	protected override async Task OnInitializedAsync()
+	{
+		btnText = Id == null ? "Salvar" : "Atualizar";
+	}
+
+	protected override async Task OnParametersSetAsync()
+	{
+		if (Id != null)
+		{
+			paciente = await PacienteService.GetPacienteByIdAsync((int)Id);
+		}
+	}
+
+	async Task SubmeterAsync()
+	{
+		if (Id == null)
+		{
+			await PacienteService.AddPacienteAsync(paciente);
+		}
+		else
+		{
+			await PacienteService.UpdatePacienteAsync(paciente);
+		}
+	}
+
+	async Task DeletePacienteAsync()
+	{
+		await PacienteService.DeletePacienteAsync(paciente.Id);
+	}
+}

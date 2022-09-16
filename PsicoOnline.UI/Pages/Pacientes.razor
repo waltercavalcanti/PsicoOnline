@@ -1,0 +1,69 @@
+﻿@page "/pacientes"
+@inject IPacienteService PacienteService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Pacientes</PageTitle>
+
+<h1>Pacientes</h1>
+
+@if (PacienteService.Pacientes == null)
+{
+	<p><em>Carregando...</em></p>
+}
+else if (PacienteService.Pacientes.Count == 0)
+{
+	<p><em>Nenhum paciente cadastrado.</em></p>
+}
+else
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Nome</th>
+				<th>Data de Nascimento</th>
+				<th>Telefone</th>
+				<th>Gênero</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var paciente in PacienteService.Pacientes)
+			{
+				<tr>
+					<td>@paciente.Nome</td>
+					<td>@paciente.DataNascimento.ToShortDateString() (@paciente.GetIdade() ano(s))</td>
+					<td>@paciente.Telefone</td>
+					@if (@paciente.Genero.ToString() == "M")
+					{
+						<td>Masculino</td>
+					}
+					else
+					{
+						<td>Feminino</td>
+					}
+					<td>
+						<button class="btn btn-primary" @onclick="() => EditarPaciente(paciente.Id)"><i class="oi oi-pencil"></i></button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	<button class="btn btn-primary" @onclick="AddPaciente">Adicionar</button>
+}
+
+@code {
+	protected override async Task OnInitializedAsync()
+	{
+		await PacienteService.GetAllPacientesAsync();
+	}
+
+	void EditarPaciente(int id)
+	{
+		NavigationManager.NavigateTo($"paciente/{id}");
+	}
+
+	void AddPaciente()
+	{
+		NavigationManager.NavigateTo("paciente");
+	}
+}

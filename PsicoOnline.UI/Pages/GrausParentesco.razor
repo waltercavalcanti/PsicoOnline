@@ -29,7 +29,7 @@ else
 				<tr>
 					<td>@grauParentesco.Descricao</td>
 					<td>
-						<button class="btn btn-primary" @onclick="() => MostrarGrauParentesco(grauParentesco.Id)"><i class="oi oi-pencil"></i></button>
+						<button class="btn btn-primary" @onclick="() => EditarGrauParentesco(grauParentesco.Id)"><i class="oi oi-pencil"></i></button>
 					</td>
 				</tr>
 			}
@@ -44,7 +44,7 @@ else
 		await GrauParentescoService.GetAllGrausParentescoAsync();
 	}
 
-	void MostrarGrauParentesco(int id)
+	void EditarGrauParentesco(int id)
 	{
 		NavigationManager.NavigateTo($"grauparentesco/{id}");
 	}

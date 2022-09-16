@@ -14,7 +14,7 @@ public class GrauParentescoService : IGrauParentescoService
         _navigationManager = navigationManager;
     }
 
-    public List<GrauParentescoModel> GrausParentesco { get; set; } = new List<GrauParentescoModel>();
+    public List<GrauParentescoModel> GrausParentesco { get; set; }
 
     public async Task AddGrauParentescoAsync(GrauParentescoModel grauParentesco)
     {
