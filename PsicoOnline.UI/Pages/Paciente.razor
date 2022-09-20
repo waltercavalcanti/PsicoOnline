@@ -2,50 +2,47 @@
 @page "/paciente/{id:int}"
 @inject IPacienteService PacienteService
 
-<h1>Paciente</h1>
-
 @if (Id == null)
 {
-	<PageTitle>Criar Paciente</PageTitle>
-	<h3>Criar Paciente</h3>
+		<PageTitle>Criar Paciente</PageTitle>
+		<MudText Typo="Typo.h5">Adicionar Paciente</MudText>
 }
 else
 {
-	<PageTitle>Editar @paciente.Nome</PageTitle>
-	<h3>Editar @paciente.Nome</h3>
+		<PageTitle>Editar Paciente: @paciente.Nome</PageTitle>
+		<MudText Typo="Typo.h5">Editar Paciente: @paciente.Nome</MudText>
 }
-
+<br />
 <EditForm Model="paciente" OnValidSubmit="SubmeterAsync">
 	<DataAnnotationsValidator />
 	<div>
-		<label for="nome">Nome</label>
-		<InputText id="nome" class="form-control" @bind-Value="paciente.Nome"></InputText>
-		<ValidationMessage For="() => paciente.Nome" />
+		<MudTextField Label="Nome" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="300"
+					  @bind-Value="paciente.Nome" For="@(() => paciente.Nome)" />
 	</div>
 	<div>
-		<label for="datanascimento">Data de Nascimento</label>
-		<InputDate id="datanascimento" class="form-control" @bind-Value="paciente.DataNascimento"></InputDate>
-		<ValidationMessage For="() => paciente.DataNascimento" />
+		<MudDatePicker Label="Data de Nascimento" Variant="Variant.Outlined" Margin="Margin.Dense" Editable="true" Mask="@(new DateMask("dd/MM/yyyy"))" DateFormat="dd/MM/yyyy"
+					   @bind-Date="paciente.DataNascimento" For="@(() => paciente.DataNascimento)" />
 	</div>
+	<br />
 	<div>
-		<label for="telefone">Telefone</label>
-		<InputText id="telefone" class="form-control" @bind-Value="paciente.Telefone"></InputText>
-		<ValidationMessage For="() => paciente.Telefone" />
+		<MudTextField Label="Telefone" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="11"
+					  @bind-Value="paciente.Telefone" For="@(() => paciente.Telefone)" />
 	</div>
 	<div>
 		<label for="genero">Gênero</label><br />
-		<InputRadioGroup id="genero" class="form-control" @bind-Value="paciente.Genero">
+		<MudRadioGroup @bind-SelectedOption="paciente.Genero">
 			@foreach (var genero in generos)
 			{
-				<InputRadio Value="genero.Id" />
-				<span style="padding-left: 5px;">@genero.Descricao</span>
-				<br />
+				<MudRadio Option="genero.Id" Color="Color.Primary" Dense="true" Size="Size.Small">@genero.Descricao</MudRadio>
 			}
-		</InputRadioGroup>
+		</MudRadioGroup>
 	</div>
 	<br />
-	<button type="submit" class="btn btn-primary">@btnText</button>
-	<button type="button" class="btn btn-danger" @onclick="DeletePacienteAsync">Excluir</button>
+	<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Save" Color="Color.Primary" ButtonType="ButtonType.Submit">@btnText</MudButton>&nbsp;
+	@if (Id != null)
+	{
+			<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="DeletePacienteAsync">Excluir</MudButton>
+	}
 </EditForm>
 
 @code {

@@ -11,7 +11,7 @@ public class PacienteModel
     [Required(ErrorMessage = "A data de nascimento do paciente é obrigatória.")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "dd/mm/yyyy")]
-    public DateTime DataNascimento { get; set; }
+    public DateTime? DataNascimento { get; set; }
 
     private int _idade;
 
@@ -24,9 +24,9 @@ public class PacienteModel
 
     private void SetIdade()
     {
-        var idade = DateTime.Now.Year - DataNascimento.Year;
+        var idade = DateTime.Now.Year - DataNascimento.Value.Year;
 
-        if (DateTime.Now.DayOfYear < DataNascimento.DayOfYear)
+        if (DateTime.Now.DayOfYear < DataNascimento.Value.DayOfYear)
         {
             idade--;
         }
@@ -35,8 +35,7 @@ public class PacienteModel
     }
 
     [StringLength(11, ErrorMessage = "O telefone do paciente deve ter no máximo 11 caracteres.")]
-    [RegularExpression("^[0-9]*$", ErrorMessage = "O telefone do paciente só deve conter números.")]
-    public string Telefone { get; set; }
+    public string Telefone { get; set; } = string.Empty;
 
     public char Genero { get; set; }
 }

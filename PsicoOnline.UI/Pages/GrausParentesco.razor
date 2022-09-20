@@ -4,11 +4,12 @@
 
 <PageTitle>Graus de Parentesco</PageTitle>
 
-<h1>Graus de Parentesco</h1>
+<MudText Typo="Typo.h5">Graus de Parentesco</MudText>
+<br />
 
 @if (GrauParentescoService.GrausParentesco == null)
 {
-	<p><em>Carregando...</em></p>
+	<MudProgressCircular Color="Color.Primary" Indeterminate="true" />
 }
 else if (GrauParentescoService.GrausParentesco.Count == 0)
 {
@@ -16,7 +17,7 @@ else if (GrauParentescoService.GrausParentesco.Count == 0)
 }
 else
 {
-	<table class="table">
+	<MudSimpleTable Dense="true" Hover="true" FixedHeader="true" Style="height:260px;">
 		<thead>
 			<tr>
 				<th>Descrição</th>
@@ -29,13 +30,16 @@ else
 				<tr>
 					<td>@grauParentesco.Descricao</td>
 					<td>
-						<button class="btn btn-primary" @onclick="() => EditarGrauParentesco(grauParentesco.Id)"><i class="oi oi-pencil"></i></button>
+						<MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" @onclick="(() => EditarGrauParentesco(grauParentesco.Id))">
+							<MudIcon Icon="@Icons.Material.Rounded.Edit" Title="Editar" />
+						</MudButton>
 					</td>
 				</tr>
 			}
 		</tbody>
-	</table>
-	<button class="btn btn-primary" @onclick="AddGrauParentesco">Adicionar</button>
+	</MudSimpleTable>
+	<br />
+	<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" @onclick="AddGrauParentesco">Adicionar</MudButton>
 }
 
 @code {

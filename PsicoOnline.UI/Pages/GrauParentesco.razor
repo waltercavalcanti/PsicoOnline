@@ -2,29 +2,28 @@
 @page "/grauparentesco/{id:int}"
 @inject IGrauParentescoService GrauParentescoService
 
-<h1>Grau de Parentesco</h1>
-
 @if (Id == null)
 {
 	<PageTitle>Criar Grau de Parentesco</PageTitle>
-	<h3>Criar Grau de Parentesco</h3>
+	<MudText Typo="Typo.h5">Adicionar Grau de Parentesco</MudText>
 }
 else
 {
-	<PageTitle>Editar @grauParentesco.Descricao</PageTitle>
-	<h3>Editar @grauParentesco.Descricao</h3>
+	<PageTitle>Editar Grau de Parentesco: @grauParentesco.Descricao</PageTitle>
+	<MudText Typo="Typo.h5">Editar Grau de Parentesco: @grauParentesco.Descricao</MudText>
 }
-
+<br />
 <EditForm Model="grauParentesco" OnValidSubmit="SubmeterAsync">
 	<DataAnnotationsValidator />
 	<div>
-		<label for="descricao">Descrição</label>
-		<InputText id="descricao" class="form-control" @bind-Value="grauParentesco.Descricao"></InputText>
-		<ValidationMessage For="() => grauParentesco.Descricao" />
+		<MudTextField Label="Descrição" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="100"
+					  @bind-Value="grauParentesco.Descricao" For="@(() => grauParentesco.Descricao)" />
 	</div>
-	<br />
-	<button type="submit" class="btn btn-primary">@btnText</button>
-	<button type="button" class="btn btn-danger" @onclick="DeleteGrauParentescoAsync">Excluir</button>
+	<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Save" Color="Color.Primary" ButtonType="ButtonType.Submit">@btnText</MudButton>&nbsp;
+	@if (Id != null)
+	{
+		<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="DeleteGrauParentescoAsync">Excluir</MudButton>
+	}
 </EditForm>
 
 @code {

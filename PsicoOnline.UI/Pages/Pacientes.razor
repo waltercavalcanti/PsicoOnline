@@ -4,11 +4,12 @@
 
 <PageTitle>Pacientes</PageTitle>
 
-<h1>Pacientes</h1>
+<MudText Typo="Typo.h5">Pacientes</MudText>
+<br />
 
 @if (PacienteService.Pacientes == null)
 {
-	<p><em>Carregando...</em></p>
+	<MudProgressCircular Color="Color.Primary" Indeterminate="true" />
 }
 else if (PacienteService.Pacientes.Count == 0)
 {
@@ -16,14 +17,13 @@ else if (PacienteService.Pacientes.Count == 0)
 }
 else
 {
-	<table class="table">
+	<MudSimpleTable Dense="true" Hover="true" FixedHeader="true" Style="height:260px;">
 		<thead>
 			<tr>
-				<th>Nome</th>
-				<th>Data de Nascimento</th>
-				<th>Telefone</th>
-				<th>Gênero</th>
-				<th></th>
+				@foreach (var cabecalho in cabecalhos)
+				{
+					<th>@cabecalho</th>
+				}
 			</tr>
 		</thead>
 		<tbody>
@@ -31,7 +31,7 @@ else
 			{
 				<tr>
 					<td>@paciente.Nome</td>
-					<td>@paciente.DataNascimento.ToShortDateString() (@paciente.GetIdade() ano(s))</td>
+					<td>@paciente.DataNascimento.Value.ToShortDateString() (@paciente.GetIdade() ano(s))</td>
 					<td>@paciente.Telefone</td>
 					@if (@paciente.Genero.ToString() == "M")
 					{
@@ -42,16 +42,21 @@ else
 						<td>Feminino</td>
 					}
 					<td>
-						<button class="btn btn-primary" @onclick="() => EditarPaciente(paciente.Id)"><i class="oi oi-pencil"></i></button>
+						<MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" @onclick="(() => EditarPaciente(paciente.Id))">
+							<MudIcon Icon="@Icons.Material.Rounded.Edit" Title="Editar" />
+						</MudButton>
 					</td>
 				</tr>
 			}
 		</tbody>
-	</table>
-	<button class="btn btn-primary" @onclick="AddPaciente">Adicionar</button>
+	</MudSimpleTable>
+	<br />
+	<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" @onclick="AddPaciente">Adicionar</MudButton>
 }
 
 @code {
+	string[] cabecalhos = { "Nome", "Data de Nascimento", "Telefone", "Gênero", "" };
+
 	protected override async Task OnInitializedAsync()
 	{
 		await PacienteService.GetAllPacientesAsync();
