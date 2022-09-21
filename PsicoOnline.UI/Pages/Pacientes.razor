@@ -17,12 +17,17 @@ else if (PacienteService.Pacientes.Count == 0)
 }
 else
 {
-	<MudTable Items="PacienteService.Pacientes" Dense="true" Hover="true" FixedHeader="true" Height="250px">
+	<MudTable Items="PacienteService.Pacientes" Dense="true" Hover="true" Filter="new Func<PacienteModel, bool>(Filtrar)">
+		<ToolBarContent>
+			<MudTextField Placeholder="Buscar" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Rounded.Search" IconSize="Size.Small"
+					  Class="mt-0" Margin="Margin.Dense" Clearable="true" Immediate="true" @bind-Value="searchString" />
+		</ToolBarContent>
 		<HeaderContent>
-			@foreach (var cabecalho in cabecalhos)
-			{
-				<MudTh>@cabecalho</MudTh>
-			}
+			<MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<PacienteModel, object>(p => p.Nome)">Nome</MudTableSortLabel></MudTh>
+			<MudTh>Data de Nascimento</MudTh>
+			<MudTh>Telefone</MudTh>
+			<MudTh>Gênero</MudTh>
+			<MudTh></MudTh>
 		</HeaderContent>
 		<RowTemplate>
 			<MudTd DataLabel="Nome">@context.Nome</MudTd>
@@ -40,6 +45,9 @@ else
 				<MudIconButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" Icon="@Icons.Material.Rounded.Edit" Title="Editar" OnClick="(() => EditarPaciente(context.Id))" />
 			</MudTd>
 		</RowTemplate>
+		<PagerContent>
+			<MudTablePager HorizontalAlignment="HorizontalAlignment.Left" RowsPerPageString="Linhas por página:" PageSizeOptions="pageSizes" />
+		</PagerContent>
 	</MudTable>
 	<br />
 	<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" @onclick="AddPaciente">Adicionar</MudButton>

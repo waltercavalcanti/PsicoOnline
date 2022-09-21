@@ -17,9 +17,13 @@ else if (GrauParentescoService.GrausParentesco.Count == 0)
 }
 else
 {
-	<MudTable Items="GrauParentescoService.GrausParentesco" Dense="true" Hover="true" FixedHeader="true" Height="250px">
+	<MudTable Items="GrauParentescoService.GrausParentesco" Dense="true" Hover="true" Filter="new Func<GrauParentescoModel, bool>(Filtrar)">
+		<ToolBarContent>
+			<MudTextField Placeholder="Buscar" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Rounded.Search" IconSize="Size.Small"
+					  Class="mt-0" Margin="Margin.Dense" Clearable="true" Immediate="true" @bind-Value="searchString" />
+		</ToolBarContent>
 		<HeaderContent>
-			<MudTh>Descrição</MudTh>
+			<MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<GrauParentescoModel, object>(gp => gp.Descricao)">Descrição</MudTableSortLabel></MudTh>
 			<MudTh></MudTh>
 		</HeaderContent>
 		<RowTemplate>
@@ -28,6 +32,9 @@ else
 				<MudIconButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" Icon="@Icons.Material.Rounded.Edit" Title="Editar" OnClick="(() => EditarGrauParentesco(context.Id))" />
 			</MudTd>
 		</RowTemplate>
+		<PagerContent>
+			<MudTablePager HorizontalAlignment="HorizontalAlignment.Left" RowsPerPageString="Linhas por página:" PageSizeOptions="pageSizes" />
+		</PagerContent>
 	</MudTable>
 	<br />
 	<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" @onclick="AddGrauParentesco">Adicionar</MudButton>

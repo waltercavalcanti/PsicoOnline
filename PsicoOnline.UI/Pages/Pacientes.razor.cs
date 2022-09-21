@@ -2,7 +2,8 @@ namespace PsicoOnline.UI.Pages;
 
 public partial class Pacientes
 {
-    readonly string[] cabecalhos = { "Nome", "Data de Nascimento", "Telefone", "Gênero", "" };
+    private string searchString = "";
+    private readonly int[] pageSizes = new int[] { 5, 10, 15, 20, 25 };
 
     protected override async Task OnInitializedAsync()
     {
@@ -17,5 +18,22 @@ public partial class Pacientes
     void AddPaciente()
     {
         NavigationManager.NavigateTo("paciente");
+    }
+
+    private bool Filtrar(PacienteModel paciente) => Filtrar(paciente, searchString);
+
+    private static bool Filtrar(PacienteModel paciente, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+        {
+            return true;
+        }
+
+        if (paciente.Nome.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        return false;
     }
 }
