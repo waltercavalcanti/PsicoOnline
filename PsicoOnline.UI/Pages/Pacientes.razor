@@ -17,39 +17,30 @@ else if (PacienteService.Pacientes.Count == 0)
 }
 else
 {
-	<MudSimpleTable Dense="true" Hover="true" FixedHeader="true" Style="height:260px;">
-		<thead>
-			<tr>
-				@foreach (var cabecalho in cabecalhos)
-				{
-					<th>@cabecalho</th>
-				}
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var paciente in PacienteService.Pacientes)
+	<MudTable Items="PacienteService.Pacientes" Dense="true" Hover="true" FixedHeader="true" Height="250px">
+		<HeaderContent>
+			@foreach (var cabecalho in cabecalhos)
 			{
-				<tr>
-					<td>@paciente.Nome</td>
-					<td>@paciente.DataNascimento.Value.ToShortDateString() (@paciente.GetIdade() ano(s))</td>
-					<td>@paciente.Telefone</td>
-					@if (@paciente.Genero.ToString() == "M")
-					{
-						<td>Masculino</td>
-					}
-					else
-					{
-						<td>Feminino</td>
-					}
-					<td>
-						<MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" @onclick="(() => EditarPaciente(paciente.Id))">
-							<MudIcon Icon="@Icons.Material.Rounded.Edit" Title="Editar" />
-						</MudButton>
-					</td>
-				</tr>
+				<MudTh>@cabecalho</MudTh>
 			}
-		</tbody>
-	</MudSimpleTable>
+		</HeaderContent>
+		<RowTemplate>
+			<MudTd DataLabel="Nome">@context.Nome</MudTd>
+			<MudTd DataLabel="Data de Nascimento">@context.DataNascimento.Value.ToShortDateString() (@context.GetIdade() ano(s))</MudTd>
+			<MudTd DataLabel="Telefone">@context.Telefone</MudTd>
+			@if (@context.Genero.ToString() == "M")
+			{
+				<MudTd DataLabel="Gênero">Masculino</MudTd>
+			}
+			else
+			{
+				<MudTd DataLabel="Gênero">Feminino</MudTd>
+			}
+			<MudTd DataLabel="Editar">
+				<MudIconButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" Icon="@Icons.Material.Rounded.Edit" Title="Editar" OnClick="(() => EditarPaciente(context.Id))" />
+			</MudTd>
+		</RowTemplate>
+	</MudTable>
 	<br />
 	<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" @onclick="AddPaciente">Adicionar</MudButton>
 }

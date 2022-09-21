@@ -17,27 +17,18 @@ else if (GrauParentescoService.GrausParentesco.Count == 0)
 }
 else
 {
-	<MudSimpleTable Dense="true" Hover="true" FixedHeader="true" Style="height:260px;">
-		<thead>
-			<tr>
-				<th>Descrição</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var grauParentesco in GrauParentescoService.GrausParentesco)
-			{
-				<tr>
-					<td>@grauParentesco.Descricao</td>
-					<td>
-						<MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" @onclick="(() => EditarGrauParentesco(grauParentesco.Id))">
-							<MudIcon Icon="@Icons.Material.Rounded.Edit" Title="Editar" />
-						</MudButton>
-					</td>
-				</tr>
-			}
-		</tbody>
-	</MudSimpleTable>
+	<MudTable Items="GrauParentescoService.GrausParentesco" Dense="true" Hover="true" FixedHeader="true" Height="250px">
+		<HeaderContent>
+			<MudTh>Descrição</MudTh>
+			<MudTh></MudTh>
+		</HeaderContent>
+		<RowTemplate>
+			<MudTd DataLabel="Descrição">@context.Descricao</MudTd>
+			<MudTd DataLabel="Editar">
+				<MudIconButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" Icon="@Icons.Material.Rounded.Edit" Title="Editar" OnClick="(() => EditarGrauParentesco(context.Id))" />
+			</MudTd>
+		</RowTemplate>
+	</MudTable>
 	<br />
 	<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" @onclick="AddGrauParentesco">Adicionar</MudButton>
 }
