@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Components;
-
 namespace PsicoOnline.UI.Pages;
 
 public partial class GrauParentesco
@@ -10,6 +8,8 @@ public partial class GrauParentesco
     string btnText = string.Empty;
 
     GrauParentescoModel grauParentesco = new();
+
+    MudMessageBox? MessageBox { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -34,6 +34,12 @@ public partial class GrauParentesco
         {
             await GrauParentescoService.UpdateGrauParentescoAsync(grauParentesco);
         }
+    }
+
+    async Task ConfirmarExclusaoAsync()
+    {
+        _ = await MessageBox!.Show();
+        StateHasChanged();
     }
 
     async Task DeleteGrauParentescoAsync()

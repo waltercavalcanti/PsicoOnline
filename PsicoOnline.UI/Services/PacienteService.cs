@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.Net.Http.Json;
-
-namespace PsicoOnline.UI.Services;
+﻿namespace PsicoOnline.UI.Services;
 
 public class PacienteService : IPacienteService
 {

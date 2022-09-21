@@ -1,5 +1,8 @@
+global using Microsoft.AspNetCore.Components;
+global using MudBlazor;
 global using PsicoOnline.UI.Models;
 global using System.ComponentModel.DataAnnotations;
+global using System.Net.Http.Json;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;

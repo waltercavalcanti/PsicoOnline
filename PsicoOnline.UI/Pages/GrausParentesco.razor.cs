@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Components;
-
 namespace PsicoOnline.UI.Pages;
 
 public partial class GrausParentesco
