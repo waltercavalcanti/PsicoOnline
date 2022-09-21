@@ -53,22 +53,3 @@ else
 	<br />
 	<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" @onclick="AddPaciente">Adicionar</MudButton>
 }
-
-@code {
-	string[] cabecalhos = { "Nome", "Data de Nascimento", "Telefone", "Gênero", "" };
-
-	protected override async Task OnInitializedAsync()
-	{
-		await PacienteService.GetAllPacientesAsync();
-	}
-
-	void EditarPaciente(int id)
-	{
-		NavigationManager.NavigateTo($"paciente/{id}");
-	}
-
-	void AddPaciente()
-	{
-		NavigationManager.NavigateTo("paciente");
-	}
-}

@@ -41,20 +41,3 @@ else
 	<br />
 	<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" @onclick="AddGrauParentesco">Adicionar</MudButton>
 }
-
-@code {
-	protected override async Task OnInitializedAsync()
-	{
-		await GrauParentescoService.GetAllGrausParentescoAsync();
-	}
-
-	void EditarGrauParentesco(int id)
-	{
-		NavigationManager.NavigateTo($"grauparentesco/{id}");
-	}
-
-	void AddGrauParentesco()
-	{
-		NavigationManager.NavigateTo("grauparentesco");
-	}
-}
