@@ -15,20 +15,24 @@ else
 <br />
 <EditForm Model="paciente" OnValidSubmit="SubmeterAsync">
 	<DataAnnotationsValidator />
-	<MudTextField Label="Nome" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="300"
-				  @bind-Value="paciente.Nome" For="@(() => paciente.Nome)" />
-	<MudDatePicker Label="Data de Nascimento" Variant="Variant.Outlined" Margin="Margin.Dense" Editable="true" Mask="@(new DateMask("dd/MM/yyyy"))" DateFormat="dd/MM/yyyy"
-				   @bind-Date="paciente.DataNascimento" For="@(() => paciente.DataNascimento)" />
-	<br />
-	<MudTextField Label="Telefone" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="11"
-				  @bind-Value="paciente.Telefone" For="@(() => paciente.Telefone)" />
-	<label for="genero">Gênero</label><br />
-	<MudRadioGroup @bind-SelectedOption="paciente.Genero">
-		@foreach (var genero in generos)
-		{
-			<MudRadio Option="genero.Id" Color="Color.Primary" Dense="true" Size="Size.Small">@genero.Descricao</MudRadio>
-		}
-	</MudRadioGroup>
+	<MudCard>
+		<MudCardContent>
+			<MudTextField Label="Nome" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="300"
+						  @bind-Value="paciente.Nome" For="@(() => paciente.Nome)" />
+			<MudDatePicker Label="Data de Nascimento" Variant="Variant.Outlined" Margin="Margin.Dense" Editable="true" Mask="@(new DateMask("dd/MM/yyyy"))" DateFormat="dd/MM/yyyy"
+						   @bind-Date="paciente.DataNascimento" For="@(() => paciente.DataNascimento)" />
+			<br />
+			<MudTextField Label="Telefone" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="11"
+						  @bind-Value="paciente.Telefone" For="@(() => paciente.Telefone)" />
+			<label for="genero">Gênero</label><br />
+			<MudRadioGroup @bind-SelectedOption="paciente.Genero">
+				@foreach (var genero in generos)
+				{
+					<MudRadio Option="genero.Id" Color="Color.Primary" Dense="true" Size="Size.Small">@genero.Descricao</MudRadio>
+				}
+			</MudRadioGroup>
+		</MudCardContent>
+	</MudCard>
 	<br />
 	<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Save" Color="Color.Primary" ButtonType="ButtonType.Submit">@btnText</MudButton>&nbsp;
 	@if (Id != null)
