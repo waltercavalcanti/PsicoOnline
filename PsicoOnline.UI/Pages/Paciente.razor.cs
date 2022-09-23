@@ -9,14 +9,6 @@ public partial class Paciente
 
     PacienteModel paciente = new() { Genero = 'M' };
 
-    static readonly List<GeneroModel> generos = new()
-    {
-        new GeneroModel { Id = 'M', Descricao = "Masculino" },
-        new GeneroModel { Id = 'F', Descricao = "Feminino" }
-    };
-
-    MudMessageBox? MessageBox { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         btnText = Id == null ? "Salvar" : "Atualizar";
@@ -40,12 +32,6 @@ public partial class Paciente
         {
             await PacienteService.UpdatePacienteAsync(paciente);
         }
-    }
-
-    async Task ConfirmarExclusaoAsync()
-    {
-        _ = await MessageBox!.Show();
-        StateHasChanged();
     }
 
     async Task DeletePacienteAsync()

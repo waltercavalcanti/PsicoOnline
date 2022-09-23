@@ -1,0 +1,9 @@
+﻿<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="ConfirmarExclusaoAsync">Excluir</MudButton>
+<MudMessageBox @ref="MessageBox" Title="Atenção" CancelText="Não">
+	<MessageContent>
+		@Mensagem
+	</MessageContent>
+	<YesButton>
+		<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="InvokeDeleteAsync">Sim</MudButton>
+	</YesButton>
+</MudMessageBox>

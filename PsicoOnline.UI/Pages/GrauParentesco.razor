@@ -4,7 +4,7 @@
 
 @if (Id == null)
 {
-	<PageTitle>Criar Grau de Parentesco</PageTitle>
+	<PageTitle>Adicionar Grau de Parentesco</PageTitle>
 	<MudText Typo="Typo.h5">Adicionar Grau de Parentesco</MudText>
 }
 else
@@ -25,14 +25,7 @@ else
 	<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Save" Color="Color.Primary" ButtonType="ButtonType.Submit">@btnText</MudButton>&nbsp;
 	@if (Id != null)
 	{
-		<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="ConfirmarExclusaoAsync">Excluir</MudButton>
+		var mensagem = $"Confirma a exclusão do grau de parentesco {grauParentesco.Descricao}?";
+		<ConfirmarExclusaoComponent Mensagem="@mensagem" DeleteAsync="DeleteGrauParentescoAsync" />
 	}
-	<MudMessageBox @ref="MessageBox" Title="Atenção" CancelText="Não">
-		<MessageContent>
-			Confirma a exclusão do grau de parentesco @grauParentesco.Descricao?
-		</MessageContent>
-		<YesButton>
-			<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="DeleteGrauParentescoAsync">Sim</MudButton>
-		</YesButton>
-	</MudMessageBox>
 </EditForm>

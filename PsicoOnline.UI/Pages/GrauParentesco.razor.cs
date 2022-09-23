@@ -9,8 +9,6 @@ public partial class GrauParentesco
 
     GrauParentescoModel grauParentesco = new();
 
-    MudMessageBox? MessageBox { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         btnText = Id == null ? "Salvar" : "Atualizar";
@@ -34,12 +32,6 @@ public partial class GrauParentesco
         {
             await GrauParentescoService.UpdateGrauParentescoAsync(grauParentesco);
         }
-    }
-
-    async Task ConfirmarExclusaoAsync()
-    {
-        _ = await MessageBox!.Show();
-        StateHasChanged();
     }
 
     async Task DeleteGrauParentescoAsync()

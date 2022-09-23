@@ -1,0 +1,8 @@
+﻿<label for="genero">Gênero</label>
+<br />
+<MudRadioGroup @bind-SelectedOption="Paciente.Genero">
+	@foreach (var genero in generos)
+	{
+		<MudRadio Option="genero.Id" Color="Color.Primary" Dense="true" Size="Size.Small">@genero.Descricao</MudRadio>
+	}
+</MudRadioGroup>
