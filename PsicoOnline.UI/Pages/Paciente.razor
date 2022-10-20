@@ -15,7 +15,7 @@
 			<br />
 			<MudTextField Label="Telefone" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="11"
 						  @bind-Value="paciente.Telefone" For="@(() => paciente.Telefone)" />
-			<GeneroComponent paciente="@paciente" />
+			<GeneroComponent Paciente="@paciente" />
 		</MudCardContent>
 	</MudCard>
 	<br />
