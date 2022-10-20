@@ -74,18 +74,18 @@ public class SessaoRepository : EFRepository<Sessao, int>, ISessaoRepository
 
     public async Task<IReadOnlyList<Sessao>> GetSessoesByPacienteIdDataAsync(SessaoFilterDTO sessaoDTO)
     {
-        var sessoes = await GetAllAsync();
+        var sessoes = await GetAllSessoesAsync();
 
         if (sessoes != null && sessoes.Count > 0)
         {
             if (sessaoDTO.PacienteId != null)
             {
-                sessoes = (IReadOnlyList<Sessao>)sessoes.Where(s => s.PacienteId == sessaoDTO.PacienteId);
+                sessoes = sessoes.Where(s => s.PacienteId == sessaoDTO.PacienteId).ToList();
             }
 
             if (sessaoDTO.DataSessao != null)
             {
-                sessoes = (IReadOnlyList<Sessao>)sessoes.Where(s => s.DataSessao == sessaoDTO.DataSessao);
+                sessoes = sessoes.Where(s => s.DataSessao == sessaoDTO.DataSessao).ToList();
             }
 
             foreach (var s in sessoes)
