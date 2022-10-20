@@ -2,17 +2,8 @@
 @page "/grauparentesco/{id:int}"
 @inject IGrauParentescoService GrauParentescoService
 
-@if (Id == null)
-{
-	<PageTitle>Adicionar Grau de Parentesco</PageTitle>
-	<MudText Typo="Typo.h5">Adicionar Grau de Parentesco</MudText>
-}
-else
-{
-	<PageTitle>Editar Grau de Parentesco: @grauParentesco.Descricao</PageTitle>
-	<MudText Typo="Typo.h5">Editar Grau de Parentesco: @grauParentesco.Descricao</MudText>
-}
-<hr />
+<CabecalhoComponent Titulo="@titulo" />
+
 <EditForm Model="grauParentesco" OnValidSubmit="SubmeterAsync">
 	<DataAnnotationsValidator />
 	<MudCard>

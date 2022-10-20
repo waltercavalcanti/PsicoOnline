@@ -7,11 +7,22 @@ public partial class Paciente
 
     string btnText = string.Empty;
 
+    string titulo = string.Empty;
+
     PacienteModel paciente = new() { Genero = 'M' };
 
     protected override async Task OnInitializedAsync()
     {
-        btnText = Id == null ? "Salvar" : "Atualizar";
+        if (Id == null)
+        {
+            btnText = "Salvar";
+            titulo = "Adicionar Paciente";
+        }
+        else
+        {
+            btnText = "Atualizar";
+            titulo = "Editar Paciente";
+        }
     }
 
     protected override async Task OnParametersSetAsync()

@@ -7,11 +7,22 @@ public partial class GrauParentesco
 
     string btnText = string.Empty;
 
+    string titulo = string.Empty;
+
     GrauParentescoModel grauParentesco = new();
 
     protected override async Task OnInitializedAsync()
     {
-        btnText = Id == null ? "Salvar" : "Atualizar";
+        if (Id == null)
+        {
+            btnText = "Salvar";
+            titulo = "Adicionar Grau de Parentesco";
+        }
+        else
+        {
+            btnText = "Atualizar";
+            titulo = "Editar Grau de Parentesco";
+        }
     }
 
     protected override async Task OnParametersSetAsync()

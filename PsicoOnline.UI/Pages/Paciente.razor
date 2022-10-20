@@ -2,17 +2,8 @@
 @page "/paciente/{id:int}"
 @inject IPacienteService PacienteService
 
-@if (Id == null)
-{
-	<PageTitle>Adicionar Paciente</PageTitle>
-	<MudText Typo="Typo.h5">Adicionar Paciente</MudText>
-}
-else
-{
-	<PageTitle>Editar Paciente: @paciente.Nome</PageTitle>
-	<MudText Typo="Typo.h5">Editar Paciente: @paciente.Nome</MudText>
-}
-<hr />
+<CabecalhoComponent Titulo="@titulo" />
+
 <EditForm Model="paciente" OnValidSubmit="SubmeterAsync">
 	<DataAnnotationsValidator />
 	<MudCard>

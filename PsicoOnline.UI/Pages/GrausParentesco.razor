@@ -2,10 +2,7 @@
 @inject IGrauParentescoService GrauParentescoService
 @inject NavigationManager NavigationManager
 
-<PageTitle>Graus de Parentesco</PageTitle>
-
-<MudText Typo="Typo.h5">Graus de Parentesco</MudText>
-<hr />
+<CabecalhoComponent Titulo="Graus de Parentesco" />
 
 @if (GrauParentescoService.GrausParentesco == null)
 {

@@ -2,10 +2,7 @@
 @inject IPacienteService PacienteService
 @inject NavigationManager NavigationManager
 
-<PageTitle>Pacientes</PageTitle>
-
-<MudText Typo="Typo.h5">Pacientes</MudText>
-<hr />
+<CabecalhoComponent Titulo="Pacientes" />
 
 @if (PacienteService.Pacientes == null)
 {
