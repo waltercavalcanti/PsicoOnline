@@ -12,5 +12,5 @@ public interface IPacienteService
 
     Task<PacienteModel> GetPacienteByIdAsync(int id);
 
-    Task UpdatePacienteAsync(PacienteModel grauParentesco);
+    Task UpdatePacienteAsync(PacienteModel paciente);
 }
