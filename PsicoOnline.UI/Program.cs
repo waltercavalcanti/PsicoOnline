@@ -16,7 +16,8 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7016/api/") });
 builder.Services.AddScoped<IGrauParentescoService, GrauParentescoService>();
 builder.Services.AddScoped<IPacienteService, PacienteService>();
-builder.Services.AddScoped<ISessaoService, SessaoService>();
+builder.Services.AddScoped<IResponsavelService, ResponsavelService>();
+//builder.Services.AddScoped<ISessaoService, SessaoService>();
 builder.Services.AddMudServices();
 
 await builder.Build().RunAsync();
