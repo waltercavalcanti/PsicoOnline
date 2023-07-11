@@ -22,13 +22,15 @@ else
 		<HeaderContent>
 			<MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<PacienteModel, object>(p => p.Nome)">Nome</MudTableSortLabel></MudTh>
 			<MudTh>Data de Nascimento</MudTh>
+			<MudTh>Idade</MudTh>
 			<MudTh>Telefone</MudTh>
 			<MudTh>Gênero</MudTh>
 			<MudTh></MudTh>
 		</HeaderContent>
 		<RowTemplate>
 			<MudTd DataLabel="Nome">@context.Nome</MudTd>
-			<MudTd DataLabel="Data de Nascimento">@context.DataNascimento.Value.ToShortDateString() (@context.GetIdade() ano(s))</MudTd>
+			<MudTd DataLabel="Data de Nascimento">@context.DataNascimento.Value.ToShortDateString()</MudTd>
+			<MudTd DataLabel="Idade">@context.GetIdade() ano(s)</MudTd>
 			<MudTd DataLabel="Telefone">@context.Telefone</MudTd>
 			@if (@context.Genero.ToString() == "M")
 			{
