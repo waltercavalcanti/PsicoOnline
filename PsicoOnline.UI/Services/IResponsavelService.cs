@@ -2,15 +2,15 @@
 
 public interface IResponsavelService
 {
-    List<ResponsavelModel> Responsaveis { get; set; }
+	List<ResponsavelModel> Responsaveis { get; set; }
 
-    Task AddResponsavelAsync(ResponsavelModel responsavel);
+	Task AddResponsavelAsync(ResponsavelModel responsavel);
 
-    Task DeleteResponsavelAsync(int id);
+	Task DeleteResponsavelAsync(int id);
 
-    Task GetAllResponsaveisAsync();
+	Task GetAllResponsaveisAsync();
 
-    Task<ResponsavelModel> GetResponsavelByIdAsync(int id);
+	Task<ResponsavelModel> GetResponsavelByIdAsync(int id);
 
-    Task UpdateResponsavelAsync(ResponsavelModel responsavel);
+	Task UpdateResponsavelAsync(ResponsavelModel responsavel);
 }

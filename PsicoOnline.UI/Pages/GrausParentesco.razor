@@ -17,7 +17,7 @@ else
 	<MudTable Items="GrauParentescoService.GrausParentesco" Dense="true" Hover="true" Filter="new Func<GrauParentescoModel, bool>(Filtrar)">
 		<ToolBarContent>
 			<MudTextField Placeholder="Buscar" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Rounded.Search" IconSize="Size.Small"
-					  Class="mt-0" Margin="Margin.Dense" Clearable="true" Immediate="true" @bind-Value="searchString" />
+						  Class="mt-0" Margin="Margin.Dense" Clearable="true" Immediate="true" @bind-Value="searchString" />
 		</ToolBarContent>
 		<HeaderContent>
 			<MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<GrauParentescoModel, object>(gp => gp.Descricao)">Descrição</MudTableSortLabel></MudTh>

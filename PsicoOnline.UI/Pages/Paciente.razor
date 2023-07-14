@@ -9,20 +9,15 @@
 	<MudCard>
 		<MudCardContent>
 			<MudTextField Label="Nome" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="300"
-						  @bind-Value="paciente.Nome" For="@(() => paciente.Nome)" />
+			@bind-Value="paciente.Nome" For="@(() => paciente.Nome)" />
 			<MudDatePicker Label="Data de Nascimento" Variant="Variant.Outlined" Margin="Margin.Dense" Editable="true" Mask="@(new DateMask("dd/MM/yyyy"))" DateFormat="dd/MM/yyyy"
-						   @bind-Date="paciente.DataNascimento" For="@(() => paciente.DataNascimento)" />
+			@bind-Date="paciente.DataNascimento" For="@(() => paciente.DataNascimento)" />
 			<br />
 			<MudTextField Label="Telefone" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="11"
-						  @bind-Value="paciente.Telefone" For="@(() => paciente.Telefone)" />
+			@bind-Value="paciente.Telefone" For="@(() => paciente.Telefone)" />
 			<GeneroComponent Paciente="@paciente" />
 		</MudCardContent>
 	</MudCard>
 	<br />
-	<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Save" Color="Color.Primary" ButtonType="ButtonType.Submit">@btnText</MudButton>&nbsp;
-	@if (Id != null)
-	{
-		var mensagem = $"Confirma a exclusão do paciente {paciente.Nome}?";
-		<ConfirmarExclusaoComponent Mensagem="@mensagem" DeleteAsync="DeletePacienteAsync" />
-	}
+	<BotoesAcaoComponent Id="@Id" DeleteAsync="DeletePacienteAsync" />
 </EditForm>

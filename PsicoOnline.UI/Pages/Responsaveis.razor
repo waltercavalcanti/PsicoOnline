@@ -17,7 +17,7 @@ else
 	<MudTable Items="ResponsavelService.Responsaveis" Dense="true" Hover="true" Filter="new Func<ResponsavelModel, bool>(Filtrar)">
 		<ToolBarContent>
 			<MudTextField Placeholder="Buscar" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Rounded.Search" IconSize="Size.Small"
-					  Class="mt-0" Margin="Margin.Dense" Clearable="true" Immediate="true" @bind-Value="searchString" />
+						  Class="mt-0" Margin="Margin.Dense" Clearable="true" Immediate="true" @bind-Value="searchString" />
 		</ToolBarContent>
 		<HeaderContent>
 			<MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<ResponsavelModel, object>(r => r.Nome)">Nome</MudTableSortLabel></MudTh>

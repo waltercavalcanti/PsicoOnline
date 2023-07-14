@@ -2,15 +2,15 @@
 
 public interface IGrauParentescoService
 {
-    List<GrauParentescoModel> GrausParentesco { get; set; }
+	List<GrauParentescoModel> GrausParentesco { get; set; }
 
-    Task AddGrauParentescoAsync(GrauParentescoModel grauParentesco);
+	Task AddGrauParentescoAsync(GrauParentescoModel grauParentesco);
 
-    Task DeleteGrauParentescoAsync(int id);
+	Task DeleteGrauParentescoAsync(int id);
 
-    Task GetAllGrausParentescoAsync();
+	Task GetAllGrausParentescoAsync();
 
-    Task<GrauParentescoModel> GetGrauParentescoByIdAsync(int id);
+	Task<GrauParentescoModel> GetGrauParentescoByIdAsync(int id);
 
-    Task UpdateGrauParentescoAsync(GrauParentescoModel grauParentesco);
+	Task UpdateGrauParentescoAsync(GrauParentescoModel grauParentesco);
 }

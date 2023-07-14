@@ -9,14 +9,9 @@
 	<MudCard>
 		<MudCardContent>
 			<MudTextField Label="Descrição" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="100"
-						  @bind-Value="grauParentesco.Descricao" For="@(() => grauParentesco.Descricao)" />
+			@bind-Value="grauParentesco.Descricao" For="@(() => grauParentesco.Descricao)" />
 		</MudCardContent>
 	</MudCard>
 	<br />
-	<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Save" Color="Color.Primary" ButtonType="ButtonType.Submit">@btnText</MudButton>&nbsp;
-	@if (Id != null)
-	{
-		var mensagem = $"Confirma a exclusão do grau de parentesco {grauParentesco.Descricao}?";
-		<ConfirmarExclusaoComponent Mensagem="@mensagem" DeleteAsync="DeleteGrauParentescoAsync" />
-	}
+	<BotoesAcaoComponent Id="@Id" DeleteAsync="DeleteGrauParentescoAsync" />
 </EditForm>

@@ -2,7 +2,7 @@
 
 public class GeneroModel
 {
-    public char Id { get; set; }
+	public char Id { get; set; }
 
-    public string Descricao { get; set; }
+	public string Descricao { get; set; }
 }

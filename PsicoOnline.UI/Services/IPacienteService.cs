@@ -2,15 +2,15 @@
 
 public interface IPacienteService
 {
-    List<PacienteModel> Pacientes { get; set; }
+	List<PacienteModel> Pacientes { get; set; }
 
-    Task AddPacienteAsync(PacienteModel paciente);
+	Task AddPacienteAsync(PacienteModel paciente);
 
-    Task DeletePacienteAsync(int id);
+	Task DeletePacienteAsync(int id);
 
-    Task GetAllPacientesAsync();
+	Task GetAllPacientesAsync();
 
-    Task<PacienteModel> GetPacienteByIdAsync(int id);
+	Task<PacienteModel> GetPacienteByIdAsync(int id);
 
-    Task UpdatePacienteAsync(PacienteModel paciente);
+	Task UpdatePacienteAsync(PacienteModel paciente);
 }
