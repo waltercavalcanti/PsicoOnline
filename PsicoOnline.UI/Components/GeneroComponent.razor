@@ -3,18 +3,12 @@
 @if (Paciente != null)
 {
 	<MudRadioGroup @bind-SelectedOption="Paciente.Genero">
-		@foreach (var genero in generos)
-		{
-			<MudRadio Option="genero.Id" Color="Color.Primary" Dense="true" Size="Size.Small">@genero.Descricao</MudRadio>
-		}
+		<GeneroRadioComponent />
 	</MudRadioGroup>
 }
 else
 {
 	<MudRadioGroup @bind-SelectedOption="Responsavel.Genero">
-		@foreach (var genero in generos)
-		{
-			<MudRadio Option="genero.Id" Color="Color.Primary" Dense="true" Size="Size.Small">@genero.Descricao</MudRadio>
-		}
+		<GeneroRadioComponent />
 	</MudRadioGroup>
 }
