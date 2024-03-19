@@ -2,5 +2,5 @@
 
 public class ResponsavelNaoExisteException : BaseException
 {
-    public ResponsavelNaoExisteException(int id) : base($"Responsável Id {id} não existe.") { }
+	public ResponsavelNaoExisteException(int id) : base($"Responsável Id {id} não existe.") { }
 }

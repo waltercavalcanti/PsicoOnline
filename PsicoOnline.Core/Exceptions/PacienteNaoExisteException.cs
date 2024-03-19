@@ -2,5 +2,5 @@
 
 public class PacienteNaoExisteException : BaseException
 {
-    public PacienteNaoExisteException(int id) : base($"Paciente Id {id} não existe.") { }
+	public PacienteNaoExisteException(int id) : base($"Paciente Id {id} não existe.") { }
 }

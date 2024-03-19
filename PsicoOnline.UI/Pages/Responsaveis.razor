@@ -8,7 +8,7 @@
 {
 	<MudProgressCircular Color="Color.Primary" Indeterminate="true" />
 }
-else if (ResponsavelService.Responsaveis.Count == 0)
+else if (!ResponsavelService.Responsaveis.Any())
 {
 	<p><em>Nenhum responsável cadastrado.</em></p>
 }

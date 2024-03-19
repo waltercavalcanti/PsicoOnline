@@ -8,93 +8,80 @@ namespace PsicoOnline.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ResponsavelController : ControllerBase
+public class ResponsavelController(IResponsavelRepository responsavelRepository) : ControllerBase
 {
-    private readonly IResponsavelRepository _responsavelRepository;
-    private readonly IAppLogger<ResponsavelController> _appLogger;
+	private readonly IAppLogger<ResponsavelController> _appLogger = new AppLogger<ResponsavelController>();
 
-    public ResponsavelController(IResponsavelRepository responsavelRepository)
-    {
-        _responsavelRepository = responsavelRepository;
-        _appLogger = new AppLogger<ResponsavelController>();
-    }
+	[HttpGet]
+	[Route("GetAll")]
+	[EnableQuery]
+	public async Task<ActionResult> GetAllResponsaveisAsync()
+	{
+		var responsaveis = await responsavelRepository.GetAllResponsaveisAsync();
 
-    [HttpGet]
-    [Route("GetAll")]
-    [EnableQuery]
-    public async Task<ActionResult> GetAllResponsaveisAsync()
-    {
-        var responsaveis = await _responsavelRepository.GetAllResponsaveisAsync();
+		return responsaveis == null || !responsaveis.Any()
+			? NotFound("Não há responsáveis cadastrados.")
+			: Ok(responsaveis);
+	}
 
-        if (responsaveis == null || responsaveis.Count == 0)
-        {
-            return NotFound("Não há responsáveis cadastrados.");
-        }
+	[HttpGet]
+	[Route("GetById/{id}")]
+	public async Task<ActionResult> GetResponsavelByIdAsync(int id)
+	{
+		var responsavel = await responsavelRepository.GetResponsavelByIdAsync(id);
 
-        return Ok(responsaveis);
-    }
+		return responsavel == null
+			? NotFound($"Não há responsável cadastrado com o id {id}.")
+			: Ok(responsavel);
+	}
 
-    [HttpGet]
-    [Route("GetById/{id}")]
-    public async Task<ActionResult> GetResponsavelByIdAsync(int id)
-    {
-        var responsavel = await _responsavelRepository.GetResponsavelByIdAsync(id);
+	[HttpPost]
+	[Route("Add")]
+	public async Task<ActionResult> AddResponsavelAsync(ResponsavelAddDTO responsavelDTO)
+	{
+		var responsavel = await responsavelRepository.AddResponsavelAsync(responsavelDTO);
 
-        if (responsavel == null)
-        {
-            return NotFound($"Não há responsável cadastrado com o id {id}.");
-        }
+		return Ok(responsavel);
+	}
 
-        return Ok(responsavel);
-    }
+	[HttpDelete]
+	[Route("DeleteAll")]
+	public async Task<ActionResult> DeleteAllResponsaveisAsync()
+	{
+		await responsavelRepository.DeleteAllResponsaveisAsync();
 
-    [HttpPost]
-    [Route("Add")]
-    public async Task<ActionResult> AddResponsavelAsync(ResponsavelAddDTO responsavelDTO)
-    {
-        var responsavel = await _responsavelRepository.AddResponsavelAsync(responsavelDTO);
+		return Ok("Todos os responsáveis foram excluídos com sucesso.");
+	}
 
-        return Ok(responsavel);
-    }
+	[HttpDelete]
+	[Route("Delete/{id}")]
+	public async Task<ActionResult> DeleteResponsavelAsync(int id)
+	{
+		try
+		{
+			await responsavelRepository.DeleteResponsavelAsync(id);
 
-    [HttpDelete]
-    [Route("DeleteAll")]
-    public async Task<ActionResult> DeleteAllResponsaveisAsync()
-    {
-        await _responsavelRepository.DeleteAllResponsaveisAsync();
+			return Ok("Responsável excluído com sucesso.");
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
 
-        return Ok("Todos os responsáveis foram excluídos com sucesso.");
-    }
+	[HttpPut]
+	[Route("Update")]
+	public async Task<ActionResult> UpdateResponsavelAsync(ResponsavelUpdateDTO responsavelDTO)
+	{
+		try
+		{
+			await responsavelRepository.UpdateResponsavelAsync(responsavelDTO);
 
-    [HttpDelete]
-    [Route("Delete/{id}")]
-    public async Task<ActionResult> DeleteResponsavelAsync(int id)
-    {
-        try
-        {
-            await _responsavelRepository.DeleteResponsavelAsync(id);
-
-            return Ok("Responsável excluído com sucesso.");
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
-    [HttpPut]
-    [Route("Update")]
-    public async Task<ActionResult> UpdateResponsavelAsync(ResponsavelUpdateDTO responsavelDTO)
-    {
-        try
-        {
-            await _responsavelRepository.UpdateResponsavelAsync(responsavelDTO);
-
-            return Ok("Responsável atualizado com sucesso.");
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
+			return Ok("Responsável atualizado com sucesso.");
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
 }

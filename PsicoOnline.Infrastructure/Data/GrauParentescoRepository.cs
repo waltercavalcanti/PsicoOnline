@@ -6,76 +6,57 @@ using PsicoOnline.Core.Interfaces;
 
 namespace PsicoOnline.Infrastructure.Data;
 
-public class GrauParentescoRepository : EFRepository<GrauParentesco, int>, IGrauParentescoRepository
+public class GrauParentescoRepository(EFContext db, IMapper mapper) : EFRepository<GrauParentesco, int>(db), IGrauParentescoRepository
 {
-    private readonly IMapper _mapper;
+	public async Task<GrauParentesco> AddGrauParentescoAsync(GrauParentescoAddDTO grauParentescoDTO)
+	{
+		ArgumentNullException.ThrowIfNull(grauParentescoDTO);
 
-    public GrauParentescoRepository(EFContext db, IMapper mapper) : base(db)
-    {
-        _mapper = mapper;
-    }
+		var grauParentesco = mapper.Map<GrauParentesco>(grauParentescoDTO);
 
-    public async Task<GrauParentesco> AddGrauParentescoAsync(GrauParentescoAddDTO grauParentescoDTO)
-    {
-        if (grauParentescoDTO == null)
-        {
-            throw new ArgumentNullException(nameof(grauParentescoDTO));
-        }
+		await AddAsync(grauParentesco);
 
-        var grauParentesco = _mapper.Map<GrauParentesco>(grauParentescoDTO);
+		return grauParentesco;
+	}
 
-        await AddAsync(grauParentesco);
+	public async Task DeleteAllGrausParentescoAsync()
+	{
+		var grausParentesco = await GetAllAsync();
 
-        return grauParentesco;
-    }
+		await DeleteAllAsync((List<GrauParentesco>)grausParentesco);
+	}
 
-    public async Task DeleteAllGrausParentescoAsync()
-    {
-        var grausParentesco = await GetAllAsync();
+	public async Task DeleteGrauParentescoAsync(int id)
+	{
+		if (!GrauParentescoExists(id))
+		{
+			throw new GrauParentescoNaoExisteException(id);
+		}
 
-        await DeleteAllAsync((List<GrauParentesco>)grausParentesco);
-    }
+		var grauParentesco = await GetByIdAsync(id);
 
-    public async Task DeleteGrauParentescoAsync(int id)
-    {
-        if (!GrauParentescoExists(id))
-        {
-            throw new GrauParentescoNaoExisteException(id);
-        }
+		await DeleteAsync(grauParentesco);
+	}
 
-        var grauParentesco = await GetByIdAsync(id);
+	public async Task<IReadOnlyList<GrauParentesco>> GetAllGrausParentescoAsync() => await GetAllAsync();
 
-        await DeleteAsync(grauParentesco);
-    }
+	public async Task<GrauParentesco> GetGrauParentescoByIdAsync(int id) => await GetByIdAsync(id);
 
-    public async Task<IReadOnlyList<GrauParentesco>> GetAllGrausParentescoAsync()
-    {
-        return await GetAllAsync();
-    }
+	public bool GrauParentescoExists(int id) => _db.GrauParentesco.Any(gp => gp.Id == id);
 
-    public async Task<GrauParentesco> GetGrauParentescoByIdAsync(int id)
-    {
-        return await GetByIdAsync(id);
-    }
+	public async Task UpdateGrauParentescoAsync(GrauParentescoUpdateDTO grauParentescoDTO)
+	{
+		ArgumentNullException.ThrowIfNull(grauParentescoDTO);
 
-    public bool GrauParentescoExists(int id) => _db.GrauParentesco.Any(gp => gp.Id == id);
+		var grauParentescoId = grauParentescoDTO.Id;
 
-    public async Task UpdateGrauParentescoAsync(GrauParentescoUpdateDTO grauParentescoDTO)
-    {
-        if (grauParentescoDTO == null)
-        {
-            throw new ArgumentNullException(nameof(grauParentescoDTO));
-        }
+		if (!GrauParentescoExists(grauParentescoId))
+		{
+			throw new GrauParentescoNaoExisteException(grauParentescoId);
+		}
 
-        var grauParentescoId = grauParentescoDTO.Id;
+		var grauParentesco = mapper.Map<GrauParentesco>(grauParentescoDTO);
 
-        if (!GrauParentescoExists(grauParentescoId))
-        {
-            throw new GrauParentescoNaoExisteException(grauParentescoId);
-        }
-
-        var grauParentesco = _mapper.Map<GrauParentesco>(grauParentescoDTO);
-
-        await UpdateAsync(grauParentesco);
-    }
+		await UpdateAsync(grauParentesco);
+	}
 }

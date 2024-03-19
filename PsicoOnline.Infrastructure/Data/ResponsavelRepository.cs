@@ -6,92 +6,79 @@ using PsicoOnline.Core.Interfaces;
 
 namespace PsicoOnline.Infrastructure.Data;
 
-public class ResponsavelRepository : EFRepository<Responsavel, int>, IResponsavelRepository
+public class ResponsavelRepository(EFContext db, IMapper mapper) : EFRepository<Responsavel, int>(db), IResponsavelRepository
 {
-    private readonly IMapper _mapper;
+	public async Task<Responsavel> AddResponsavelAsync(ResponsavelAddDTO responsavelDTO)
+	{
+		ArgumentNullException.ThrowIfNull(responsavelDTO);
 
-    public ResponsavelRepository(EFContext db, IMapper mapper) : base(db)
-    {
-        _mapper = mapper;
-    }
+		var responsavel = mapper.Map<Responsavel>(responsavelDTO);
 
-    public async Task<Responsavel> AddResponsavelAsync(ResponsavelAddDTO responsavelDTO)
-    {
-        if (responsavelDTO == null)
-        {
-            throw new ArgumentNullException(nameof(responsavelDTO));
-        }
+		await AddAsync(responsavel);
 
-        var responsavel = _mapper.Map<Responsavel>(responsavelDTO);
+		return responsavel;
+	}
 
-        await AddAsync(responsavel);
+	public async Task DeleteAllResponsaveisAsync()
+	{
+		var responsaveis = await GetAllAsync();
 
-        return responsavel;
-    }
+		await DeleteAllAsync((List<Responsavel>)responsaveis);
+	}
 
-    public async Task DeleteAllResponsaveisAsync()
-    {
-        var responsaveis = await GetAllAsync();
+	public async Task DeleteResponsavelAsync(int id)
+	{
+		if (!ResponsavelExists(id))
+		{
+			throw new ResponsavelNaoExisteException(id);
+		}
 
-        await DeleteAllAsync((List<Responsavel>)responsaveis);
-    }
+		var responsavel = await GetByIdAsync(id);
 
-    public async Task DeleteResponsavelAsync(int id)
-    {
-        if (!ResponsavelExists(id))
-        {
-            throw new ResponsavelNaoExisteException(id);
-        }
+		await DeleteAsync(responsavel);
+	}
 
-        var responsavel = await GetByIdAsync(id);
+	public async Task<IReadOnlyList<Responsavel>> GetAllResponsaveisAsync()
+	{
+		var responsaveis = await GetAllAsync();
 
-        await DeleteAsync(responsavel);
-    }
+		foreach (var r in responsaveis)
+		{
+			r.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == r.PacienteId);
+			r.GrauParentesco = _db.GrauParentesco.FirstOrDefault(gp => gp.Id == r.GrauParentescoId);
+		}
 
-    public async Task<IReadOnlyList<Responsavel>> GetAllResponsaveisAsync()
-    {
-        var responsaveis = await GetAllAsync();
+		return responsaveis;
+	}
 
-        foreach (var r in responsaveis)
-        {
-            r.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == r.PacienteId);
-            r.GrauParentesco = _db.GrauParentesco.FirstOrDefault(gp => gp.Id == r.GrauParentescoId);
-        }
+	public async Task<Responsavel> GetResponsavelByIdAsync(int id)
+	{
+		var responsavel = await GetByIdAsync(id);
 
-        return responsaveis;
-    }
+		if (responsavel != null)
+		{
+			responsavel.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == responsavel.PacienteId);
+			responsavel.GrauParentesco = _db.GrauParentesco.FirstOrDefault(gp => gp.Id == responsavel.GrauParentescoId);
+		}
 
-    public async Task<Responsavel> GetResponsavelByIdAsync(int id)
-    {
-        var responsavel = await GetByIdAsync(id);
+		return responsavel;
+	}
 
-        if (responsavel != null)
-        {
-            responsavel.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == responsavel.PacienteId);
-            responsavel.GrauParentesco = _db.GrauParentesco.FirstOrDefault(gp => gp.Id == responsavel.GrauParentescoId);
-        }
+	public bool ResponsavelExists(int id) => _db.Responsavel.Any(r => r.Id == id);
 
-        return responsavel;
-    }
+	public async Task UpdateResponsavelAsync(ResponsavelUpdateDTO responsavelDTO)
+	{
+		ArgumentNullException.ThrowIfNull(responsavelDTO);
 
-    public bool ResponsavelExists(int id) => _db.Responsavel.Any(r => r.Id == id);
+		var responsavelId = responsavelDTO.Id;
 
-    public async Task UpdateResponsavelAsync(ResponsavelUpdateDTO responsavelDTO)
-    {
-        if (responsavelDTO == null)
-        {
-            throw new ArgumentNullException(nameof(responsavelDTO));
-        }
+		if (!ResponsavelExists(responsavelId))
+		{
+			throw new ResponsavelNaoExisteException(responsavelId);
+		}
 
-        var responsavelId = responsavelDTO.Id;
+		var responsavel = mapper.Map<Responsavel>(responsavelDTO);
 
-        if (!ResponsavelExists(responsavelId))
-        {
-            throw new ResponsavelNaoExisteException(responsavelId);
-        }
-
-        var responsavel = _mapper.Map<Responsavel>(responsavelDTO);
-
-        await UpdateAsync(responsavel);
-    }
+		await UpdateAsync(responsavel);
+	}
 }

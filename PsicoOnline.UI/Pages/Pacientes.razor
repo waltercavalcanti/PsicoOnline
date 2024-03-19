@@ -8,7 +8,7 @@
 {
 	<MudProgressCircular Color="Color.Primary" Indeterminate="true" />
 }
-else if (PacienteService.Pacientes.Count == 0)
+else if (!PacienteService.Pacientes.Any())
 {
 	<p><em>Nenhum paciente cadastrado.</em></p>
 }

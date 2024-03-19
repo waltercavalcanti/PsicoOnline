@@ -2,9 +2,9 @@
 
 public class SessaoAddDTO
 {
-    public int PacienteId { get; set; }
+	public int PacienteId { get; set; }
 
-    public DateTime DataSessao { get; set; }
+	public DateTime DataSessao { get; set; }
 
-    public string Anotacao { get; set; }
+	public string Anotacao { get; set; }
 }

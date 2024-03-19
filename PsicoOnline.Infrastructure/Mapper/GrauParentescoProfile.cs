@@ -6,11 +6,11 @@ namespace PsicoOnline.Infrastructure.Mapper;
 
 public class GrauParentescoProfile : Profile
 {
-    public GrauParentescoProfile()
-    {
-        CreateMap<GrauParentescoAddDTO, GrauParentesco>();
-        CreateMap<GrauParentesco, GrauParentescoAddDTO>();
-        CreateMap<GrauParentescoUpdateDTO, GrauParentesco>();
-        CreateMap<GrauParentesco, GrauParentescoUpdateDTO>();
-    }
+	public GrauParentescoProfile()
+	{
+		CreateMap<GrauParentescoAddDTO, GrauParentesco>();
+		CreateMap<GrauParentesco, GrauParentescoAddDTO>();
+		CreateMap<GrauParentescoUpdateDTO, GrauParentesco>();
+		CreateMap<GrauParentesco, GrauParentescoUpdateDTO>();
+	}
 }

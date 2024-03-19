@@ -2,5 +2,5 @@
 
 public class SessaoNaoExisteException : BaseException
 {
-    public SessaoNaoExisteException(int id) : base($"Sessão Id {id} não existe.") { }
+	public SessaoNaoExisteException(int id) : base($"Sessão Id {id} não existe.") { }
 }

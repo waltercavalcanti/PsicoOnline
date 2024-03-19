@@ -6,11 +6,11 @@ namespace PsicoOnline.Infrastructure.Mapper;
 
 public class ResponsavelProfile : Profile
 {
-    public ResponsavelProfile()
-    {
-        CreateMap<ResponsavelAddDTO, Responsavel>();
-        CreateMap<Responsavel, ResponsavelAddDTO>();
-        CreateMap<ResponsavelUpdateDTO, Responsavel>();
-        CreateMap<Responsavel, ResponsavelUpdateDTO>();
-    }
+	public ResponsavelProfile()
+	{
+		CreateMap<ResponsavelAddDTO, Responsavel>();
+		CreateMap<Responsavel, ResponsavelAddDTO>();
+		CreateMap<ResponsavelUpdateDTO, Responsavel>();
+		CreateMap<Responsavel, ResponsavelUpdateDTO>();
+	}
 }

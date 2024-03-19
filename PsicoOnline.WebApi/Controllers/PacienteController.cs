@@ -8,93 +8,80 @@ namespace PsicoOnline.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class PacienteController : ControllerBase
+public class PacienteController(IPacienteRepository pacienteRepository) : ControllerBase
 {
-    private readonly IPacienteRepository _pacienteRepository;
-    private readonly IAppLogger<PacienteController> _appLogger;
+	private readonly IAppLogger<PacienteController> _appLogger = new AppLogger<PacienteController>();
 
-    public PacienteController(IPacienteRepository pacienteRepository)
-    {
-        _pacienteRepository = pacienteRepository;
-        _appLogger = new AppLogger<PacienteController>();
-    }
+	[HttpGet]
+	[Route("GetAll")]
+	[EnableQuery]
+	public async Task<ActionResult> GetAllPacientesAsync()
+	{
+		var pacientes = await pacienteRepository.GetAllPacientesAsync();
 
-    [HttpGet]
-    [Route("GetAll")]
-    [EnableQuery]
-    public async Task<ActionResult> GetAllPacientesAsync()
-    {
-        var pacientes = await _pacienteRepository.GetAllPacientesAsync();
+		return pacientes == null || !pacientes.Any()
+			? NotFound("Não há pacientes cadastrados.")
+			: Ok(pacientes);
+	}
 
-        if (pacientes == null || pacientes.Count == 0)
-        {
-            return NotFound("Não há pacientes cadastrados.");
-        }
+	[HttpGet]
+	[Route("GetById/{id}")]
+	public async Task<ActionResult> GetPacienteByIdAsync(int id)
+	{
+		var paciente = await pacienteRepository.GetPacienteByIdAsync(id);
 
-        return Ok(pacientes);
-    }
+		return paciente == null
+			? NotFound($"Não há paciente cadastrado com o id {id}.")
+			: Ok(paciente);
+	}
 
-    [HttpGet]
-    [Route("GetById/{id}")]
-    public async Task<ActionResult> GetPacienteByIdAsync(int id)
-    {
-        var paciente = await _pacienteRepository.GetPacienteByIdAsync(id);
+	[HttpPost]
+	[Route("Add")]
+	public async Task<ActionResult> AddPacienteAsync(PacienteAddDTO pacienteDTO)
+	{
+		var paciente = await pacienteRepository.AddPacienteAsync(pacienteDTO);
 
-        if (paciente == null)
-        {
-            return NotFound($"Não há paciente cadastrado com o id {id}.");
-        }
+		return Ok(paciente);
+	}
 
-        return Ok(paciente);
-    }
+	[HttpDelete]
+	[Route("DeleteAll")]
+	public async Task<ActionResult> DeleteAllPacientesAsync()
+	{
+		await pacienteRepository.DeleteAllPacientesAsync();
 
-    [HttpPost]
-    [Route("Add")]
-    public async Task<ActionResult> AddPacienteAsync(PacienteAddDTO pacienteDTO)
-    {
-        var paciente = await _pacienteRepository.AddPacienteAsync(pacienteDTO);
+		return Ok("Todos os pacientes foram excluídos com sucesso.");
+	}
 
-        return Ok(paciente);
-    }
+	[HttpDelete]
+	[Route("Delete/{id}")]
+	public async Task<ActionResult> DeletePacienteAsync(int id)
+	{
+		try
+		{
+			await pacienteRepository.DeletePacienteAsync(id);
 
-    [HttpDelete]
-    [Route("DeleteAll")]
-    public async Task<ActionResult> DeleteAllPacientesAsync()
-    {
-        await _pacienteRepository.DeleteAllPacientesAsync();
+			return Ok("Paciente excluído com sucesso.");
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
 
-        return Ok("Todos os pacientes foram excluídos com sucesso.");
-    }
+	[HttpPut]
+	[Route("Update")]
+	public async Task<ActionResult> UpdatePacienteAsync(PacienteUpdateDTO pacienteDTO)
+	{
+		try
+		{
+			await pacienteRepository.UpdatePacienteAsync(pacienteDTO);
 
-    [HttpDelete]
-    [Route("Delete/{id}")]
-    public async Task<ActionResult> DeletePacienteAsync(int id)
-    {
-        try
-        {
-            await _pacienteRepository.DeletePacienteAsync(id);
-
-            return Ok("Paciente excluído com sucesso.");
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
-    [HttpPut]
-    [Route("Update")]
-    public async Task<ActionResult> UpdatePacienteAsync(PacienteUpdateDTO pacienteDTO)
-    {
-        try
-        {
-            await _pacienteRepository.UpdatePacienteAsync(pacienteDTO);
-
-            return Ok("Paciente atualizado com sucesso.");
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
+			return Ok("Paciente atualizado com sucesso.");
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
 }

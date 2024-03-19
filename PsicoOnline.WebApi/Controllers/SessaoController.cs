@@ -8,107 +8,91 @@ namespace PsicoOnline.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class SessaoController : ControllerBase
+public class SessaoController(ISessaoRepository sessaoRepository) : ControllerBase
 {
-    private readonly ISessaoRepository _sessaoRepository;
-    private readonly IAppLogger<SessaoController> _appLogger;
+	private readonly IAppLogger<SessaoController> _appLogger = new AppLogger<SessaoController>();
 
-    public SessaoController(ISessaoRepository sessaoRepository)
-    {
-        _sessaoRepository = sessaoRepository;
-        _appLogger = new AppLogger<SessaoController>();
-    }
+	[HttpGet]
+	[Route("GetAll")]
+	[EnableQuery]
+	public async Task<ActionResult> GetAllSessoesAsync()
+	{
+		var sessoes = await sessaoRepository.GetAllSessoesAsync();
 
-    [HttpGet]
-    [Route("GetAll")]
-    [EnableQuery]
-    public async Task<ActionResult> GetAllSessoesAsync()
-    {
-        var sessoes = await _sessaoRepository.GetAllSessoesAsync();
+		return sessoes == null || !sessoes.Any()
+			? NotFound("Não há sessões cadastradas.")
+			: Ok(sessoes);
+	}
 
-        if (sessoes == null || sessoes.Count == 0)
-        {
-            return NotFound("Não há sessões cadastradas.");
-        }
+	[HttpGet]
+	[Route("GetById/{id}")]
+	public async Task<ActionResult> GetSessaoByIdAsync(int id)
+	{
+		var sessao = await sessaoRepository.GetSessaoByIdAsync(id);
 
-        return Ok(sessoes);
-    }
+		return sessao == null
+			? NotFound($"Não há sessão cadastrada com o id {id}.")
+			: Ok(sessao);
+	}
 
-    [HttpGet]
-    [Route("GetById/{id}")]
-    public async Task<ActionResult> GetSessaoByIdAsync(int id)
-    {
-        var sessao = await _sessaoRepository.GetSessaoByIdAsync(id);
+	[HttpGet]
+	[Route("GetByPacienteIdData")]
+	public async Task<ActionResult> GetSessoesByPacienteIdDataAsync(SessaoFilterDTO sessaoDTO)
+	{
+		var sessoes = await sessaoRepository.GetSessoesByPacienteIdDataAsync(sessaoDTO);
 
-        if (sessao == null)
-        {
-            return NotFound($"Não há sessão cadastrada com o id {id}.");
-        }
+		return sessoes == null || !sessoes.Any()
+			? NotFound("Não há sessões cadastradas para os parâmetros informados.")
+			: Ok(sessoes);
+	}
 
-        return Ok(sessao);
-    }
+	[HttpPost]
+	[Route("Add")]
+	public async Task<ActionResult> AddSessaoAsync(SessaoAddDTO sessaoDTO)
+	{
+		var sessao = await sessaoRepository.AddSessaoAsync(sessaoDTO);
 
-    [HttpGet]
-    [Route("GetByPacienteIdData")]
-    public async Task<ActionResult> GetSessoesByPacienteIdDataAsync(SessaoFilterDTO sessaoDTO)
-    {
-        var sessoes = await _sessaoRepository.GetSessoesByPacienteIdDataAsync(sessaoDTO);
+		return Ok(sessao);
+	}
 
-        if (sessoes == null || sessoes.Count == 0)
-        {
-            return NotFound("Não há sessões cadastradas para os parâmetros informados.");
-        }
+	[HttpDelete]
+	[Route("DeleteAll")]
+	public async Task<ActionResult> DeleteAllSessoesAsync()
+	{
+		await sessaoRepository.DeleteAllSessoesAsync();
 
-        return Ok(sessoes);
-    }
+		return Ok("Todos as sessões foram excluídas com sucesso.");
+	}
 
-    [HttpPost]
-    [Route("Add")]
-    public async Task<ActionResult> AddSessaoAsync(SessaoAddDTO sessaoDTO)
-    {
-        var sessao = await _sessaoRepository.AddSessaoAsync(sessaoDTO);
+	[HttpDelete]
+	[Route("Delete/{id}")]
+	public async Task<ActionResult> DeleteSessaoAsync(int id)
+	{
+		try
+		{
+			await sessaoRepository.DeleteSessaoAsync(id);
 
-        return Ok(sessao);
-    }
+			return Ok("Sessão excluída com sucesso.");
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
 
-    [HttpDelete]
-    [Route("DeleteAll")]
-    public async Task<ActionResult> DeleteAllSessoesAsync()
-    {
-        await _sessaoRepository.DeleteAllSessoesAsync();
+	[HttpPut]
+	[Route("Update")]
+	public async Task<ActionResult> UpdateSessaoAsync(SessaoUpdateDTO sessaoDTO)
+	{
+		try
+		{
+			await sessaoRepository.UpdateSessaoAsync(sessaoDTO);
 
-        return Ok("Todos as sessões foram excluídas com sucesso.");
-    }
-
-    [HttpDelete]
-    [Route("Delete/{id}")]
-    public async Task<ActionResult> DeleteSessaoAsync(int id)
-    {
-        try
-        {
-            await _sessaoRepository.DeleteSessaoAsync(id);
-
-            return Ok("Sessão excluída com sucesso.");
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
-    [HttpPut]
-    [Route("Update")]
-    public async Task<ActionResult> UpdateSessaoAsync(SessaoUpdateDTO sessaoDTO)
-    {
-        try
-        {
-            await _sessaoRepository.UpdateSessaoAsync(sessaoDTO);
-
-            return Ok("Sessão atualizada com sucesso.");
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
+			return Ok("Sessão atualizada com sucesso.");
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
 }

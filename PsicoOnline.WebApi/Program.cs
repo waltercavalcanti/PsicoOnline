@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<AppSettings>(appSettings =>
 {
-    builder.Configuration.Bind(appSettings);
+	builder.Configuration.Bind(appSettings);
 });
 builder.Services.RegistrarServicos();
 

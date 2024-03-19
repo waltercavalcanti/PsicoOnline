@@ -2,5 +2,5 @@
 
 public class GrauParentesco : BaseEntity<int>
 {
-    public string Descricao { get; set; }
+	public string Descricao { get; set; }
 }

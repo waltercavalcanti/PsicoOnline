@@ -6,11 +6,11 @@ namespace PsicoOnline.Infrastructure.Mapper;
 
 public class SessaoProfile : Profile
 {
-    public SessaoProfile()
-    {
-        CreateMap<SessaoAddDTO, Sessao>();
-        CreateMap<Sessao, SessaoAddDTO>();
-        CreateMap<SessaoUpdateDTO, Sessao>();
-        CreateMap<Sessao, SessaoUpdateDTO>();
-    }
+	public SessaoProfile()
+	{
+		CreateMap<SessaoAddDTO, Sessao>();
+		CreateMap<Sessao, SessaoAddDTO>();
+		CreateMap<SessaoUpdateDTO, Sessao>();
+		CreateMap<Sessao, SessaoUpdateDTO>();
+	}
 }

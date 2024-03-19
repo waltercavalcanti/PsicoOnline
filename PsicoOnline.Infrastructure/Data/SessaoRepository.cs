@@ -6,115 +6,102 @@ using PsicoOnline.Core.Interfaces;
 
 namespace PsicoOnline.Infrastructure.Data;
 
-public class SessaoRepository : EFRepository<Sessao, int>, ISessaoRepository
+public class SessaoRepository(EFContext db, IMapper mapper) : EFRepository<Sessao, int>(db), ISessaoRepository
 {
-    private readonly IMapper _mapper;
+	public async Task<Sessao> AddSessaoAsync(SessaoAddDTO sessaoDTO)
+	{
+		ArgumentNullException.ThrowIfNull(sessaoDTO);
 
-    public SessaoRepository(EFContext db, IMapper mapper) : base(db)
-    {
-        _mapper = mapper;
-    }
+		var sessao = mapper.Map<Sessao>(sessaoDTO);
 
-    public async Task<Sessao> AddSessaoAsync(SessaoAddDTO sessaoDTO)
-    {
-        if (sessaoDTO == null)
-        {
-            throw new ArgumentNullException(nameof(sessaoDTO));
-        }
+		await AddAsync(sessao);
 
-        var sessao = _mapper.Map<Sessao>(sessaoDTO);
+		return sessao;
+	}
 
-        await AddAsync(sessao);
+	public async Task DeleteAllSessoesAsync()
+	{
+		var sessoes = await GetAllAsync();
 
-        return sessao;
-    }
+		await DeleteAllAsync((List<Sessao>)sessoes);
+	}
 
-    public async Task DeleteAllSessoesAsync()
-    {
-        var sessoes = await GetAllAsync();
+	public async Task DeleteSessaoAsync(int id)
+	{
+		if (!SessaoExists(id))
+		{
+			throw new SessaoNaoExisteException(id);
+		}
 
-        await DeleteAllAsync((List<Sessao>)sessoes);
-    }
+		var sessao = await GetByIdAsync(id);
 
-    public async Task DeleteSessaoAsync(int id)
-    {
-        if (!SessaoExists(id))
-        {
-            throw new SessaoNaoExisteException(id);
-        }
+		await DeleteAsync(sessao);
+	}
 
-        var sessao = await GetByIdAsync(id);
+	public async Task<IReadOnlyList<Sessao>> GetAllSessoesAsync()
+	{
+		var sessoes = await GetAllAsync();
 
-        await DeleteAsync(sessao);
-    }
+		foreach (var s in sessoes)
+		{
+			s.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == s.PacienteId);
+		}
 
-    public async Task<IReadOnlyList<Sessao>> GetAllSessoesAsync()
-    {
-        var sessoes = await GetAllAsync();
+		return sessoes;
+	}
 
-        foreach (var s in sessoes)
-        {
-            s.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == s.PacienteId);
-        }
+	public async Task<Sessao> GetSessaoByIdAsync(int id)
+	{
+		var sessao = await GetByIdAsync(id);
 
-        return sessoes;
-    }
+		if (sessao != null)
+		{
+			sessao.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == sessao.PacienteId);
+		}
 
-    public async Task<Sessao> GetSessaoByIdAsync(int id)
-    {
-        var sessao = await GetByIdAsync(id);
+		return sessao;
+	}
 
-        if (sessao != null)
-        {
-            sessao.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == sessao.PacienteId);
-        }
+	public async Task<IReadOnlyList<Sessao>> GetSessoesByPacienteIdDataAsync(SessaoFilterDTO sessaoDTO)
+	{
+		var sessoes = await GetAllSessoesAsync();
 
-        return sessao;
-    }
+		if (sessoes != null && sessoes.Any())
+		{
+			if (sessaoDTO.PacienteId != null)
+			{
+				sessoes = sessoes.Where(s => s.PacienteId == sessaoDTO.PacienteId).ToList();
+			}
 
-    public async Task<IReadOnlyList<Sessao>> GetSessoesByPacienteIdDataAsync(SessaoFilterDTO sessaoDTO)
-    {
-        var sessoes = await GetAllSessoesAsync();
+			if (sessaoDTO.DataSessao != null)
+			{
+				sessoes = sessoes.Where(s => s.DataSessao == sessaoDTO.DataSessao).ToList();
+			}
 
-        if (sessoes != null && sessoes.Count > 0)
-        {
-            if (sessaoDTO.PacienteId != null)
-            {
-                sessoes = sessoes.Where(s => s.PacienteId == sessaoDTO.PacienteId).ToList();
-            }
+			foreach (var s in sessoes)
+			{
+				s.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == s.PacienteId);
+			}
+		}
 
-            if (sessaoDTO.DataSessao != null)
-            {
-                sessoes = sessoes.Where(s => s.DataSessao == sessaoDTO.DataSessao).ToList();
-            }
+		return sessoes;
+	}
 
-            foreach (var s in sessoes)
-            {
-                s.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == s.PacienteId);
-            }
-        }
+	public bool SessaoExists(int id) => _db.Sessao.Any(s => s.Id == id);
 
-        return sessoes;
-    }
+	public async Task UpdateSessaoAsync(SessaoUpdateDTO sessaoDTO)
+	{
+		ArgumentNullException.ThrowIfNull(sessaoDTO);
 
-    public bool SessaoExists(int id) => _db.Sessao.Any(s => s.Id == id);
+		var sessaoId = sessaoDTO.Id;
 
-    public async Task UpdateSessaoAsync(SessaoUpdateDTO sessaoDTO)
-    {
-        if (sessaoDTO == null)
-        {
-            throw new ArgumentNullException(nameof(sessaoDTO));
-        }
+		if (!SessaoExists(sessaoId))
+		{
+			throw new SessaoNaoExisteException(sessaoId);
+		}
 
-        var sessaoId = sessaoDTO.Id;
+		var sessao = mapper.Map<Sessao>(sessaoDTO);
 
-        if (!SessaoExists(sessaoId))
-        {
-            throw new SessaoNaoExisteException(sessaoId);
-        }
-
-        var sessao = _mapper.Map<Sessao>(sessaoDTO);
-
-        await UpdateAsync(sessao);
-    }
+		await UpdateAsync(sessao);
+	}
 }

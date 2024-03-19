@@ -8,7 +8,7 @@
 {
 	<MudProgressCircular Color="Color.Primary" Indeterminate="true" />
 }
-else if (GrauParentescoService.GrausParentesco.Count == 0)
+else if (!GrauParentescoService.GrausParentesco.Any())
 {
 	<p><em>Nenhum grau de parentesco cadastrado.</em></p>
 }
