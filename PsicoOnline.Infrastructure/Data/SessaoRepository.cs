@@ -19,13 +19,6 @@ public class SessaoRepository(EFContext db, IMapper mapper) : EFRepository<Sessa
 		return sessao;
 	}
 
-	public async Task DeleteAllSessoesAsync()
-	{
-		var sessoes = await GetAllAsync();
-
-		await DeleteAllAsync((List<Sessao>)sessoes);
-	}
-
 	public async Task DeleteSessaoAsync(int id)
 	{
 		if (!SessaoExists(id))

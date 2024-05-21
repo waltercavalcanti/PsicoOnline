@@ -56,15 +56,6 @@ public class SessaoController(ISessaoRepository sessaoRepository) : ControllerBa
 	}
 
 	[HttpDelete]
-	[Route("DeleteAll")]
-	public async Task<ActionResult> DeleteAllSessoesAsync()
-	{
-		await sessaoRepository.DeleteAllSessoesAsync();
-
-		return Ok("Todos as sessões foram excluídas com sucesso.");
-	}
-
-	[HttpDelete]
 	[Route("Delete/{id}")]
 	public async Task<ActionResult> DeleteSessaoAsync(int id)
 	{

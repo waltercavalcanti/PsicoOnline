@@ -17,7 +17,5 @@ public interface ISessaoRepository
 
 	Task DeleteSessaoAsync(int id);
 
-	Task DeleteAllSessoesAsync();
-
 	bool SessaoExists(int id);
 }

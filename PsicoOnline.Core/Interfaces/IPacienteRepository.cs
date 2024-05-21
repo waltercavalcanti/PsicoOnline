@@ -15,7 +15,5 @@ public interface IPacienteRepository
 
 	Task DeletePacienteAsync(int id);
 
-	Task DeleteAllPacientesAsync();
-
 	bool PacienteExists(int id);
 }

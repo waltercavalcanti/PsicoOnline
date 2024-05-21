@@ -15,7 +15,5 @@ public interface IResponsavelRepository
 
 	Task DeleteResponsavelAsync(int id);
 
-	Task DeleteAllResponsaveisAsync();
-
 	bool ResponsavelExists(int id);
 }

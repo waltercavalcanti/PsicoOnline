@@ -19,13 +19,6 @@ public class PacienteRepository(EFContext db, IMapper mapper) : EFRepository<Pac
 		return paciente;
 	}
 
-	public async Task DeleteAllPacientesAsync()
-	{
-		var pacientes = await GetAllAsync();
-
-		await DeleteAllAsync((List<Paciente>)pacientes);
-	}
-
 	public async Task DeletePacienteAsync(int id)
 	{
 		if (!PacienteExists(id))

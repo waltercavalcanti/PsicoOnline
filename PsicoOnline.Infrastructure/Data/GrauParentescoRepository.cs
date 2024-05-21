@@ -19,13 +19,6 @@ public class GrauParentescoRepository(EFContext db, IMapper mapper) : EFReposito
 		return grauParentesco;
 	}
 
-	public async Task DeleteAllGrausParentescoAsync()
-	{
-		var grausParentesco = await GetAllAsync();
-
-		await DeleteAllAsync((List<GrauParentesco>)grausParentesco);
-	}
-
 	public async Task DeleteGrauParentescoAsync(int id)
 	{
 		if (!GrauParentescoExists(id))

@@ -45,15 +45,6 @@ public class PacienteController(IPacienteRepository pacienteRepository) : Contro
 	}
 
 	[HttpDelete]
-	[Route("DeleteAll")]
-	public async Task<ActionResult> DeleteAllPacientesAsync()
-	{
-		await pacienteRepository.DeleteAllPacientesAsync();
-
-		return Ok("Todos os pacientes foram excluídos com sucesso.");
-	}
-
-	[HttpDelete]
 	[Route("Delete/{id}")]
 	public async Task<ActionResult> DeletePacienteAsync(int id)
 	{

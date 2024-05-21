@@ -45,15 +45,6 @@ public class ResponsavelController(IResponsavelRepository responsavelRepository)
 	}
 
 	[HttpDelete]
-	[Route("DeleteAll")]
-	public async Task<ActionResult> DeleteAllResponsaveisAsync()
-	{
-		await responsavelRepository.DeleteAllResponsaveisAsync();
-
-		return Ok("Todos os responsáveis foram excluídos com sucesso.");
-	}
-
-	[HttpDelete]
 	[Route("Delete/{id}")]
 	public async Task<ActionResult> DeleteResponsavelAsync(int id)
 	{

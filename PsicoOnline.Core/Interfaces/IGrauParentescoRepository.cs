@@ -15,7 +15,5 @@ public interface IGrauParentescoRepository
 
 	Task DeleteGrauParentescoAsync(int id);
 
-	Task DeleteAllGrausParentescoAsync();
-
 	bool GrauParentescoExists(int id);
 }

@@ -19,13 +19,6 @@ public class ResponsavelRepository(EFContext db, IMapper mapper) : EFRepository<
 		return responsavel;
 	}
 
-	public async Task DeleteAllResponsaveisAsync()
-	{
-		var responsaveis = await GetAllAsync();
-
-		await DeleteAllAsync((List<Responsavel>)responsaveis);
-	}
-
 	public async Task DeleteResponsavelAsync(int id)
 	{
 		if (!ResponsavelExists(id))

@@ -32,17 +32,6 @@ public class EFRepository<T, K>(EFContext db) : IDisposable, IRepository<T, K> w
 		await _db.SaveChangesAsync();
 	}
 
-	public async Task DeleteAllAsync(List<T> entities)
-	{
-		if (entities != null)
-		{
-			foreach (var entity in entities)
-			{
-				await DeleteAsync(entity);
-			}
-		}
-	}
-
 	#region IDisposable Support
 	private bool _disposed = false;
 

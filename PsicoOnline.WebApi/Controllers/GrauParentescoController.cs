@@ -45,15 +45,6 @@ public class GrauParentescoController(IGrauParentescoRepository grauParentescoRe
 	}
 
 	[HttpDelete]
-	[Route("DeleteAll")]
-	public async Task<ActionResult> DeleteAllGrausParentescoAsync()
-	{
-		await grauParentescoRepository.DeleteAllGrausParentescoAsync();
-
-		return Ok("Todos os graus de parentesco foram excluídos com sucesso.");
-	}
-
-	[HttpDelete]
 	[Route("Delete/{id}")]
 	public async Task<ActionResult> DeleteGrauParentescoAsync(int id)
 	{
