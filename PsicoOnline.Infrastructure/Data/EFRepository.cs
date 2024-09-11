@@ -41,7 +41,7 @@ public class EFRepository<T, K>(EFContext db) : IDisposable, IRepository<T, K> w
 		{
 			if (disposing)
 			{
-				((IDisposable)this._db).Dispose();
+				((IDisposable)_db).Dispose();
 			}
 
 			_disposed = true;
