@@ -8,7 +8,7 @@ public class Paciente : BaseEntity<int>
 
 	public DateTime DataNascimento { get; set; }
 
-	public string Telefone { get; set; }
+	public string? Telefone { get; set; }
 
 	public char Genero { get; set; }
 
