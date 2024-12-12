@@ -14,15 +14,9 @@ public static class JsonExtensions
 		Formatting = Formatting.None
 	};
 
-	public static object Deserialize<T>(string json)
-	{
-		return JsonConvert.DeserializeObject<T>(json);
-	}
+	public static object Deserialize<T>(string json) => JsonConvert.DeserializeObject<T>(json);
 
-	public static string Serialize(object obj)
-	{
-		return JsonConvert.SerializeObject(obj, _settings);
-	}
+	public static string Serialize(object obj) => JsonConvert.SerializeObject(obj, _settings);
 
 	public static StringContent ToJson<T>(this T obj)
 	{
