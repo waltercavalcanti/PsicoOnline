@@ -1,33 +1,24 @@
 ﻿namespace PsicoOnline.UI.Services;
 
-public class GrauParentescoService : IGrauParentescoService
+public class GrauParentescoService(HttpClient httpClient, NavigationManager navigationManager) : IGrauParentescoService
 {
-	private readonly HttpClient _httpClient;
-	private readonly NavigationManager _navigationManager;
-
-	public GrauParentescoService(HttpClient httpClient, NavigationManager navigationManager)
-	{
-		_httpClient = httpClient;
-		_navigationManager = navigationManager;
-	}
-
 	public List<GrauParentescoModel> GrausParentesco { get; set; }
 
 	public async Task AddGrauParentescoAsync(GrauParentescoModel grauParentesco)
 	{
-		_ = await _httpClient.PostAsJsonAsync("GrauParentesco/Add", grauParentesco);
+		_ = await httpClient.PostAsJsonAsync("GrauParentesco/Add", grauParentesco);
 		await SetGrausParentesco();
 	}
 
 	public async Task DeleteGrauParentescoAsync(int id)
 	{
-		_ = await _httpClient.DeleteAsync($"GrauParentesco/Delete/{id}");
+		_ = await httpClient.DeleteAsync($"GrauParentesco/Delete/{id}");
 		await SetGrausParentesco();
 	}
 
 	public async Task GetAllGrausParentescoAsync()
 	{
-		var grausParentesco = await _httpClient.GetFromJsonAsync<List<GrauParentescoModel>>("GrauParentesco/GetAll");
+		var grausParentesco = await httpClient.GetFromJsonAsync<List<GrauParentescoModel>>("GrauParentesco/GetAll");
 
 		if (grausParentesco != null)
 		{
@@ -37,7 +28,7 @@ public class GrauParentescoService : IGrauParentescoService
 
 	public async Task<GrauParentescoModel> GetGrauParentescoByIdAsync(int id)
 	{
-		var grauParentesco = await _httpClient.GetFromJsonAsync<GrauParentescoModel>($"GrauParentesco/GetById/{id}");
+		var grauParentesco = await httpClient.GetFromJsonAsync<GrauParentescoModel>($"GrauParentesco/GetById/{id}");
 
 		if (grauParentesco != null)
 		{
@@ -50,12 +41,12 @@ public class GrauParentescoService : IGrauParentescoService
 	private async Task SetGrausParentesco()
 	{
 		await GetAllGrausParentescoAsync();
-		_navigationManager.NavigateTo("grausparentesco");
+		navigationManager.NavigateTo("grausparentesco");
 	}
 
 	public async Task UpdateGrauParentescoAsync(GrauParentescoModel grauParentesco)
 	{
-		_ = await _httpClient.PutAsJsonAsync("GrauParentesco/Update", grauParentesco);
+		_ = await httpClient.PutAsJsonAsync("GrauParentesco/Update", grauParentesco);
 		await SetGrausParentesco();
 	}
 }

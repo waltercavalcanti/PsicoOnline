@@ -1,33 +1,24 @@
 ﻿namespace PsicoOnline.UI.Services;
 
-public class PacienteService : IPacienteService
+public class PacienteService(HttpClient httpClient, NavigationManager navigationManager) : IPacienteService
 {
-	private readonly HttpClient _httpClient;
-	private readonly NavigationManager _navigationManager;
-
-	public PacienteService(HttpClient httpClient, NavigationManager navigationManager)
-	{
-		_httpClient = httpClient;
-		_navigationManager = navigationManager;
-	}
-
 	public List<PacienteModel> Pacientes { get; set; }
 
 	public async Task AddPacienteAsync(PacienteModel paciente)
 	{
-		_ = await _httpClient.PostAsJsonAsync("Paciente/Add", paciente);
+		_ = await httpClient.PostAsJsonAsync("Paciente/Add", paciente);
 		await SetPacientes();
 	}
 
 	public async Task DeletePacienteAsync(int id)
 	{
-		_ = await _httpClient.DeleteAsync($"Paciente/Delete/{id}");
+		_ = await httpClient.DeleteAsync($"Paciente/Delete/{id}");
 		await SetPacientes();
 	}
 
 	public async Task GetAllPacientesAsync()
 	{
-		var pacientes = await _httpClient.GetFromJsonAsync<List<PacienteModel>>("Paciente/GetAll");
+		var pacientes = await httpClient.GetFromJsonAsync<List<PacienteModel>>("Paciente/GetAll");
 
 		if (pacientes != null)
 		{
@@ -37,7 +28,7 @@ public class PacienteService : IPacienteService
 
 	public async Task<PacienteModel> GetPacienteByIdAsync(int id)
 	{
-		var paciente = await _httpClient.GetFromJsonAsync<PacienteModel>($"Paciente/GetById/{id}");
+		var paciente = await httpClient.GetFromJsonAsync<PacienteModel>($"Paciente/GetById/{id}");
 
 		if (paciente != null)
 		{
@@ -50,12 +41,12 @@ public class PacienteService : IPacienteService
 	private async Task SetPacientes()
 	{
 		await GetAllPacientesAsync();
-		_navigationManager.NavigateTo("pacientes");
+		navigationManager.NavigateTo("pacientes");
 	}
 
 	public async Task UpdatePacienteAsync(PacienteModel paciente)
 	{
-		_ = await _httpClient.PutAsJsonAsync("Paciente/Update", paciente);
+		_ = await httpClient.PutAsJsonAsync("Paciente/Update", paciente);
 		await SetPacientes();
 	}
 }
