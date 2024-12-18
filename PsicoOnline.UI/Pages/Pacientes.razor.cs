@@ -3,7 +3,7 @@ namespace PsicoOnline.UI.Pages;
 public partial class Pacientes
 {
 	private string searchString = "";
-	private readonly int[] pageSizes = new int[] { 5, 10, 15, 20, 25 };
+	private readonly int[] pageSizes = [5, 10, 15, 20, 25];
 
 	protected override async Task OnInitializedAsync()
 	{
