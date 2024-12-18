@@ -15,6 +15,11 @@ public partial class Responsaveis
 		NavigationManager.NavigateTo($"responsavel/{id}");
 	}
 
+	void EditarPaciente(int id)
+	{
+		NavigationManager.NavigateTo($"paciente/{id}");
+	}
+
 	void AddResponsavel()
 	{
 		NavigationManager.NavigateTo("responsavel");

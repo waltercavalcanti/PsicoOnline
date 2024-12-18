@@ -6,48 +6,39 @@
 
 @if (PacienteService.Pacientes == null)
 {
-	<MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
 }
 else if (!PacienteService.Pacientes.Any())
 {
-	<p><em>Nenhum paciente cadastrado.</em></p>
+    <p><em>Nenhum paciente cadastrado.</em></p>
 }
 else
 {
-	<MudTable Items="PacienteService.Pacientes" Dense="true" Hover="true" Filter="new Func<PacienteModel, bool>(Filtrar)">
-		<ToolBarContent>
-			<MudTextField Placeholder="Buscar" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Rounded.Search" IconSize="Size.Small"
-						  Class="mt-0" Margin="Margin.Dense" Clearable="true" Immediate="true" @bind-Value="searchString" />
-		</ToolBarContent>
-		<HeaderContent>
-			<MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<PacienteModel, object>(p => p.Nome)">Nome</MudTableSortLabel></MudTh>
-			<MudTh>Data de Nascimento</MudTh>
-			<MudTh>Idade</MudTh>
-			<MudTh>Telefone</MudTh>
-			<MudTh>Gênero</MudTh>
-			<MudTh></MudTh>
-		</HeaderContent>
-		<RowTemplate>
-			<MudTd DataLabel="Nome">@context.Nome</MudTd>
-			<MudTd DataLabel="Data de Nascimento">@context.DataNascimento.Value.ToShortDateString()</MudTd>
-			<MudTd DataLabel="Idade">@context.GetIdade() ano(s)</MudTd>
-			<MudTd DataLabel="Telefone">@context.Telefone</MudTd>
-			@if (@context.Genero.ToString() == "M")
-			{
-				<MudTd DataLabel="Gênero">Masculino</MudTd>
-			}
-			else
-			{
-				<MudTd DataLabel="Gênero">Feminino</MudTd>
-			}
-			<MudTd DataLabel="Editar">
-				<MudIconButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" Icon="@Icons.Material.Rounded.Edit" Title="Editar" OnClick="(() => EditarPaciente(context.Id))" />
-			</MudTd>
-		</RowTemplate>
-		<PagerContent>
-			<MudTablePager HorizontalAlignment="HorizontalAlignment.Left" RowsPerPageString="Linhas por página:" PageSizeOptions="pageSizes" />
-		</PagerContent>
-	</MudTable>
-	<br />
-	<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" @onclick="AddPaciente">Adicionar</MudButton>
+    <MudTable Items="PacienteService.Pacientes" Dense="true" Hover="true" Filter="new Func<PacienteModel, bool>(Filtrar)">
+        <ToolBarContent>
+            <MudTextField Placeholder="Buscar" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Rounded.Search" IconSize="Size.Small"
+                          Class="mt-0" Margin="Margin.Dense" Clearable="true" Immediate="true" @bind-Value="searchString" />
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<PacienteModel, object>(p => p.Nome)">Nome</MudTableSortLabel></MudTh>
+            <MudTh>Data de Nascimento</MudTh>
+            <MudTh>Idade</MudTh>
+            <MudTh>Telefone</MudTh>
+            <MudTh></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Nome">@context.Nome</MudTd>
+            <MudTd DataLabel="Data de Nascimento">@context.DataNascimento.Value.ToShortDateString()</MudTd>
+            <MudTd DataLabel="Idade">@context.GetIdade() ano(s)</MudTd>
+            <MudTd DataLabel="Telefone">@context.Telefone</MudTd>
+            <MudTd DataLabel="Editar">
+                <MudIconButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" Icon="@Icons.Material.Rounded.Edit" Title="Editar" OnClick="(() => EditarPaciente(context.Id))" />
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager HorizontalAlignment="HorizontalAlignment.Left" RowsPerPageString="Linhas por página:" PageSizeOptions="pageSizes" />
+        </PagerContent>
+    </MudTable>
+    <br />
+    <MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" @onclick="AddPaciente">Adicionar</MudButton>
 }

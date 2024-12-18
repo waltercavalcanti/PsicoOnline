@@ -6,39 +6,43 @@
 
 @if (ResponsavelService.Responsaveis == null)
 {
-	<MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
 }
 else if (!ResponsavelService.Responsaveis.Any())
 {
-	<p><em>Nenhum responsável cadastrado.</em></p>
+    <p><em>Nenhum responsável cadastrado.</em></p>
 }
 else
 {
-	<MudTable Items="ResponsavelService.Responsaveis" Dense="true" Hover="true" Filter="new Func<ResponsavelModel, bool>(Filtrar)">
-		<ToolBarContent>
-			<MudTextField Placeholder="Buscar" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Rounded.Search" IconSize="Size.Small"
-						  Class="mt-0" Margin="Margin.Dense" Clearable="true" Immediate="true" @bind-Value="searchString" />
-		</ToolBarContent>
-		<HeaderContent>
-			<MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<ResponsavelModel, object>(r => r.Nome)">Nome</MudTableSortLabel></MudTh>
-			<MudTh>Telefone</MudTh>
-			<MudTh>Paciente</MudTh>
-			<MudTh>Parentesco</MudTh>
-			<MudTh></MudTh>
-		</HeaderContent>
-		<RowTemplate>
-			<MudTd DataLabel="Nome">@context.Nome</MudTd>
-			<MudTd DataLabel="Telefone">@context.Telefone</MudTd>
-			<MudTd DataLabel="Paciente">@context.Paciente.Nome</MudTd>
-			<MudTd DataLabel="parentescco">@context.GrauParentesco.Descricao</MudTd>
-			<MudTd DataLabel="Editar">
-				<MudIconButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" Icon="@Icons.Material.Rounded.Edit" Title="Editar" OnClick="(() => EditarResponsavel(context.Id))" />
-			</MudTd>
-		</RowTemplate>
-		<PagerContent>
-			<MudTablePager HorizontalAlignment="HorizontalAlignment.Left" RowsPerPageString="Linhas por página:" PageSizeOptions="pageSizes" />
-		</PagerContent>
-	</MudTable>
-	<br />
-	<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" @onclick="AddResponsavel">Adicionar</MudButton>
+    <MudTable Items="ResponsavelService.Responsaveis" Dense="true" Hover="true" Filter="new Func<ResponsavelModel, bool>(Filtrar)">
+        <ToolBarContent>
+            <MudTextField Placeholder="Buscar" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Rounded.Search" IconSize="Size.Small"
+                          Class="mt-0" Margin="Margin.Dense" Clearable="true" Immediate="true" @bind-Value="searchString" />
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<ResponsavelModel, object>(r => r.Nome)">Nome</MudTableSortLabel></MudTh>
+            <MudTh>Telefone</MudTh>
+            <MudTh>Paciente</MudTh>
+            <MudTh>Parentesco</MudTh>
+            <MudTh></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Nome">@context.Nome</MudTd>
+            <MudTd DataLabel="Telefone">@context.Telefone</MudTd>
+            <MudTd DataLabel="Paciente">
+                <MudLink OnClick="(() => EditarPaciente(context.PacienteId))">
+                    @context.Paciente.Nome
+                </MudLink>
+            </MudTd>
+            <MudTd DataLabel="parentescco">@context.GrauParentesco.Descricao</MudTd>
+            <MudTd DataLabel="Editar">
+                <MudIconButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" Icon="@Icons.Material.Rounded.Edit" Title="Editar" OnClick="(() => EditarResponsavel(context.Id))" />
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager HorizontalAlignment="HorizontalAlignment.Left" RowsPerPageString="Linhas por página:" PageSizeOptions="pageSizes" />
+        </PagerContent>
+    </MudTable>
+    <br />
+    <MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" @onclick="AddResponsavel">Adicionar</MudButton>
 }
