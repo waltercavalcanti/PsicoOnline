@@ -28,7 +28,8 @@ public static class DependencyInjectionSetup
 		services.AddDbContext<EFContext>((provider, options) => options.UseSqlServer(provider.GetRequiredService<IOptions<AppSettings>>().Value.ConnectionStrings.PsicoOnlineDBConnStr));
 
 		services.AddEndpointsApiExplorer();
-		services.AddSwaggerGen();
+		//services.AddSwaggerGen();
+		services.AddOpenApi();
 		services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 		return services;

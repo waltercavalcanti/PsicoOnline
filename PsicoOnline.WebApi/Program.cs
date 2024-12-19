@@ -11,7 +11,8 @@ builder.Services.RegistrarServicos();
 
 var app = builder.Build();
 
-app.ConfigurarSwagger();
+//app.ConfigurarSwagger();
+app.ConfigurarScalar();
 
 app.UseHttpsRedirection();
 
