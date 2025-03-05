@@ -1,0 +1,6 @@
+@PsicoOnline.WebApi_HostAddress = http://localhost:5102
+
+GET {{PsicoOnline.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
