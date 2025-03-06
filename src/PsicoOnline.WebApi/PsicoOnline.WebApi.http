@@ -1,6 +1,18 @@
 @PsicoOnline.WebApi_HostAddress = http://localhost:5102
 
-GET {{PsicoOnline.WebApi_HostAddress}}/weatherforecast/
+GET {{PsicoOnline.WebApi_HostAddress}}/api/GrauParentesco/GetAll
 Accept: application/json
+
+###
+
+GET {{PsicoOnline.WebApi_HostAddress}}/api/Paciente/GetAll
+
+###
+
+GET {{PsicoOnline.WebApi_HostAddress}}/api/Responsavel/GetAll
+
+###
+
+GET {{PsicoOnline.WebApi_HostAddress}}/api/Sessao/GetAll
 
 ###
