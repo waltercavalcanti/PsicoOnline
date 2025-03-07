@@ -63,11 +63,9 @@ public class ResponsavelRepository(EFContext db, IMapper mapper) : EFRepository<
 	{
 		ArgumentNullException.ThrowIfNull(responsavelDTO);
 
-		var responsavelId = responsavelDTO.Id;
-
-		if (!ResponsavelExists(responsavelId))
+		if (!ResponsavelExists(responsavelDTO.Id))
 		{
-			throw new ResponsavelNaoExisteException(responsavelId);
+			throw new ResponsavelNaoExisteException(responsavelDTO.Id);
 		}
 
 		var responsavel = mapper.Map<Responsavel>(responsavelDTO);

@@ -61,11 +61,9 @@ public class PacienteRepository(EFContext db, IMapper mapper) : EFRepository<Pac
 	{
 		ArgumentNullException.ThrowIfNull(pacienteDTO);
 
-		var pacienteId = pacienteDTO.Id;
-
-		if (!PacienteExists(pacienteId))
+		if (!PacienteExists(pacienteDTO.Id))
 		{
-			throw new PacienteNaoExisteException(pacienteId);
+			throw new PacienteNaoExisteException(pacienteDTO.Id);
 		}
 
 		var paciente = mapper.Map<Paciente>(pacienteDTO);

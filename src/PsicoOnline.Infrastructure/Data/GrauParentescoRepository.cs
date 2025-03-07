@@ -41,11 +41,9 @@ public class GrauParentescoRepository(EFContext db, IMapper mapper) : EFReposito
 	{
 		ArgumentNullException.ThrowIfNull(grauParentescoDTO);
 
-		var grauParentescoId = grauParentescoDTO.Id;
-
-		if (!GrauParentescoExists(grauParentescoId))
+		if (!GrauParentescoExists(grauParentescoDTO.Id))
 		{
-			throw new GrauParentescoNaoExisteException(grauParentescoId);
+			throw new GrauParentescoNaoExisteException(grauParentescoDTO.Id);
 		}
 
 		var grauParentesco = mapper.Map<GrauParentesco>(grauParentescoDTO);

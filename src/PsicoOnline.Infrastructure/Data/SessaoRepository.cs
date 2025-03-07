@@ -86,11 +86,9 @@ public class SessaoRepository(EFContext db, IMapper mapper) : EFRepository<Sessa
 	{
 		ArgumentNullException.ThrowIfNull(sessaoDTO);
 
-		var sessaoId = sessaoDTO.Id;
-
-		if (!SessaoExists(sessaoId))
+		if (!SessaoExists(sessaoDTO.Id))
 		{
-			throw new SessaoNaoExisteException(sessaoId);
+			throw new SessaoNaoExisteException(sessaoDTO.Id);
 		}
 
 		var sessao = mapper.Map<Sessao>(sessaoDTO);
