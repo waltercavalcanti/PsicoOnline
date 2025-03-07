@@ -1,14 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Interfaces;
 using PsicoOnline.Infrastructure.Logging;
+using PsicoOnline.WebApi.Features.GrauParentesco.AddGrauParentesco;
+using PsicoOnline.WebApi.Features.GrauParentesco.DeleteGrauParentesco;
+using PsicoOnline.WebApi.Features.GrauParentesco.GetAllGrausParentesco;
+using PsicoOnline.WebApi.Features.GrauParentesco.GetGrauParentescoById;
+using PsicoOnline.WebApi.Features.GrauParentesco.UpdateGrauParentesco;
 
 namespace PsicoOnline.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class GrauParentescoController(IGrauParentescoRepository grauParentescoRepository) : ControllerBase
+public class GrauParentescoController(ISender sender) : ControllerBase
 {
 	private readonly IAppLogger<GrauParentescoController> _appLogger = new AppLogger<GrauParentescoController>();
 
@@ -17,7 +22,7 @@ public class GrauParentescoController(IGrauParentescoRepository grauParentescoRe
 	[EnableQuery]
 	public async Task<ActionResult> GetAllGrausParentescoAsync()
 	{
-		var grausParentesco = await grauParentescoRepository.GetAllGrausParentescoAsync();
+		var grausParentesco = await sender.Send(new GetAllGrausParentescoQuery());
 
 		return grausParentesco == null || !grausParentesco.Any()
 			? NotFound("Não há graus de parentesco cadastrados.")
@@ -28,7 +33,7 @@ public class GrauParentescoController(IGrauParentescoRepository grauParentescoRe
 	[Route("GetById/{id}")]
 	public async Task<ActionResult> GetGrauParentescoByIdAsync(int id)
 	{
-		var grauParentesco = await grauParentescoRepository.GetGrauParentescoByIdAsync(id);
+		var grauParentesco = await sender.Send(new GetGrauParentescoByIdQuery(id));
 
 		return grauParentesco == null
 			? NotFound($"Não há grau de parentesco cadastrado com o id {id}.")
@@ -37,9 +42,9 @@ public class GrauParentescoController(IGrauParentescoRepository grauParentescoRe
 
 	[HttpPost]
 	[Route("Add")]
-	public async Task<ActionResult> AddGrauParentescoAsync(GrauParentescoAddDTO grauParentescoDTO)
+	public async Task<ActionResult> AddGrauParentescoAsync(AddGrauParentescoCommand addGrauParentescoCommand)
 	{
-		var grauParentesco = await grauParentescoRepository.AddGrauParentescoAsync(grauParentescoDTO);
+		var grauParentesco = await sender.Send(addGrauParentescoCommand);
 
 		return Ok(grauParentesco);
 	}
@@ -50,9 +55,9 @@ public class GrauParentescoController(IGrauParentescoRepository grauParentescoRe
 	{
 		try
 		{
-			await grauParentescoRepository.DeleteGrauParentescoAsync(id);
+			var retorno = await sender.Send(new DeleteGrauParentescoCommand(id));
 
-			return Ok("Grau de parentesco excluído com sucesso.");
+			return Ok(retorno);
 		}
 		catch (Exception ex)
 		{
@@ -62,13 +67,13 @@ public class GrauParentescoController(IGrauParentescoRepository grauParentescoRe
 
 	[HttpPut]
 	[Route("Update")]
-	public async Task<ActionResult> UpdateGrauParentescoAsync(GrauParentescoUpdateDTO grauParentescoDTO)
+	public async Task<ActionResult> UpdateGrauParentescoAsync(UpdateGrauParentescoCommand updateGrauParentescoCommand)
 	{
 		try
 		{
-			await grauParentescoRepository.UpdateGrauParentescoAsync(grauParentescoDTO);
+			var retorno = await sender.Send(updateGrauParentescoCommand);
 
-			return Ok("Grau de parentesco atualizado com sucesso.");
+			return Ok(retorno);
 		}
 		catch (Exception ex)
 		{

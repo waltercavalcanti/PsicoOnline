@@ -1,14 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Interfaces;
 using PsicoOnline.Infrastructure.Logging;
+using PsicoOnline.WebApi.Features.Sessao.AddSessao;
+using PsicoOnline.WebApi.Features.Sessao.DeleteSessao;
+using PsicoOnline.WebApi.Features.Sessao.GetAllSessoes;
+using PsicoOnline.WebApi.Features.Sessao.GetSessaoById;
+using PsicoOnline.WebApi.Features.Sessao.GetSessoesByPacienteIdData;
+using PsicoOnline.WebApi.Features.Sessao.UpdateSessao;
 
 namespace PsicoOnline.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class SessaoController(ISessaoRepository sessaoRepository) : ControllerBase
+public class SessaoController(ISender sender) : ControllerBase
 {
 	private readonly IAppLogger<SessaoController> _appLogger = new AppLogger<SessaoController>();
 
@@ -17,7 +23,7 @@ public class SessaoController(ISessaoRepository sessaoRepository) : ControllerBa
 	[EnableQuery]
 	public async Task<ActionResult> GetAllSessoesAsync()
 	{
-		var sessoes = await sessaoRepository.GetAllSessoesAsync();
+		var sessoes = await sender.Send(new GetAllSessoesQuery());
 
 		return sessoes == null || !sessoes.Any()
 			? NotFound("Não há sessões cadastradas.")
@@ -28,7 +34,7 @@ public class SessaoController(ISessaoRepository sessaoRepository) : ControllerBa
 	[Route("GetById/{id}")]
 	public async Task<ActionResult> GetSessaoByIdAsync(int id)
 	{
-		var sessao = await sessaoRepository.GetSessaoByIdAsync(id);
+		var sessao = await sender.Send(new GetSessaoByIdQuery(id));
 
 		return sessao == null
 			? NotFound($"Não há sessão cadastrada com o id {id}.")
@@ -37,9 +43,9 @@ public class SessaoController(ISessaoRepository sessaoRepository) : ControllerBa
 
 	[HttpGet]
 	[Route("GetByPacienteIdData")]
-	public async Task<ActionResult> GetSessoesByPacienteIdDataAsync(SessaoFilterDTO sessaoDTO)
+	public async Task<ActionResult> GetSessoesByPacienteIdDataAsync(GetSessoesByPacienteIdDataQuery getSessoesByPacienteIdDataQuery)
 	{
-		var sessoes = await sessaoRepository.GetSessoesByPacienteIdDataAsync(sessaoDTO);
+		var sessoes = await sender.Send(getSessoesByPacienteIdDataQuery);
 
 		return sessoes == null || !sessoes.Any()
 			? NotFound("Não há sessões cadastradas para os parâmetros informados.")
@@ -48,9 +54,9 @@ public class SessaoController(ISessaoRepository sessaoRepository) : ControllerBa
 
 	[HttpPost]
 	[Route("Add")]
-	public async Task<ActionResult> AddSessaoAsync(SessaoAddDTO sessaoDTO)
+	public async Task<ActionResult> AddSessaoAsync(AddSessaoCommand addSessaoCommand)
 	{
-		var sessao = await sessaoRepository.AddSessaoAsync(sessaoDTO);
+		var sessao = await sender.Send(addSessaoCommand);
 
 		return Ok(sessao);
 	}
@@ -61,9 +67,9 @@ public class SessaoController(ISessaoRepository sessaoRepository) : ControllerBa
 	{
 		try
 		{
-			await sessaoRepository.DeleteSessaoAsync(id);
+			var retorno = await sender.Send(new DeleteSessaoCommand(id));
 
-			return Ok("Sessão excluída com sucesso.");
+			return Ok(retorno);
 		}
 		catch (Exception ex)
 		{
@@ -73,13 +79,13 @@ public class SessaoController(ISessaoRepository sessaoRepository) : ControllerBa
 
 	[HttpPut]
 	[Route("Update")]
-	public async Task<ActionResult> UpdateSessaoAsync(SessaoUpdateDTO sessaoDTO)
+	public async Task<ActionResult> UpdateSessaoAsync(UpdateSessaoCommand updateSessaoCommand)
 	{
 		try
 		{
-			await sessaoRepository.UpdateSessaoAsync(sessaoDTO);
+			var retorno = await sender.Send(updateSessaoCommand);
 
-			return Ok("Sessão atualizada com sucesso.");
+			return Ok(retorno);
 		}
 		catch (Exception ex)
 		{

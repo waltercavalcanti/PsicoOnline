@@ -1,3 +1,8 @@
 ﻿namespace PsicoOnline.Core.DTO;
 
-public record GrauParentescoUpdateDTO(int Id, string Descricao);
+public class GrauParentescoUpdateDTO
+{
+	public int Id { get; set; }
+
+	public string Descricao { get; set; }
+}

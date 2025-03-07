@@ -1,3 +1,10 @@
 ﻿namespace PsicoOnline.Core.DTO;
 
-public record SessaoAddDTO(int PacienteId, DateTime DataSessao, string Anotacao);
+public class SessaoAddDTO
+{
+	public int PacienteId { get; set; }
+
+	public DateTime DataSessao { get; set; }
+
+	public string Anotacao { get; set; }
+}

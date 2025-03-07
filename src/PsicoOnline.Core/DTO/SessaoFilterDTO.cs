@@ -1,3 +1,8 @@
 ﻿namespace PsicoOnline.Core.DTO;
 
-public record SessaoFilterDTO(int? PacienteId, DateTime? DataSessao);
+public class SessaoFilterDTO
+{
+	public int? PacienteId { get; set; }
+
+	public DateTime? DataSessao { get; set; }
+}
