@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PsicoOnline.Core.Entities;
 using PsicoOnline.Core.Interfaces;
+using System.Linq.Expressions;
 
 namespace PsicoOnline.Infrastructure.Data;
 
@@ -11,6 +12,8 @@ public class EFRepository<T, K>(EFContext db) : IDisposable, IRepository<T, K> w
 	public async Task<T> GetByIdAsync(K id) => await _db.Set<T>().FindAsync(id);
 
 	public async Task<IReadOnlyList<T>> GetAllAsync() => await _db.Set<T>().ToListAsync();
+
+	public async Task<IReadOnlyList<T>> GetWhereAsync(Expression<Func<T, bool>> where) => await _db.Set<T>().Where(where).ToListAsync();
 
 	public async Task<T> AddAsync(T entity)
 	{

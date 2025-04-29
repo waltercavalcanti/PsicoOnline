@@ -3,6 +3,7 @@ using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
 using PsicoOnline.Core.Exceptions;
 using PsicoOnline.Core.Interfaces;
+using System.Linq.Expressions;
 
 namespace PsicoOnline.Infrastructure.Data;
 
@@ -34,6 +35,19 @@ public class ResponsavelRepository(EFContext db, IMapper mapper) : EFRepository<
 	public async Task<IReadOnlyList<Responsavel>> GetAllResponsaveisAsync()
 	{
 		var responsaveis = await GetAllAsync();
+
+		foreach (var r in responsaveis)
+		{
+			r.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == r.PacienteId);
+			r.GrauParentesco = _db.GrauParentesco.FirstOrDefault(gp => gp.Id == r.GrauParentescoId);
+		}
+
+		return responsaveis;
+	}
+
+	public async Task<IReadOnlyList<Responsavel>> GetResponsaveisWhereAsync(Expression<Func<Responsavel, bool>> where)
+	{
+		var responsaveis = await GetWhereAsync(where);
 
 		foreach (var r in responsaveis)
 		{

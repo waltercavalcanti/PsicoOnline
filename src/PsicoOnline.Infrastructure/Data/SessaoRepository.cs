@@ -3,6 +3,7 @@ using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
 using PsicoOnline.Core.Exceptions;
 using PsicoOnline.Core.Interfaces;
+using System.Linq.Expressions;
 
 namespace PsicoOnline.Infrastructure.Data;
 
@@ -75,6 +76,18 @@ public class SessaoRepository(EFContext db, IMapper mapper) : EFRepository<Sessa
 			{
 				s.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == s.PacienteId);
 			}
+		}
+
+		return sessoes;
+	}
+
+	public async Task<IReadOnlyList<Sessao>> GetSessoesWhereAsync(Expression<Func<Sessao, bool>> where)
+	{
+		var sessoes = await GetWhereAsync(where);
+
+		foreach (var s in sessoes)
+		{
+			s.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == s.PacienteId);
 		}
 
 		return sessoes;

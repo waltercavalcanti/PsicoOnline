@@ -3,6 +3,7 @@ using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
 using PsicoOnline.Core.Exceptions;
 using PsicoOnline.Core.Interfaces;
+using System.Linq.Expressions;
 
 namespace PsicoOnline.Infrastructure.Data;
 
@@ -34,6 +35,8 @@ public class GrauParentescoRepository(EFContext db, IMapper mapper) : EFReposito
 	public async Task<IReadOnlyList<GrauParentesco>> GetAllGrausParentescoAsync() => await GetAllAsync();
 
 	public async Task<GrauParentesco> GetGrauParentescoByIdAsync(int id) => await GetByIdAsync(id);
+
+	public async Task<IReadOnlyList<GrauParentesco>> GetGrausParentescoWhereAsync(Expression<Func<GrauParentesco, bool>> where) => await GetWhereAsync(where);
 
 	public bool GrauParentescoExists(int id) => _db.GrauParentesco.Any(gp => gp.Id == id);
 
