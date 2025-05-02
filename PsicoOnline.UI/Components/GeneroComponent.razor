@@ -2,13 +2,13 @@
 <br />
 @if (Paciente != null)
 {
-	<MudRadioGroup @bind-SelectedOption="Paciente.Genero">
-		<GeneroRadioComponent />
-	</MudRadioGroup>
+    <MudRadioGroup @bind-Value="Paciente.Genero">
+        <GeneroRadioComponent />
+    </MudRadioGroup>
 }
 else
 {
-	<MudRadioGroup @bind-SelectedOption="Responsavel.Genero">
-		<GeneroRadioComponent />
-	</MudRadioGroup>
+    <MudRadioGroup @bind-Value="Responsavel.Genero">
+        <GeneroRadioComponent />
+    </MudRadioGroup>
 }

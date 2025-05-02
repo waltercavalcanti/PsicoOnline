@@ -4,7 +4,7 @@ public partial class ConfirmarExclusaoComponent
 {
 	async Task ConfirmarExclusaoAsync()
 	{
-		_ = await MessageBox!.Show();
+		_ = await MessageBox!.ShowAsync();
 		StateHasChanged();
 	}
 
