@@ -12,3 +12,11 @@ else
         <GeneroRadioComponent />
     </MudRadioGroup>
 }
+
+@code {
+    [Parameter]
+    public PacienteModel Paciente { get; set; }
+
+    [Parameter]
+    public ResponsavelModel Responsavel { get; set; }
+}

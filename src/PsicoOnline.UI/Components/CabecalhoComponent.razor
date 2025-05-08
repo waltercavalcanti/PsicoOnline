@@ -2,3 +2,8 @@
 <PageTitle>@Titulo</PageTitle>
 <MudText Typo="Typo.h5">@Titulo</MudText>
 <hr />
+
+@code {
+    [Parameter]
+    public string Titulo { get; set; } = string.Empty;
+}

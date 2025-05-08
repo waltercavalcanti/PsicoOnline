@@ -1,6 +1,18 @@
 ﻿<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Save" Color="Color.Primary" ButtonType="ButtonType.Submit">@btnText</MudButton>&nbsp;
 @if (Id != null)
 {
-	var mensagem = $"Confirma a exclusão do registro?";
-	<ConfirmarExclusaoComponent Mensagem="@mensagem" DeleteAsync="DeleteAsync" />
+    var mensagem = $"Confirma a exclusão do registro?";
+    <ConfirmarExclusaoComponent Mensagem="@mensagem" DeleteAsync="DeleteAsync" />
+}
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    string btnText = string.Empty;
+
+    protected override async Task OnInitializedAsync() => btnText = Id == null ? "Salvar" : "Atualizar";
+
+    [Parameter]
+    public EventCallback DeleteAsync { get; set; }
 }

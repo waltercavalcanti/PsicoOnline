@@ -1,9 +1,27 @@
 ﻿<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="ConfirmarExclusaoAsync">Excluir</MudButton>
 <MudMessageBox @ref="MessageBox" Title="Atenção" CancelText="Não">
-	<MessageContent>
-		@Mensagem
-	</MessageContent>
-	<YesButton>
-		<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="InvokeDeleteAsync">Sim</MudButton>
-	</YesButton>
+    <MessageContent>
+        @Mensagem
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="InvokeDeleteAsync">Sim</MudButton>
+    </YesButton>
 </MudMessageBox>
+
+@code {
+    async Task ConfirmarExclusaoAsync()
+    {
+        _ = await MessageBox!.ShowAsync();
+        StateHasChanged();
+    }
+
+    MudMessageBox? MessageBox { get; set; }
+
+    [Parameter]
+    public string Mensagem { get; set; } = string.Empty;
+
+    private async Task InvokeDeleteAsync() => await DeleteAsync.InvokeAsync();
+
+    [Parameter]
+    public EventCallback DeleteAsync { get; set; }
+}
