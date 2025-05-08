@@ -5,19 +5,55 @@
 <CabecalhoComponent Titulo="@titulo" />
 
 <EditForm Model="responsavel" OnValidSubmit="SubmeterAsync">
-	<DataAnnotationsValidator />
-	<MudCard>
-		<MudCardContent>
-			<MudTextField Label="Nome" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="300"
-			@bind-Value="responsavel.Nome" For="@(() => responsavel.Nome)" />
-			<MudDatePicker Label="Data de Nascimento" Variant="Variant.Outlined" Margin="Margin.Dense" Editable="true" Mask="@(new DateMask("dd/MM/yyyy"))" DateFormat="dd/MM/yyyy"
-			@bind-Date="responsavel.DataNascimento" For="@(() => responsavel.DataNascimento)" />
-			<br />
-			<MudTextField Label="Telefone" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="11"
-			@bind-Value="responsavel.Telefone" For="@(() => responsavel.Telefone)" />
-			<GeneroComponent Responsavel="@responsavel" />
-		</MudCardContent>
-	</MudCard>
-	<br />
-	<BotoesAcaoComponent Id="@Id" DeleteAsync="DeleteResponsavelAsync" />
+    <DataAnnotationsValidator />
+    <MudCard>
+        <MudCardContent>
+            <MudTextField Label="Nome" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="300"
+                          @bind-Value="responsavel.Nome" For="@(() => responsavel.Nome)" />
+            <MudDatePicker Label="Data de Nascimento" Variant="Variant.Outlined" Margin="Margin.Dense" Editable="true" Mask="@(new DateMask("dd/MM/yyyy"))" DateFormat="dd/MM/yyyy"
+                           @bind-Date="responsavel.DataNascimento" For="@(() => responsavel.DataNascimento)" />
+            <br />
+            <MudTextField Label="Telefone" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="11"
+                          @bind-Value="responsavel.Telefone" For="@(() => responsavel.Telefone)" />
+            <GeneroComponent Responsavel="@responsavel" />
+        </MudCardContent>
+    </MudCard>
+    <br />
+    <BotoesAcaoComponent Id="@Id" DeleteAsync="DeleteResponsavelAsync" />
 </EditForm>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    string titulo = string.Empty;
+
+    ResponsavelModel responsavel = new() { Genero = 'M' };
+
+    protected override async Task OnInitializedAsync() => titulo = Id == null ? "Adicionar Responsável" : "Editar Responsável";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id != null)
+        {
+            responsavel = await ResponsavelService.GetResponsavelByIdAsync((int)Id);
+        }
+    }
+
+    async Task SubmeterAsync()
+    {
+        if (Id == null)
+        {
+            await ResponsavelService.AddResponsavelAsync(responsavel);
+        }
+        else
+        {
+            await ResponsavelService.UpdateResponsavelAsync(responsavel);
+        }
+    }
+
+    async Task DeleteResponsavelAsync()
+    {
+        await ResponsavelService.DeleteResponsavelAsync(responsavel.Id);
+    }
+}

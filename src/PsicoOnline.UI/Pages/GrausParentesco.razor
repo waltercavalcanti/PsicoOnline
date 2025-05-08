@@ -6,33 +6,70 @@
 
 @if (GrauParentescoService.GrausParentesco == null)
 {
-	<MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
 }
 else if (!GrauParentescoService.GrausParentesco.Any())
 {
-	<p><em>Nenhum grau de parentesco cadastrado.</em></p>
+    <p><em>Nenhum grau de parentesco cadastrado.</em></p>
 }
 else
 {
-	<MudTable Items="GrauParentescoService.GrausParentesco" Dense="true" Hover="true" Filter="new Func<GrauParentescoModel, bool>(Filtrar)">
-		<ToolBarContent>
-			<MudTextField Placeholder="Buscar" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Rounded.Search" IconSize="Size.Small"
-						  Class="mt-0" Margin="Margin.Dense" Clearable="true" Immediate="true" @bind-Value="searchString" />
-		</ToolBarContent>
-		<HeaderContent>
-			<MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<GrauParentescoModel, object>(gp => gp.Descricao)">Descrição</MudTableSortLabel></MudTh>
-			<MudTh></MudTh>
-		</HeaderContent>
-		<RowTemplate>
-			<MudTd DataLabel="Descrição">@context.Descricao</MudTd>
-			<MudTd DataLabel="Editar">
-				<MudIconButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" Icon="@Icons.Material.Rounded.Edit" title="Editar" OnClick="(() => EditarGrauParentesco(context.Id))" />
-			</MudTd>
-		</RowTemplate>
-		<PagerContent>
-			<MudTablePager HorizontalAlignment="HorizontalAlignment.Left" RowsPerPageString="Linhas por página:" PageSizeOptions="pageSizes" />
-		</PagerContent>
-	</MudTable>
-	<br />
-	<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" @onclick="AddGrauParentesco">Adicionar</MudButton>
+    <MudTable Items="GrauParentescoService.GrausParentesco" Dense="true" Hover="true" Filter="new Func<GrauParentescoModel, bool>(Filtrar)">
+        <ToolBarContent>
+            <MudTextField Placeholder="Buscar" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Rounded.Search" IconSize="Size.Small"
+                          Class="mt-0" Margin="Margin.Dense" Clearable="true" Immediate="true" @bind-Value="searchString" />
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<GrauParentescoModel, object>(gp => gp.Descricao)">Descrição</MudTableSortLabel></MudTh>
+            <MudTh></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Descrição">@context.Descricao</MudTd>
+            <MudTd DataLabel="Editar">
+                <MudIconButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" Icon="@Icons.Material.Rounded.Edit" title="Editar" OnClick="(() => EditarGrauParentesco(context.Id))" />
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager HorizontalAlignment="HorizontalAlignment.Left" RowsPerPageString="Linhas por página:" PageSizeOptions="pageSizes" />
+        </PagerContent>
+    </MudTable>
+    <br />
+    <MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" @onclick="AddGrauParentesco">Adicionar</MudButton>
+}
+
+@code {
+    private string searchString = "";
+    private readonly int[] pageSizes = [5, 10, 15, 20, 25];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GrauParentescoService.GetAllGrausParentescoAsync();
+    }
+
+    void EditarGrauParentesco(int id)
+    {
+        NavigationManager.NavigateTo($"grauparentesco/{id}");
+    }
+
+    void AddGrauParentesco()
+    {
+        NavigationManager.NavigateTo("grauparentesco");
+    }
+
+    private bool Filtrar(GrauParentescoModel grauParentesco) => Filtrar(grauParentesco, searchString);
+
+    private static bool Filtrar(GrauParentescoModel grauParentesco, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+        {
+            return true;
+        }
+
+        if (grauParentesco.Descricao.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

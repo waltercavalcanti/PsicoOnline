@@ -5,13 +5,49 @@
 <CabecalhoComponent Titulo="@titulo" />
 
 <EditForm Model="grauParentesco" OnValidSubmit="SubmeterAsync">
-	<DataAnnotationsValidator />
-	<MudCard>
-		<MudCardContent>
-			<MudTextField Label="Descrição" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="100"
-			@bind-Value="grauParentesco.Descricao" For="@(() => grauParentesco.Descricao)" />
-		</MudCardContent>
-	</MudCard>
-	<br />
-	<BotoesAcaoComponent Id="@Id" DeleteAsync="DeleteGrauParentescoAsync" />
+    <DataAnnotationsValidator />
+    <MudCard>
+        <MudCardContent>
+            <MudTextField Label="Descrição" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="100"
+                          @bind-Value="grauParentesco.Descricao" For="@(() => grauParentesco.Descricao)" />
+        </MudCardContent>
+    </MudCard>
+    <br />
+    <BotoesAcaoComponent Id="@Id" DeleteAsync="DeleteGrauParentescoAsync" />
 </EditForm>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    string titulo = string.Empty;
+
+    GrauParentescoModel grauParentesco = new();
+
+    protected override async Task OnInitializedAsync() => titulo = Id == null ? "Adicionar Grau de Parentesco" : "Editar Grau de Parentesco";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id != null)
+        {
+            grauParentesco = await GrauParentescoService.GetGrauParentescoByIdAsync((int)Id);
+        }
+    }
+
+    async Task SubmeterAsync()
+    {
+        if (Id == null)
+        {
+            await GrauParentescoService.AddGrauParentescoAsync(grauParentesco);
+        }
+        else
+        {
+            await GrauParentescoService.UpdateGrauParentescoAsync(grauParentesco);
+        }
+    }
+
+    async Task DeleteGrauParentescoAsync()
+    {
+        await GrauParentescoService.DeleteGrauParentescoAsync(grauParentesco.Id);
+    }
+}

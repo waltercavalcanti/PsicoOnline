@@ -5,19 +5,55 @@
 <CabecalhoComponent Titulo="@titulo" />
 
 <EditForm Model="paciente" OnValidSubmit="SubmeterAsync">
-	<DataAnnotationsValidator />
-	<MudCard>
-		<MudCardContent>
-			<MudTextField Label="Nome" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="300"
-			@bind-Value="paciente.Nome" For="@(() => paciente.Nome)" />
-			<MudDatePicker Label="Data de Nascimento" Variant="Variant.Outlined" Margin="Margin.Dense" Editable="true" Mask="@(new DateMask("dd/MM/yyyy"))" DateFormat="dd/MM/yyyy"
-			@bind-Date="paciente.DataNascimento" For="@(() => paciente.DataNascimento)" />
-			<br />
-			<MudTextField Label="Telefone" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="11"
-			@bind-Value="paciente.Telefone" For="@(() => paciente.Telefone)" />
-			<GeneroComponent Paciente="@paciente" />
-		</MudCardContent>
-	</MudCard>
-	<br />
-	<BotoesAcaoComponent Id="@Id" DeleteAsync="DeletePacienteAsync" />
+    <DataAnnotationsValidator />
+    <MudCard>
+        <MudCardContent>
+            <MudTextField Label="Nome" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="300"
+                          @bind-Value="paciente.Nome" For="@(() => paciente.Nome)" />
+            <MudDatePicker Label="Data de Nascimento" Variant="Variant.Outlined" Margin="Margin.Dense" Editable="true" Mask="@(new DateMask("dd/MM/yyyy"))" DateFormat="dd/MM/yyyy"
+                           @bind-Date="paciente.DataNascimento" For="@(() => paciente.DataNascimento)" />
+            <br />
+            <MudTextField Label="Telefone" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="11"
+                          @bind-Value="paciente.Telefone" For="@(() => paciente.Telefone)" />
+            <GeneroComponent Paciente="@paciente" />
+        </MudCardContent>
+    </MudCard>
+    <br />
+    <BotoesAcaoComponent Id="@Id" DeleteAsync="DeletePacienteAsync" />
 </EditForm>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    string titulo = string.Empty;
+
+    PacienteModel paciente = new() { Genero = 'M' };
+
+    protected override async Task OnInitializedAsync() => titulo = Id == null ? "Adicionar Paciente" : "Editar Paciente";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id != null)
+        {
+            paciente = await PacienteService.GetPacienteByIdAsync((int)Id);
+        }
+    }
+
+    async Task SubmeterAsync()
+    {
+        if (Id == null)
+        {
+            await PacienteService.AddPacienteAsync(paciente);
+        }
+        else
+        {
+            await PacienteService.UpdatePacienteAsync(paciente);
+        }
+    }
+
+    async Task DeletePacienteAsync()
+    {
+        await PacienteService.DeletePacienteAsync(paciente.Id);
+    }
+}
