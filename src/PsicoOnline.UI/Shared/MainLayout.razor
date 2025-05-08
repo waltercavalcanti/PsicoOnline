@@ -6,18 +6,38 @@
 <MudSnackbarProvider />
 
 <MudLayout>
-	<MudAppBar Elevation="1">
-		<MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => AlternarGaveta())" />
-		<MudText Typo="Typo.h5" Class="ml-3">PsicoOnline</MudText>
-		<MudSpacer />
-		<MudSwitch T="bool" Color="Color.Primary" ValueChanged="AlternarModoEscuro" ThumbIcon="@iconeAtual" />
-	</MudAppBar>
-	<MudDrawer @bind-Open="gavetaAberta" ClipMode="DrawerClipMode.Always" Elevation="2">
-		<NavMenu />
-	</MudDrawer>
-	<MudMainContent>
-		<MudContainer MaxWidth="MaxWidth.Large">
-			@Body
-		</MudContainer>
-	</MudMainContent>
+    <MudAppBar Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => AlternarGaveta())" />
+        <MudText Typo="Typo.h5" Class="ml-3">PsicoOnline</MudText>
+        <MudSpacer />
+        <MudSwitch T="bool" Color="Color.Primary" ValueChanged="AlternarModoEscuro" ThumbIcon="@iconeAtual" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="gavetaAberta" ClipMode="DrawerClipMode.Always" Elevation="2">
+        <NavMenu />
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Large">
+            @Body
+        </MudContainer>
+    </MudMainContent>
 </MudLayout>
+
+@code {
+    bool gavetaAberta = true;
+    private bool modoEscuro;
+    private string iconeAtual = Icons.Material.Outlined.LightMode;
+
+    void AlternarGaveta()
+    {
+        gavetaAberta = !gavetaAberta;
+    }
+
+    private Task AlternarModoEscuro()
+    {
+        modoEscuro = !modoEscuro;
+
+        iconeAtual = modoEscuro ? Icons.Material.Outlined.DarkMode : Icons.Material.Outlined.LightMode;
+
+        return Task.CompletedTask;
+    }
+}
