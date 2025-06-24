@@ -24,6 +24,7 @@ else
             <MudTh>Data de Nascimento</MudTh>
             <MudTh>Idade</MudTh>
             <MudTh>Telefone</MudTh>
+            <MudTh>Responsável</MudTh>
             <MudTh></MudTh>
         </HeaderContent>
         <RowTemplate>
@@ -31,12 +32,26 @@ else
             <MudTd DataLabel="Data de Nascimento">@context.DataNascimento.Value.ToShortDateString()</MudTd>
             <MudTd DataLabel="Idade">@context.GetIdade() ano(s)</MudTd>
             <MudTd DataLabel="Telefone">@context.Telefone</MudTd>
+            <MudTd DataLabel="Responsavel">
+                @if (context.Responsavel.Id != 0)
+                {
+                    <MudLink OnClick="(() => ManterResponsavel(context.ResponsavelId))">
+                        @context.Responsavel.Nome
+                    </MudLink>
+                }
+                else
+                {
+                    <MudLink OnClick="(() => ManterResponsavel(0))">
+                        Cadastrar
+                    </MudLink>
+                }
+            </MudTd>
             <MudTd DataLabel="Editar">
                 <MudIconButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" Icon="@Icons.Material.Rounded.Edit" title="Editar" OnClick="(() => EditarPaciente(context.Id))" />
             </MudTd>
         </RowTemplate>
         <PagerContent>
-            <MudTablePager HorizontalAlignment="HorizontalAlignment.Left" RowsPerPageString="Linhas por página:" PageSizeOptions="pageSizes" />
+            <MudTablePager HorizontalAlignment="HorizontalAlignment.Left" RowsPerPageString="Registros por página:" PageSizeOptions="pageSizes" />
         </PagerContent>
     </MudTable>
     <br />
@@ -55,6 +70,18 @@ else
     void EditarPaciente(int id)
     {
         NavigationManager.NavigateTo($"paciente/{id}");
+    }
+
+    void ManterResponsavel(int id)
+    {
+        if (id == 0)
+        {
+            NavigationManager.NavigateTo($"responsavel");
+        }
+        else
+        {
+            NavigationManager.NavigateTo($"responsavel/{id}");
+        }
     }
 
     void AddPaciente()

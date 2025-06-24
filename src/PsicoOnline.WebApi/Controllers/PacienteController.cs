@@ -24,20 +24,16 @@ public class PacienteController(ISender sender) : ControllerBase
 	{
 		var pacientes = await sender.Send(new GetAllPacientesQuery());
 
-		return pacientes == null || !pacientes.Any()
-			? NotFound("Não há pacientes cadastrados.")
-			: Ok(pacientes);
+		return Ok(pacientes);
 	}
 
 	[HttpGet]
 	[Route("GetById/{id}")]
 	public async Task<ActionResult> GetPacienteByIdAsync(int id)
 	{
-		var paciente = await sender.Send(new GetPacienteByIdQuery(id));
+		var paciente = await sender.Send(new GetPacienteByIdQuery(id)) ?? new();
 
-		return paciente == null
-			? NotFound($"Não há paciente cadastrado com o id {id}.")
-			: Ok(paciente);
+		return Ok(paciente);
 	}
 
 	[HttpPost]

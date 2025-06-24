@@ -24,20 +24,16 @@ public class GrauParentescoController(ISender sender) : ControllerBase
 	{
 		var grausParentesco = await sender.Send(new GetAllGrausParentescoQuery());
 
-		return grausParentesco == null || !grausParentesco.Any()
-			? NotFound("Não há graus de parentesco cadastrados.")
-			: Ok(grausParentesco);
+		return Ok(grausParentesco);
 	}
 
 	[HttpGet]
 	[Route("GetById/{id}")]
 	public async Task<ActionResult> GetGrauParentescoByIdAsync(int id)
 	{
-		var grauParentesco = await sender.Send(new GetGrauParentescoByIdQuery(id));
+		var grauParentesco = await sender.Send(new GetGrauParentescoByIdQuery(id)) ?? new();
 
-		return grauParentesco == null
-			? NotFound($"Não há grau de parentesco cadastrado com o id {id}.")
-			: Ok(grauParentesco);
+		return Ok(grauParentesco);
 	}
 
 	[HttpPost]

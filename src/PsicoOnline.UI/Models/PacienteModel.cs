@@ -38,4 +38,8 @@ public class PacienteModel
 	public string Telefone { get; set; } = string.Empty;
 
 	public char Genero { get; set; }
+
+	public int ResponsavelId { get; set; }
+
+	public ResponsavelModel Responsavel { get; set; }
 }

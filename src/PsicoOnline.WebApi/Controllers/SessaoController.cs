@@ -25,20 +25,16 @@ public class SessaoController(ISender sender) : ControllerBase
 	{
 		var sessoes = await sender.Send(new GetAllSessoesQuery());
 
-		return sessoes == null || !sessoes.Any()
-			? NotFound("Não há sessões cadastradas.")
-			: Ok(sessoes);
+		return Ok(sessoes);
 	}
 
 	[HttpGet]
 	[Route("GetById/{id}")]
 	public async Task<ActionResult> GetSessaoByIdAsync(int id)
 	{
-		var sessao = await sender.Send(new GetSessaoByIdQuery(id));
+		var sessao = await sender.Send(new GetSessaoByIdQuery(id)) ?? new();
 
-		return sessao == null
-			? NotFound($"Não há sessão cadastrada com o id {id}.")
-			: Ok(sessao);
+		return Ok(sessao);
 	}
 
 	[HttpGet]
@@ -47,9 +43,7 @@ public class SessaoController(ISender sender) : ControllerBase
 	{
 		var sessoes = await sender.Send(getSessoesByPacienteIdDataQuery);
 
-		return sessoes == null || !sessoes.Any()
-			? NotFound("Não há sessões cadastradas para os parâmetros informados.")
-			: Ok(sessoes);
+		return Ok(sessoes);
 	}
 
 	[HttpPost]

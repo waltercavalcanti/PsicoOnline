@@ -7,6 +7,7 @@ using PsicoOnline.WebApi.Features.Responsavel.AddResponsavel;
 using PsicoOnline.WebApi.Features.Responsavel.DeleteResponsavel;
 using PsicoOnline.WebApi.Features.Responsavel.GetAllResponsaveis;
 using PsicoOnline.WebApi.Features.Responsavel.GetResponsavelById;
+using PsicoOnline.WebApi.Features.Responsavel.GetResponsavelByPacienteId;
 using PsicoOnline.WebApi.Features.Responsavel.UpdateResponsavel;
 
 namespace PsicoOnline.WebApi.Controllers;
@@ -24,20 +25,25 @@ public class ResponsavelController(ISender sender) : ControllerBase
 	{
 		var responsaveis = await sender.Send(new GetAllResponsaveisQuery());
 
-		return responsaveis == null || !responsaveis.Any()
-			? NotFound("Não há responsáveis cadastrados.")
-			: Ok(responsaveis);
+		return Ok(responsaveis);
 	}
 
 	[HttpGet]
 	[Route("GetById/{id}")]
 	public async Task<ActionResult> GetResponsavelByIdAsync(int id)
 	{
-		var responsavel = await sender.Send(new GetResponsavelByIdQuery(id));
+		var responsavel = await sender.Send(new GetResponsavelByIdQuery(id)) ?? new();
 
-		return responsavel == null
-			? NotFound($"Não há responsável cadastrado com o id {id}.")
-			: Ok(responsavel);
+		return Ok(responsavel);
+	}
+
+	[HttpGet]
+	[Route("GetByPacienteId/{id}")]
+	public async Task<ActionResult> GetResponsavelByPacienteIdAsync(int id)
+	{
+		var responsavel = await sender.Send(new GetResponsavelByPacienteIdQuery(id)) ?? new();
+
+		return Ok(responsavel);
 	}
 
 	[HttpPost]

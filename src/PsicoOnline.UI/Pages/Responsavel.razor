@@ -1,6 +1,7 @@
 ﻿@page "/responsavel"
 @page "/responsavel/{id:int}"
 @inject IResponsavelService ResponsavelService
+@inject IGrauParentescoService GrauParentescoService
 
 <CabecalhoComponent Titulo="@titulo" />
 
@@ -15,6 +16,14 @@
             <br />
             <MudTextField Label="Telefone" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Immediate="true" Counter="11"
                           @bind-Value="responsavel.Telefone" For="@(() => responsavel.Telefone)" />
+            <MudSelect Label="Grau de Parentesco" Variant="Variant.Outlined" Margin="Margin.Dense"
+                       @bind-Value="responsavel.GrauParentescoId">
+                @foreach (var grauParentesco in GrausParentesco)
+                {
+                    <MudSelectItem Value="@grauParentesco.Id">@grauParentesco.Descricao</MudSelectItem>
+                }
+            </MudSelect>
+            <br />
             <GeneroComponent Responsavel="@responsavel" />
         </MudCardContent>
     </MudCard>
@@ -28,9 +37,20 @@
 
     string titulo = string.Empty;
 
-    ResponsavelModel responsavel = new() { Genero = 'M' };
+    ResponsavelModel responsavel = new() { Genero = 'M', GrauParentescoId = 1 };
 
-    protected override async Task OnInitializedAsync() => titulo = Id == null ? "Adicionar Responsável" : "Editar Responsável";
+    private List<GrauParentescoModel> GrausParentesco = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        titulo = Id == null ? "Adicionar Responsável" : "Editar Responsável";
+
+        await GrauParentescoService.GetAllGrausParentescoAsync();
+
+        GrausParentesco = GrauParentescoService.GrausParentesco;
+
+        StateHasChanged();
+    }
 
     protected override async Task OnParametersSetAsync()
     {

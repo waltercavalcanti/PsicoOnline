@@ -22,6 +22,17 @@ public class PacienteService(HttpClient httpClient, NavigationManager navigation
 
 		if (pacientes != null)
 		{
+			foreach (var paciente in pacientes)
+			{
+				var responsavel = await httpClient.GetFromJsonAsync<ResponsavelModel>($"Responsavel/GetByPacienteId/{paciente.Id}");
+
+				if (responsavel != null)
+				{
+					paciente.ResponsavelId = responsavel.Id;
+					paciente.Responsavel = responsavel;
+				}
+			}
+
 			Pacientes = pacientes;
 		}
 	}
