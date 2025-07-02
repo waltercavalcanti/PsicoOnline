@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using Mapster;
 using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
 using PsicoOnline.Core.Exceptions;
@@ -7,13 +7,13 @@ using System.Linq.Expressions;
 
 namespace PsicoOnline.Infrastructure.Data;
 
-public class PacienteRepository(EFContext db, IMapper mapper) : EFRepository<Paciente, int>(db), IPacienteRepository
+public class PacienteRepository(EFContext db) : EFRepository<Paciente, int>(db), IPacienteRepository
 {
 	public async Task<Paciente> AddPacienteAsync(PacienteAddDTO pacienteDTO)
 	{
 		ArgumentNullException.ThrowIfNull(pacienteDTO);
 
-		var paciente = mapper.Map<Paciente>(pacienteDTO);
+		var paciente = pacienteDTO.Adapt<Paciente>();
 
 		await AddAsync(paciente);
 
@@ -79,7 +79,7 @@ public class PacienteRepository(EFContext db, IMapper mapper) : EFRepository<Pac
 			throw new PacienteNaoExisteException(pacienteDTO.Id);
 		}
 
-		var paciente = mapper.Map<Paciente>(pacienteDTO);
+		var paciente = pacienteDTO.Adapt<Paciente>();
 
 		await UpdateAsync(paciente);
 	}

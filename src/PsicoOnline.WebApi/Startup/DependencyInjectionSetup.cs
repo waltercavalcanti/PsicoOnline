@@ -29,7 +29,6 @@ public static class DependencyInjectionSetup
 
 		services.AddEndpointsApiExplorer();
 		services.AddOpenApi();
-		services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 		services.AddMediatR(configuration =>
 		{

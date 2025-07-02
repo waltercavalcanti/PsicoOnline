@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using Mapster;
 using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
 using PsicoOnline.Core.Exceptions;
@@ -7,13 +7,13 @@ using System.Linq.Expressions;
 
 namespace PsicoOnline.Infrastructure.Data;
 
-public class ResponsavelRepository(EFContext db, IMapper mapper) : EFRepository<Responsavel, int>(db), IResponsavelRepository
+public class ResponsavelRepository(EFContext db) : EFRepository<Responsavel, int>(db), IResponsavelRepository
 {
 	public async Task<Responsavel> AddResponsavelAsync(ResponsavelAddDTO responsavelDTO)
 	{
 		ArgumentNullException.ThrowIfNull(responsavelDTO);
 
-		var responsavel = mapper.Map<Responsavel>(responsavelDTO);
+		var responsavel = responsavelDTO.Adapt<Responsavel>();
 
 		await AddAsync(responsavel);
 
@@ -82,7 +82,7 @@ public class ResponsavelRepository(EFContext db, IMapper mapper) : EFRepository<
 			throw new ResponsavelNaoExisteException(responsavelDTO.Id);
 		}
 
-		var responsavel = mapper.Map<Responsavel>(responsavelDTO);
+		var responsavel = responsavelDTO.Adapt<Responsavel>();
 
 		await UpdateAsync(responsavel);
 	}

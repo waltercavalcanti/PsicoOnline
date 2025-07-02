@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using Mapster;
 using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
 using PsicoOnline.Core.Exceptions;
@@ -7,13 +7,13 @@ using System.Linq.Expressions;
 
 namespace PsicoOnline.Infrastructure.Data;
 
-public class GrauParentescoRepository(EFContext db, IMapper mapper) : EFRepository<GrauParentesco, int>(db), IGrauParentescoRepository
+public class GrauParentescoRepository(EFContext db) : EFRepository<GrauParentesco, int>(db), IGrauParentescoRepository
 {
 	public async Task<GrauParentesco> AddGrauParentescoAsync(GrauParentescoAddDTO grauParentescoDTO)
 	{
 		ArgumentNullException.ThrowIfNull(grauParentescoDTO);
 
-		var grauParentesco = mapper.Map<GrauParentesco>(grauParentescoDTO);
+		var grauParentesco = grauParentescoDTO.Adapt<GrauParentesco>();
 
 		await AddAsync(grauParentesco);
 
@@ -49,7 +49,7 @@ public class GrauParentescoRepository(EFContext db, IMapper mapper) : EFReposito
 			throw new GrauParentescoNaoExisteException(grauParentescoDTO.Id);
 		}
 
-		var grauParentesco = mapper.Map<GrauParentesco>(grauParentescoDTO);
+		var grauParentesco = grauParentescoDTO.Adapt<GrauParentesco>();
 
 		await UpdateAsync(grauParentesco);
 	}
