@@ -1,20 +1,16 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
+using PsicoOnline.Core.DTO;
+using PsicoOnline.Core.Entities;
 using PsicoOnline.Core.Interfaces;
 using PsicoOnline.Infrastructure.Logging;
-using PsicoOnline.WebApi.Features.Responsavel.AddResponsavel;
-using PsicoOnline.WebApi.Features.Responsavel.DeleteResponsavel;
-using PsicoOnline.WebApi.Features.Responsavel.GetAllResponsaveis;
-using PsicoOnline.WebApi.Features.Responsavel.GetResponsavelById;
-using PsicoOnline.WebApi.Features.Responsavel.GetResponsavelByPacienteId;
-using PsicoOnline.WebApi.Features.Responsavel.UpdateResponsavel;
+using System.Linq.Expressions;
 
 namespace PsicoOnline.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ResponsavelController(ISender sender) : ControllerBase
+public class ResponsavelController(IResponsavelRepository responsavelRepository) : ControllerBase
 {
 	private readonly IAppLogger<ResponsavelController> _appLogger = new AppLogger<ResponsavelController>();
 
@@ -23,7 +19,7 @@ public class ResponsavelController(ISender sender) : ControllerBase
 	[EnableQuery]
 	public async Task<ActionResult> GetAllResponsaveisAsync()
 	{
-		var responsaveis = await sender.Send(new GetAllResponsaveisQuery());
+		var responsaveis = await responsavelRepository.GetAllResponsaveisAsync();
 
 		return Ok(responsaveis);
 	}
@@ -32,7 +28,7 @@ public class ResponsavelController(ISender sender) : ControllerBase
 	[Route("GetById/{id}")]
 	public async Task<ActionResult> GetResponsavelByIdAsync(int id)
 	{
-		var responsavel = await sender.Send(new GetResponsavelByIdQuery(id)) ?? new();
+		var responsavel = await responsavelRepository.GetResponsavelByIdAsync(id) ?? new();
 
 		return Ok(responsavel);
 	}
@@ -41,16 +37,18 @@ public class ResponsavelController(ISender sender) : ControllerBase
 	[Route("GetByPacienteId/{id}")]
 	public async Task<ActionResult> GetResponsavelByPacienteIdAsync(int id)
 	{
-		var responsavel = await sender.Send(new GetResponsavelByPacienteIdQuery(id)) ?? new();
+		Expression<Func<Responsavel, bool>> where = responsavel => responsavel.PacienteId == id;
 
-		return Ok(responsavel);
+		var responsaveis = await responsavelRepository.GetResponsaveisWhereAsync(where);
+
+		return Ok(responsaveis.FirstOrDefault() ?? new());
 	}
 
 	[HttpPost]
 	[Route("Add")]
-	public async Task<ActionResult> AddResponsavelAsync(AddResponsavelCommand addResponsavelCommand)
+	public async Task<ActionResult> AddResponsavelAsync(ResponsavelAddDTO responsavelDTO)
 	{
-		var responsavel = await sender.Send(addResponsavelCommand);
+		var responsavel = await responsavelRepository.AddResponsavelAsync(responsavelDTO);
 
 		return Ok(responsavel);
 	}
@@ -61,9 +59,9 @@ public class ResponsavelController(ISender sender) : ControllerBase
 	{
 		try
 		{
-			var retorno = await sender.Send(new DeleteResponsavelCommand(id));
+			await responsavelRepository.DeleteResponsavelAsync(id);
 
-			return Ok(retorno);
+			return Ok("Responsável excluído com sucesso.");
 		}
 		catch (Exception ex)
 		{
@@ -73,13 +71,13 @@ public class ResponsavelController(ISender sender) : ControllerBase
 
 	[HttpPut]
 	[Route("Update")]
-	public async Task<ActionResult> UpdateResponsavelAsync(UpdateResponsavelCommand updateResponsavelCommand)
+	public async Task<ActionResult> UpdateResponsavelAsync(ResponsavelUpdateDTO responsavelDTO)
 	{
 		try
 		{
-			var retorno = await sender.Send(updateResponsavelCommand);
+			await responsavelRepository.UpdateResponsavelAsync(responsavelDTO);
 
-			return Ok(retorno);
+			return Ok("Responsável atualizado com sucesso.");
 		}
 		catch (Exception ex)
 		{

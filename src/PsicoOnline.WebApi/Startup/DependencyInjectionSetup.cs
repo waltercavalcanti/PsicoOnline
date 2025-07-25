@@ -30,11 +30,6 @@ public static class DependencyInjectionSetup
 		services.AddEndpointsApiExplorer();
 		services.AddOpenApi();
 
-		services.AddMediatR(configuration =>
-		{
-			configuration.RegisterServicesFromAssembly(typeof(Program).Assembly);
-		});
-
 		return services;
 	}
 }

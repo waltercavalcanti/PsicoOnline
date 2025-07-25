@@ -1,20 +1,14 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
+using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Interfaces;
 using PsicoOnline.Infrastructure.Logging;
-using PsicoOnline.WebApi.Features.Sessao.AddSessao;
-using PsicoOnline.WebApi.Features.Sessao.DeleteSessao;
-using PsicoOnline.WebApi.Features.Sessao.GetAllSessoes;
-using PsicoOnline.WebApi.Features.Sessao.GetSessaoById;
-using PsicoOnline.WebApi.Features.Sessao.GetSessoesByPacienteIdData;
-using PsicoOnline.WebApi.Features.Sessao.UpdateSessao;
 
 namespace PsicoOnline.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class SessaoController(ISender sender) : ControllerBase
+public class SessaoController(ISessaoRepository sessaoRepository) : ControllerBase
 {
 	private readonly IAppLogger<SessaoController> _appLogger = new AppLogger<SessaoController>();
 
@@ -23,7 +17,7 @@ public class SessaoController(ISender sender) : ControllerBase
 	[EnableQuery]
 	public async Task<ActionResult> GetAllSessoesAsync()
 	{
-		var sessoes = await sender.Send(new GetAllSessoesQuery());
+		var sessoes = await sessaoRepository.GetAllSessoesAsync();
 
 		return Ok(sessoes);
 	}
@@ -32,25 +26,25 @@ public class SessaoController(ISender sender) : ControllerBase
 	[Route("GetById/{id}")]
 	public async Task<ActionResult> GetSessaoByIdAsync(int id)
 	{
-		var sessao = await sender.Send(new GetSessaoByIdQuery(id)) ?? new();
+		var sessao = await sessaoRepository.GetSessaoByIdAsync(id) ?? new();
 
 		return Ok(sessao);
 	}
 
 	[HttpGet]
 	[Route("GetByPacienteIdData")]
-	public async Task<ActionResult> GetSessoesByPacienteIdDataAsync(GetSessoesByPacienteIdDataQuery getSessoesByPacienteIdDataQuery)
+	public async Task<ActionResult> GetSessoesByPacienteIdDataAsync(SessaoFilterDTO sessaoDTO)
 	{
-		var sessoes = await sender.Send(getSessoesByPacienteIdDataQuery);
+		var sessoes = await sessaoRepository.GetSessoesByPacienteIdDataAsync(sessaoDTO);
 
 		return Ok(sessoes);
 	}
 
 	[HttpPost]
 	[Route("Add")]
-	public async Task<ActionResult> AddSessaoAsync(AddSessaoCommand addSessaoCommand)
+	public async Task<ActionResult> AddSessaoAsync(SessaoAddDTO sessaoDTO)
 	{
-		var sessao = await sender.Send(addSessaoCommand);
+		var sessao = await sessaoRepository.AddSessaoAsync(sessaoDTO);
 
 		return Ok(sessao);
 	}
@@ -61,9 +55,9 @@ public class SessaoController(ISender sender) : ControllerBase
 	{
 		try
 		{
-			var retorno = await sender.Send(new DeleteSessaoCommand(id));
+			await sessaoRepository.DeleteSessaoAsync(id);
 
-			return Ok(retorno);
+			return Ok("Sessão excluída com sucesso.");
 		}
 		catch (Exception ex)
 		{
@@ -73,13 +67,13 @@ public class SessaoController(ISender sender) : ControllerBase
 
 	[HttpPut]
 	[Route("Update")]
-	public async Task<ActionResult> UpdateSessaoAsync(UpdateSessaoCommand updateSessaoCommand)
+	public async Task<ActionResult> UpdateSessaoAsync(SessaoUpdateDTO sessaoDTO)
 	{
 		try
 		{
-			var retorno = await sender.Send(updateSessaoCommand);
+			await sessaoRepository.UpdateSessaoAsync(sessaoDTO);
 
-			return Ok(retorno);
+			return Ok("Sessão atualizada com sucesso.");
 		}
 		catch (Exception ex)
 		{

@@ -1,19 +1,14 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
+using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Interfaces;
 using PsicoOnline.Infrastructure.Logging;
-using PsicoOnline.WebApi.Features.Paciente.AddPaciente;
-using PsicoOnline.WebApi.Features.Paciente.DeletePaciente;
-using PsicoOnline.WebApi.Features.Paciente.GetAllPacientes;
-using PsicoOnline.WebApi.Features.Paciente.GetPacienteById;
-using PsicoOnline.WebApi.Features.Paciente.UpdatePaciente;
 
 namespace PsicoOnline.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class PacienteController(ISender sender) : ControllerBase
+public class PacienteController(IPacienteRepository pacienteRepository) : ControllerBase
 {
 	private readonly IAppLogger<PacienteController> _appLogger = new AppLogger<PacienteController>();
 
@@ -22,7 +17,7 @@ public class PacienteController(ISender sender) : ControllerBase
 	[EnableQuery]
 	public async Task<ActionResult> GetAllPacientesAsync()
 	{
-		var pacientes = await sender.Send(new GetAllPacientesQuery());
+		var pacientes = await pacienteRepository.GetAllPacientesAsync();
 
 		return Ok(pacientes);
 	}
@@ -31,16 +26,16 @@ public class PacienteController(ISender sender) : ControllerBase
 	[Route("GetById/{id}")]
 	public async Task<ActionResult> GetPacienteByIdAsync(int id)
 	{
-		var paciente = await sender.Send(new GetPacienteByIdQuery(id)) ?? new();
+		var paciente = await pacienteRepository.GetPacienteByIdAsync(id) ?? new();
 
 		return Ok(paciente);
 	}
 
 	[HttpPost]
 	[Route("Add")]
-	public async Task<ActionResult> AddPacienteAsync(AddPacienteCommand addPacienteCommand)
+	public async Task<ActionResult> AddPacienteAsync(PacienteAddDTO pacienteDTO)
 	{
-		var paciente = await sender.Send(addPacienteCommand);
+		var paciente = await pacienteRepository.AddPacienteAsync(pacienteDTO);
 
 		return Ok(paciente);
 	}
@@ -51,9 +46,9 @@ public class PacienteController(ISender sender) : ControllerBase
 	{
 		try
 		{
-			var retorno = await sender.Send(new DeletePacienteCommand(id));
+			await pacienteRepository.DeletePacienteAsync(id);
 
-			return Ok(retorno);
+			return Ok("Paciente excluído com sucesso.");
 		}
 		catch (Exception ex)
 		{
@@ -63,13 +58,13 @@ public class PacienteController(ISender sender) : ControllerBase
 
 	[HttpPut]
 	[Route("Update")]
-	public async Task<ActionResult> UpdatePacienteAsync(UpdatePacienteCommand updatePacienteCommand)
+	public async Task<ActionResult> UpdatePacienteAsync(PacienteUpdateDTO pacienteDTO)
 	{
 		try
 		{
-			var retorno = await sender.Send(updatePacienteCommand);
+			await pacienteRepository.UpdatePacienteAsync(pacienteDTO);
 
-			return Ok(retorno);
+			return Ok("Paciente atualizado com sucesso.");
 		}
 		catch (Exception ex)
 		{
