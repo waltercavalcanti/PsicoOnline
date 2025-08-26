@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.OData.Query;
 using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Interfaces;
-using PsicoOnline.Infrastructure.Logging;
 
 namespace PsicoOnline.WebApi.Controllers;
 
@@ -10,8 +9,6 @@ namespace PsicoOnline.WebApi.Controllers;
 [ApiController]
 public class SessaoController(ISessaoRepository sessaoRepository) : ControllerBase
 {
-	private readonly IAppLogger<SessaoController> _appLogger = new AppLogger<SessaoController>();
-
 	[HttpGet]
 	[Route("GetAll")]
 	[EnableQuery]

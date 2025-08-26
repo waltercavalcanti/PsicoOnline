@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.OData.Query;
 using PsicoOnline.Core.DTO;
 using PsicoOnline.Core.Entities;
 using PsicoOnline.Core.Interfaces;
-using PsicoOnline.Infrastructure.Logging;
 using System.Linq.Expressions;
 
 namespace PsicoOnline.WebApi.Controllers;
@@ -12,8 +11,6 @@ namespace PsicoOnline.WebApi.Controllers;
 [ApiController]
 public class ResponsavelController(IResponsavelRepository responsavelRepository) : ControllerBase
 {
-	private readonly IAppLogger<ResponsavelController> _appLogger = new AppLogger<ResponsavelController>();
-
 	[HttpGet]
 	[Route("GetAll")]
 	[EnableQuery]
