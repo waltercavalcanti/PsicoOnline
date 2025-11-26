@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using PsicoOnline.Core.Interfaces;
 using PsicoOnline.Infrastructure.Data;
+using PsicoOnline.Infrastructure.Data.Interfaces;
 
 namespace PsicoOnline.WebApi.Startup;
 

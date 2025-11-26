@@ -1,4 +1,4 @@
-﻿namespace PsicoOnline.Core.DTO;
+﻿namespace PsicoOnline.Core.DTOs.GrauParentesco;
 
 public class GrauParentescoUpdateDTO
 {

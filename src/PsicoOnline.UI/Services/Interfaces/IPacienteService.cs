@@ -1,4 +1,4 @@
-﻿namespace PsicoOnline.UI.Services;
+﻿namespace PsicoOnline.UI.Services.Interfaces;
 
 public interface IPacienteService
 {

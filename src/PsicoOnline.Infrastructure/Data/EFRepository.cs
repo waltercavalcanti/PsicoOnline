@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PsicoOnline.Core.Entities;
-using PsicoOnline.Core.Interfaces;
+using PsicoOnline.Infrastructure.Data.Interfaces;
 using System.Linq.Expressions;
 
 namespace PsicoOnline.Infrastructure.Data;

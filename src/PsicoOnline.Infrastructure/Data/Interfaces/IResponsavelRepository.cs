@@ -1,8 +1,8 @@
-﻿using PsicoOnline.Core.DTO;
+﻿using PsicoOnline.Core.DTOs.Responsavel;
 using PsicoOnline.Core.Entities;
 using System.Linq.Expressions;
 
-namespace PsicoOnline.Core.Interfaces;
+namespace PsicoOnline.Infrastructure.Data.Interfaces;
 
 public interface IResponsavelRepository
 {

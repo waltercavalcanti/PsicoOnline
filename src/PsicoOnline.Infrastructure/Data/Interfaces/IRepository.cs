@@ -1,7 +1,7 @@
 ﻿using PsicoOnline.Core.Entities;
 using System.Linq.Expressions;
 
-namespace PsicoOnline.Core.Interfaces;
+namespace PsicoOnline.Infrastructure.Data.Interfaces;
 
 public interface IRepository<T, K> where T : BaseEntity<K>
 {

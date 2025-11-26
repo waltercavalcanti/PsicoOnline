@@ -1,4 +1,4 @@
-﻿namespace PsicoOnline.Core.DTO;
+﻿namespace PsicoOnline.Core.DTOs.Sessao;
 
 public class SessaoFilterDTO
 {

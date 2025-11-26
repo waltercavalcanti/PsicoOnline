@@ -1,8 +1,8 @@
 ﻿using Mapster;
-using PsicoOnline.Core.DTO;
+using PsicoOnline.Core.DTOs.Paciente;
 using PsicoOnline.Core.Entities;
 using PsicoOnline.Core.Exceptions;
-using PsicoOnline.Core.Interfaces;
+using PsicoOnline.Infrastructure.Data.Interfaces;
 using System.Linq.Expressions;
 
 namespace PsicoOnline.Infrastructure.Data;

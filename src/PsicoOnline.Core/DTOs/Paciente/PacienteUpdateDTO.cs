@@ -1,7 +1,9 @@
-﻿namespace PsicoOnline.Core.DTO;
+﻿namespace PsicoOnline.Core.DTOs.Paciente;
 
-public class PacienteAddDTO
+public class PacienteUpdateDTO
 {
+	public int Id { get; set; }
+
 	public string Nome { get; set; }
 
 	public DateTime DataNascimento { get; set; }

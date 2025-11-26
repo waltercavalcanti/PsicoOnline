@@ -1,9 +1,7 @@
-﻿namespace PsicoOnline.Core.DTO;
+﻿namespace PsicoOnline.Core.DTOs.Responsavel;
 
-public class ResponsavelUpdateDTO
+public class ResponsavelAddDTO
 {
-	public int Id { get; set; }
-
 	public string Nome { get; set; }
 
 	public DateTime DataNascimento { get; set; }

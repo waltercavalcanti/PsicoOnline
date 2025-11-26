@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using PsicoOnline.Core.DTO;
-using PsicoOnline.Core.Interfaces;
+using PsicoOnline.Core.DTOs.Paciente;
+using PsicoOnline.Infrastructure.Data.Interfaces;
 
 namespace PsicoOnline.WebApi.Controllers;
 

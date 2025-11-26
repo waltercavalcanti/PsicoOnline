@@ -1,6 +1,6 @@
-﻿namespace PsicoOnline.Core.DTO;
+﻿namespace PsicoOnline.Core.DTOs.Paciente;
 
-public class ResponsavelAddDTO
+public class PacienteAddDTO
 {
 	public string Nome { get; set; }
 
@@ -9,8 +9,4 @@ public class ResponsavelAddDTO
 	public string Telefone { get; set; }
 
 	public char Genero { get; set; }
-
-	public int PacienteId { get; set; }
-
-	public int GrauParentescoId { get; set; }
 }
