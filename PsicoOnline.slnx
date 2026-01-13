@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/PsicoOnline.Core/PsicoOnline.Core.csproj" />
+    <Project Path="src/PsicoOnline.Infrastructure/PsicoOnline.Infrastructure.csproj" />
+    <Project Path="src/PsicoOnline.UI/PsicoOnline.UI.csproj" />
+    <Project Path="src/PsicoOnline.WebApi/PsicoOnline.WebApi.csproj" />
+  </Folder>
+</Solution>
