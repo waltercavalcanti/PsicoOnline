@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using PsicoOnline.Core.DTOs.Paciente;
+using PsicoOnline.Core.Entities;
 using PsicoOnline.Infrastructure.Data.Interfaces;
 
 namespace PsicoOnline.WebApi.Controllers;
@@ -14,7 +15,7 @@ public class PacienteController(IPacienteRepository pacienteRepository) : Contro
 	[EnableQuery]
 	public async Task<ActionResult> GetAllPacientesAsync()
 	{
-		var pacientes = await pacienteRepository.GetAllPacientesAsync();
+		IReadOnlyList<Paciente> pacientes = await pacienteRepository.GetAllPacientesAsync();
 
 		return Ok(pacientes);
 	}
@@ -23,7 +24,7 @@ public class PacienteController(IPacienteRepository pacienteRepository) : Contro
 	[Route("GetById/{id}")]
 	public async Task<ActionResult> GetPacienteByIdAsync(int id)
 	{
-		var paciente = await pacienteRepository.GetPacienteByIdAsync(id) ?? new();
+		Paciente paciente = await pacienteRepository.GetPacienteByIdAsync(id) ?? new();
 
 		return Ok(paciente);
 	}
@@ -32,7 +33,7 @@ public class PacienteController(IPacienteRepository pacienteRepository) : Contro
 	[Route("Add")]
 	public async Task<ActionResult> AddPacienteAsync(PacienteAddDTO pacienteDTO)
 	{
-		var paciente = await pacienteRepository.AddPacienteAsync(pacienteDTO);
+		Paciente paciente = await pacienteRepository.AddPacienteAsync(pacienteDTO);
 
 		return Ok(paciente);
 	}

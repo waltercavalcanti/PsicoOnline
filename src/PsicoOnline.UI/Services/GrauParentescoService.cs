@@ -18,7 +18,7 @@ public class GrauParentescoService(HttpClient httpClient, NavigationManager navi
 
 	public async Task GetAllGrausParentescoAsync()
 	{
-		var grausParentesco = await httpClient.GetFromJsonAsync<List<GrauParentescoModel>>("GrauParentesco/GetAll");
+		List<GrauParentescoModel>? grausParentesco = await httpClient.GetFromJsonAsync<List<GrauParentescoModel>>("GrauParentesco/GetAll");
 
 		if (grausParentesco != null)
 		{
@@ -28,7 +28,7 @@ public class GrauParentescoService(HttpClient httpClient, NavigationManager navi
 
 	public async Task<GrauParentescoModel> GetGrauParentescoByIdAsync(int id)
 	{
-		var grauParentesco = await httpClient.GetFromJsonAsync<GrauParentescoModel>($"GrauParentesco/GetById/{id}");
+		GrauParentescoModel? grauParentesco = await httpClient.GetFromJsonAsync<GrauParentescoModel>($"GrauParentesco/GetById/{id}");
 
 		if (grauParentesco != null)
 		{

@@ -18,7 +18,7 @@ public class ResponsavelService(HttpClient httpClient, NavigationManager navigat
 
 	public async Task GetAllResponsaveisAsync()
 	{
-		var responsaveis = await httpClient.GetFromJsonAsync<List<ResponsavelModel>>("Responsavel/GetAll");
+		List<ResponsavelModel>? responsaveis = await httpClient.GetFromJsonAsync<List<ResponsavelModel>>("Responsavel/GetAll");
 
 		if (responsaveis != null)
 		{
@@ -28,7 +28,7 @@ public class ResponsavelService(HttpClient httpClient, NavigationManager navigat
 
 	public async Task<ResponsavelModel> GetResponsavelByIdAsync(int id)
 	{
-		var responsavel = await httpClient.GetFromJsonAsync<ResponsavelModel>($"Responsavel/GetById/{id}");
+		ResponsavelModel? responsavel = await httpClient.GetFromJsonAsync<ResponsavelModel>($"Responsavel/GetById/{id}");
 
 		if (responsavel != null)
 		{

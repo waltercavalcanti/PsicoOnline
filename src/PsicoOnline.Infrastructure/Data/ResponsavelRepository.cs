@@ -13,7 +13,7 @@ public class ResponsavelRepository(EFContext db) : EFRepository<Responsavel, int
 	{
 		ArgumentNullException.ThrowIfNull(responsavelDTO);
 
-		var responsavel = responsavelDTO.Adapt<Responsavel>();
+		Responsavel responsavel = responsavelDTO.Adapt<Responsavel>();
 
 		await AddAsync(responsavel);
 
@@ -27,16 +27,16 @@ public class ResponsavelRepository(EFContext db) : EFRepository<Responsavel, int
 			throw new ResponsavelNaoExisteException(id);
 		}
 
-		var responsavel = await GetByIdAsync(id);
+		Responsavel responsavel = await GetByIdAsync(id);
 
 		await DeleteAsync(responsavel);
 	}
 
 	public async Task<IReadOnlyList<Responsavel>> GetAllResponsaveisAsync()
 	{
-		var responsaveis = await GetAllAsync();
+		IReadOnlyList<Responsavel> responsaveis = await GetAllAsync();
 
-		foreach (var r in responsaveis)
+		foreach (Responsavel r in responsaveis)
 		{
 			r.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == r.PacienteId);
 			r.GrauParentesco = _db.GrauParentesco.FirstOrDefault(gp => gp.Id == r.GrauParentescoId);
@@ -47,9 +47,9 @@ public class ResponsavelRepository(EFContext db) : EFRepository<Responsavel, int
 
 	public async Task<IReadOnlyList<Responsavel>> GetResponsaveisWhereAsync(Expression<Func<Responsavel, bool>> where)
 	{
-		var responsaveis = await GetWhereAsync(where);
+		IReadOnlyList<Responsavel> responsaveis = await GetWhereAsync(where);
 
-		foreach (var r in responsaveis)
+		foreach (Responsavel r in responsaveis)
 		{
 			r.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == r.PacienteId);
 			r.GrauParentesco = _db.GrauParentesco.FirstOrDefault(gp => gp.Id == r.GrauParentescoId);
@@ -60,7 +60,7 @@ public class ResponsavelRepository(EFContext db) : EFRepository<Responsavel, int
 
 	public async Task<Responsavel> GetResponsavelByIdAsync(int id)
 	{
-		var responsavel = await GetByIdAsync(id);
+		Responsavel? responsavel = await GetByIdAsync(id);
 
 		if (responsavel != null)
 		{
@@ -82,7 +82,7 @@ public class ResponsavelRepository(EFContext db) : EFRepository<Responsavel, int
 			throw new ResponsavelNaoExisteException(responsavelDTO.Id);
 		}
 
-		var responsavel = responsavelDTO.Adapt<Responsavel>();
+		Responsavel responsavel = responsavelDTO.Adapt<Responsavel>();
 
 		await UpdateAsync(responsavel);
 	}

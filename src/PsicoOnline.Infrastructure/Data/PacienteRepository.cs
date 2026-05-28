@@ -13,7 +13,7 @@ public class PacienteRepository(EFContext db) : EFRepository<Paciente, int>(db),
 	{
 		ArgumentNullException.ThrowIfNull(pacienteDTO);
 
-		var paciente = pacienteDTO.Adapt<Paciente>();
+		Paciente paciente = pacienteDTO.Adapt<Paciente>();
 
 		await AddAsync(paciente);
 
@@ -27,16 +27,16 @@ public class PacienteRepository(EFContext db) : EFRepository<Paciente, int>(db),
 			throw new PacienteNaoExisteException(id);
 		}
 
-		var paciente = await GetByIdAsync(id);
+		Paciente paciente = await GetByIdAsync(id);
 
 		await DeleteAsync(paciente);
 	}
 
 	public async Task<IReadOnlyList<Paciente>> GetAllPacientesAsync()
 	{
-		var pacientes = await GetAllAsync();
+		IReadOnlyList<Paciente> pacientes = await GetAllAsync();
 
-		foreach (var p in pacientes)
+		foreach (Paciente p in pacientes)
 		{
 			p.Responsavel = _db.Responsavel.FirstOrDefault(r => r.PacienteId == p.Id);
 		}
@@ -46,7 +46,7 @@ public class PacienteRepository(EFContext db) : EFRepository<Paciente, int>(db),
 
 	public async Task<Paciente> GetPacienteByIdAsync(int id)
 	{
-		var paciente = await GetByIdAsync(id);
+		Paciente? paciente = await GetByIdAsync(id);
 
 		if (paciente != null)
 		{
@@ -58,9 +58,9 @@ public class PacienteRepository(EFContext db) : EFRepository<Paciente, int>(db),
 
 	public async Task<IReadOnlyList<Paciente>> GetPacientesWhereAsync(Expression<Func<Paciente, bool>> where)
 	{
-		var pacientes = await GetWhereAsync(where);
+		IReadOnlyList<Paciente> pacientes = await GetWhereAsync(where);
 
-		foreach (var p in pacientes)
+		foreach (Paciente p in pacientes)
 		{
 			p.Responsavel = _db.Responsavel.FirstOrDefault(r => r.PacienteId == p.Id);
 		}
@@ -79,7 +79,7 @@ public class PacienteRepository(EFContext db) : EFRepository<Paciente, int>(db),
 			throw new PacienteNaoExisteException(pacienteDTO.Id);
 		}
 
-		var paciente = pacienteDTO.Adapt<Paciente>();
+		Paciente paciente = pacienteDTO.Adapt<Paciente>();
 
 		await UpdateAsync(paciente);
 	}

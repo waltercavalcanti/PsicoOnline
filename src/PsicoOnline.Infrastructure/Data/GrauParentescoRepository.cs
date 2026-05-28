@@ -13,7 +13,7 @@ public class GrauParentescoRepository(EFContext db) : EFRepository<GrauParentesc
 	{
 		ArgumentNullException.ThrowIfNull(grauParentescoDTO);
 
-		var grauParentesco = grauParentescoDTO.Adapt<GrauParentesco>();
+		GrauParentesco grauParentesco = grauParentescoDTO.Adapt<GrauParentesco>();
 
 		await AddAsync(grauParentesco);
 
@@ -27,7 +27,7 @@ public class GrauParentescoRepository(EFContext db) : EFRepository<GrauParentesc
 			throw new GrauParentescoNaoExisteException(id);
 		}
 
-		var grauParentesco = await GetByIdAsync(id);
+		GrauParentesco grauParentesco = await GetByIdAsync(id);
 
 		await DeleteAsync(grauParentesco);
 	}
@@ -49,7 +49,7 @@ public class GrauParentescoRepository(EFContext db) : EFRepository<GrauParentesc
 			throw new GrauParentescoNaoExisteException(grauParentescoDTO.Id);
 		}
 
-		var grauParentesco = grauParentescoDTO.Adapt<GrauParentesco>();
+		GrauParentesco grauParentesco = grauParentescoDTO.Adapt<GrauParentesco>();
 
 		await UpdateAsync(grauParentesco);
 	}

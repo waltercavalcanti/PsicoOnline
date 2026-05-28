@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using PsicoOnline.Core.DTOs.GrauParentesco;
+using PsicoOnline.Core.Entities;
 using PsicoOnline.Infrastructure.Data.Interfaces;
 
 namespace PsicoOnline.WebApi.Controllers;
@@ -14,7 +15,7 @@ public class GrauParentescoController(IGrauParentescoRepository grauParentescoRe
 	[EnableQuery]
 	public async Task<ActionResult> GetAllGrausParentescoAsync()
 	{
-		var grausParentesco = await grauParentescoRepository.GetAllGrausParentescoAsync();
+		IReadOnlyList<GrauParentesco> grausParentesco = await grauParentescoRepository.GetAllGrausParentescoAsync();
 
 		return Ok(grausParentesco);
 	}
@@ -23,7 +24,7 @@ public class GrauParentescoController(IGrauParentescoRepository grauParentescoRe
 	[Route("GetById/{id}")]
 	public async Task<ActionResult> GetGrauParentescoByIdAsync(int id)
 	{
-		var grauParentesco = await grauParentescoRepository.GetGrauParentescoByIdAsync(id) ?? new();
+		GrauParentesco grauParentesco = await grauParentescoRepository.GetGrauParentescoByIdAsync(id) ?? new();
 
 		return Ok(grauParentesco);
 	}
@@ -32,7 +33,7 @@ public class GrauParentescoController(IGrauParentescoRepository grauParentescoRe
 	[Route("Add")]
 	public async Task<ActionResult> AddGrauParentescoAsync(GrauParentescoAddDTO grauParentescoDTO)
 	{
-		var grauParentesco = await grauParentescoRepository.AddGrauParentescoAsync(grauParentescoDTO);
+		GrauParentesco grauParentesco = await grauParentescoRepository.AddGrauParentescoAsync(grauParentescoDTO);
 
 		return Ok(grauParentesco);
 	}

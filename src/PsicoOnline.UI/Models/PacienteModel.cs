@@ -24,7 +24,7 @@ public class PacienteModel
 
 	private void SetIdade()
 	{
-		var idade = DateTime.Now.Year - DataNascimento.Value.Year;
+		int idade = DateTime.Now.Year - DataNascimento.Value.Year;
 
 		if (DateTime.Now.DayOfYear < DataNascimento.Value.DayOfYear)
 		{

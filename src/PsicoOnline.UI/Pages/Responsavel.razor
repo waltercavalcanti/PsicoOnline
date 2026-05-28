@@ -18,7 +18,7 @@
                           @bind-Value="responsavel.Telefone" For="@(() => responsavel.Telefone)" />
             <MudSelect Label="Grau de Parentesco" Variant="Variant.Outlined" Margin="Margin.Dense"
                        @bind-Value="responsavel.GrauParentescoId">
-                @foreach (var grauParentesco in GrausParentesco)
+                @foreach (GrauParentescoModel? grauParentesco in GrausParentesco)
                 {
                     <MudSelectItem Value="@grauParentesco.Id">@grauParentesco.Descricao</MudSelectItem>
                 }

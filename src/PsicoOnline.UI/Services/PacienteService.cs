@@ -18,13 +18,13 @@ public class PacienteService(HttpClient httpClient, NavigationManager navigation
 
 	public async Task GetAllPacientesAsync()
 	{
-		var pacientes = await httpClient.GetFromJsonAsync<List<PacienteModel>>("Paciente/GetAll");
+		List<PacienteModel>? pacientes = await httpClient.GetFromJsonAsync<List<PacienteModel>>("Paciente/GetAll");
 
 		if (pacientes != null)
 		{
-			foreach (var paciente in pacientes)
+			foreach (PacienteModel paciente in pacientes)
 			{
-				var responsavel = await httpClient.GetFromJsonAsync<ResponsavelModel>($"Responsavel/GetByPacienteId/{paciente.Id}");
+				ResponsavelModel? responsavel = await httpClient.GetFromJsonAsync<ResponsavelModel>($"Responsavel/GetByPacienteId/{paciente.Id}");
 
 				if (responsavel != null)
 				{
@@ -39,7 +39,7 @@ public class PacienteService(HttpClient httpClient, NavigationManager navigation
 
 	public async Task<PacienteModel> GetPacienteByIdAsync(int id)
 	{
-		var paciente = await httpClient.GetFromJsonAsync<PacienteModel>($"Paciente/GetById/{id}");
+		PacienteModel? paciente = await httpClient.GetFromJsonAsync<PacienteModel>($"Paciente/GetById/{id}");
 
 		if (paciente != null)
 		{

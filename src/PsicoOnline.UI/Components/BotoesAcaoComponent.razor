@@ -1,7 +1,7 @@
 ﻿<MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Save" Color="Color.Primary" ButtonType="ButtonType.Submit">@btnText</MudButton>&nbsp;
 @if (Id != null)
 {
-    var mensagem = $"Confirma a exclusão do registro?";
+    string mensagem = $"Confirma a exclusão do registro?";
     <ConfirmarExclusaoComponent Mensagem="@mensagem" DeleteAsync="DeleteAsync" />
 }
 

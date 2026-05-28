@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using PsicoOnline.Core.DTOs.Sessao;
+using PsicoOnline.Core.Entities;
 using PsicoOnline.Infrastructure.Data.Interfaces;
 
 namespace PsicoOnline.WebApi.Controllers;
@@ -14,7 +15,7 @@ public class SessaoController(ISessaoRepository sessaoRepository) : ControllerBa
 	[EnableQuery]
 	public async Task<ActionResult> GetAllSessoesAsync()
 	{
-		var sessoes = await sessaoRepository.GetAllSessoesAsync();
+		IReadOnlyList<Sessao> sessoes = await sessaoRepository.GetAllSessoesAsync();
 
 		return Ok(sessoes);
 	}
@@ -23,7 +24,7 @@ public class SessaoController(ISessaoRepository sessaoRepository) : ControllerBa
 	[Route("GetById/{id}")]
 	public async Task<ActionResult> GetSessaoByIdAsync(int id)
 	{
-		var sessao = await sessaoRepository.GetSessaoByIdAsync(id) ?? new();
+		Sessao sessao = await sessaoRepository.GetSessaoByIdAsync(id) ?? new();
 
 		return Ok(sessao);
 	}
@@ -32,7 +33,7 @@ public class SessaoController(ISessaoRepository sessaoRepository) : ControllerBa
 	[Route("GetByPacienteIdData")]
 	public async Task<ActionResult> GetSessoesByPacienteIdDataAsync(SessaoFilterDTO sessaoDTO)
 	{
-		var sessoes = await sessaoRepository.GetSessoesByPacienteIdDataAsync(sessaoDTO);
+		IReadOnlyList<Sessao> sessoes = await sessaoRepository.GetSessoesByPacienteIdDataAsync(sessaoDTO);
 
 		return Ok(sessoes);
 	}
@@ -41,7 +42,7 @@ public class SessaoController(ISessaoRepository sessaoRepository) : ControllerBa
 	[Route("Add")]
 	public async Task<ActionResult> AddSessaoAsync(SessaoAddDTO sessaoDTO)
 	{
-		var sessao = await sessaoRepository.AddSessaoAsync(sessaoDTO);
+		Sessao sessao = await sessaoRepository.AddSessaoAsync(sessaoDTO);
 
 		return Ok(sessao);
 	}

@@ -13,7 +13,7 @@ public class SessaoRepository(EFContext db) : EFRepository<Sessao, int>(db), ISe
 	{
 		ArgumentNullException.ThrowIfNull(sessaoDTO);
 
-		var sessao = sessaoDTO.Adapt<Sessao>();
+		Sessao sessao = sessaoDTO.Adapt<Sessao>();
 
 		await AddAsync(sessao);
 
@@ -27,16 +27,16 @@ public class SessaoRepository(EFContext db) : EFRepository<Sessao, int>(db), ISe
 			throw new SessaoNaoExisteException(id);
 		}
 
-		var sessao = await GetByIdAsync(id);
+		Sessao sessao = await GetByIdAsync(id);
 
 		await DeleteAsync(sessao);
 	}
 
 	public async Task<IReadOnlyList<Sessao>> GetAllSessoesAsync()
 	{
-		var sessoes = await GetAllAsync();
+		IReadOnlyList<Sessao> sessoes = await GetAllAsync();
 
-		foreach (var s in sessoes)
+		foreach (Sessao s in sessoes)
 		{
 			s.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == s.PacienteId);
 		}
@@ -46,7 +46,7 @@ public class SessaoRepository(EFContext db) : EFRepository<Sessao, int>(db), ISe
 
 	public async Task<Sessao> GetSessaoByIdAsync(int id)
 	{
-		var sessao = await GetByIdAsync(id);
+		Sessao? sessao = await GetByIdAsync(id);
 
 		if (sessao != null)
 		{
@@ -58,7 +58,7 @@ public class SessaoRepository(EFContext db) : EFRepository<Sessao, int>(db), ISe
 
 	public async Task<IReadOnlyList<Sessao>> GetSessoesByPacienteIdDataAsync(SessaoFilterDTO sessaoDTO)
 	{
-		var sessoes = await GetAllSessoesAsync();
+		IReadOnlyList<Sessao>? sessoes = await GetAllSessoesAsync();
 
 		if (sessoes != null && sessoes.Any())
 		{
@@ -72,7 +72,7 @@ public class SessaoRepository(EFContext db) : EFRepository<Sessao, int>(db), ISe
 				sessoes = sessoes.Where(s => s.DataSessao == sessaoDTO.DataSessao).ToList();
 			}
 
-			foreach (var s in sessoes)
+			foreach (Sessao s in sessoes)
 			{
 				s.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == s.PacienteId);
 			}
@@ -83,9 +83,9 @@ public class SessaoRepository(EFContext db) : EFRepository<Sessao, int>(db), ISe
 
 	public async Task<IReadOnlyList<Sessao>> GetSessoesWhereAsync(Expression<Func<Sessao, bool>> where)
 	{
-		var sessoes = await GetWhereAsync(where);
+		IReadOnlyList<Sessao> sessoes = await GetWhereAsync(where);
 
-		foreach (var s in sessoes)
+		foreach (Sessao s in sessoes)
 		{
 			s.Paciente = _db.Paciente.FirstOrDefault(p => p.Id == s.PacienteId);
 		}
@@ -104,7 +104,7 @@ public class SessaoRepository(EFContext db) : EFRepository<Sessao, int>(db), ISe
 			throw new SessaoNaoExisteException(sessaoDTO.Id);
 		}
 
-		var sessao = sessaoDTO.Adapt<Sessao>();
+		Sessao sessao = sessaoDTO.Adapt<Sessao>();
 
 		await UpdateAsync(sessao);
 	}

@@ -16,7 +16,7 @@ public class ResponsavelController(IResponsavelRepository responsavelRepository)
 	[EnableQuery]
 	public async Task<ActionResult> GetAllResponsaveisAsync()
 	{
-		var responsaveis = await responsavelRepository.GetAllResponsaveisAsync();
+		IReadOnlyList<Responsavel> responsaveis = await responsavelRepository.GetAllResponsaveisAsync();
 
 		return Ok(responsaveis);
 	}
@@ -25,7 +25,7 @@ public class ResponsavelController(IResponsavelRepository responsavelRepository)
 	[Route("GetById/{id}")]
 	public async Task<ActionResult> GetResponsavelByIdAsync(int id)
 	{
-		var responsavel = await responsavelRepository.GetResponsavelByIdAsync(id) ?? new();
+		Responsavel responsavel = await responsavelRepository.GetResponsavelByIdAsync(id) ?? new();
 
 		return Ok(responsavel);
 	}
@@ -36,7 +36,7 @@ public class ResponsavelController(IResponsavelRepository responsavelRepository)
 	{
 		Expression<Func<Responsavel, bool>> where = responsavel => responsavel.PacienteId == id;
 
-		var responsaveis = await responsavelRepository.GetResponsaveisWhereAsync(where);
+		IReadOnlyList<Responsavel> responsaveis = await responsavelRepository.GetResponsaveisWhereAsync(where);
 
 		return Ok(responsaveis.FirstOrDefault() ?? new());
 	}
@@ -45,7 +45,7 @@ public class ResponsavelController(IResponsavelRepository responsavelRepository)
 	[Route("Add")]
 	public async Task<ActionResult> AddResponsavelAsync(ResponsavelAddDTO responsavelDTO)
 	{
-		var responsavel = await responsavelRepository.AddResponsavelAsync(responsavelDTO);
+		Responsavel responsavel = await responsavelRepository.AddResponsavelAsync(responsavelDTO);
 
 		return Ok(responsavel);
 	}
