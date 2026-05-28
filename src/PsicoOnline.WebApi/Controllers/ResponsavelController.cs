@@ -38,7 +38,9 @@ public class ResponsavelController(IResponsavelRepository responsavelRepository)
 
 		IReadOnlyList<Responsavel> responsaveis = await responsavelRepository.GetResponsaveisWhereAsync(where);
 
-		return Ok(responsaveis.FirstOrDefault() ?? new());
+		Responsavel responsavel = responsaveis != null && responsaveis.Count > 0 ? responsaveis[0] : new Responsavel();
+
+		return Ok(responsavel);
 	}
 
 	[HttpPost]
