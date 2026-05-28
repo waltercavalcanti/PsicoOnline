@@ -25,7 +25,8 @@ public static class DependencyInjectionSetup
 		services.AddScoped<IPacienteRepository, PacienteRepository>();
 		services.AddScoped<IResponsavelRepository, ResponsavelRepository>();
 		services.AddScoped<ISessaoRepository, SessaoRepository>();
-		services.AddDbContext<EFContext>((provider, options) => options.UseSqlServer(provider.GetRequiredService<IOptions<AppSettings>>().Value.ConnectionStrings.PsicoOnlineDBConnStr));
+		services.AddDbContext<EFContext>((provider, options)
+			=> options.UseSqlServer(provider.GetRequiredService<IOptions<AppSettings>>().Value.ConnectionStrings!.PsicoOnlineDBConnStr));
 
 		services.AddEndpointsApiExplorer();
 		services.AddOpenApi();
